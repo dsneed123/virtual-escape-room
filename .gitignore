@@ -1,0 +1,12 @@
+node_modules
+dist
+dist-ssr
+*.local
+.DS_Store
+.vscode
+.idea
+
+# host-only material — never publish these
+HOST_ANSWER_KEY.md
+host/
+*.tsbuildinfo
