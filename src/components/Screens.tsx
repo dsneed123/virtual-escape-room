@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { INTRO, STAGES } from '../game/content'
+import { INTRO, STAGES, WHOS_WHO } from '../game/content'
 import { BEATS, OUTRO_ENC } from '../game/beats'
 import { rv } from '../game/crypto'
 import { clock, TOTAL_MS } from '../game/state'
@@ -67,6 +67,17 @@ export function Briefing({ team, onBegin, onChangeTeam }: { team: Team; onBegin:
         </div>
       </div>
       <div className="cols" style={{ marginTop: 18 }}>
+        <div className="panel">
+          <h3 className="panel-title">Who and what you are dealing with</h3>
+          <dl className="whoswho">
+            {WHOS_WHO.map(([term, gloss]) => (
+              <div key={term}>
+                <dt>{term}</dt>
+                <dd>{gloss}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
         <div className="panel">
           <h3 className="panel-title">Standing orders</h3>
           <ul className="mono-list">

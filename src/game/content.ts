@@ -37,7 +37,7 @@ export const STAGES: StageDef[] = [
     n: 2,
     channel: 30,
     title: 'SIGNAL DRIFT',
-    subtitle: 'INTERCEPT LOG \u2014 THE WESTWARD EAR',
+    subtitle: 'INTERCEPT LOG \u2014 THE WESTWARD DISHES',
     brief: [
       'The carrier\u2019s name opens Vance\u2019s signal vault, which turns out to contain one night of intercepts and a recorder with a personality problem.',
       'It wrote the bursts down in whatever order it dug them back out of its own memory. Its carrier frequency, to its credit, never wandered by so much as a hair all night.',
@@ -331,10 +331,19 @@ export const META_NOTE = [
 ]
 
 export const INTRO = [
-  'Halden Vance spent forty years as archivist of the Meridian Array, and by every account he was impossible: brilliant, smug, and constitutionally incapable of leaving a filing cabinet un-booby-trapped.',
-  'Nine days ago he retired. There was no party. He locked the entire archive — forty years of everything the Array ever overheard — behind eight doors of his own design, posted the keys to nobody, and left a note reading: TO WHICHEVER OFFICE WANTS IT MORE.',
-  'There is a catch, and it is very Vance. Forty-five minutes after the doors are first touched, the archive files itself somewhere even he claims to have forgotten. He describes this as motivation.',
-  'Two offices are playing tonight: STATION SEATTLE and STATION SJC. Same doors, same clock, no talking between rooms. Exactly one of you gets to be insufferable about this afterwards.',
-  'Every door gives up one fragment word. Vance never wrote anything down twice, and he never wrote anything down for no reason — keep all of it.',
+  'The Meridian Array is ninety radio dishes standing in a row in the high desert. Since 1984 it has sat there listening — to the sky, officially, and to a great deal else unofficially.',
+  'Everything it ever heard went into one archive, and for forty years one man catalogued all of it. Halden Vance was brilliant, smug, and constitutionally incapable of leaving a filing cabinet un-booby-trapped.',
+  'Nine days ago he retired. There was no party. He locked the archive behind eight doors of his own design, posted the keys to nobody, and left a note reading: TO WHICHEVER OFFICE WANTS IT MORE.',
+  'The catch is very Vance. Forty-five minutes after the first door is touched, the archive files itself somewhere even he claims to have forgotten. He describes this as motivation.',
+  'Two offices are playing tonight: SEATTLE and SJC. Same doors, same clock, no talking between rooms. Exactly one of you gets to be insufferable about this afterwards.',
+  'Every door gives up one fragment word. Vance never wrote anything down twice, and never wrote anything down for no reason — keep all of it.',
+]
+
+export const WHOS_WHO: [string, string][] = [
+  ['THE ARRAY', 'Ninety radio dishes in the desert. Forty years of listening. Still running, still humming, still nobody’s idea of a quiet neighbour.'],
+  ['THE ARCHIVE', 'Everything those dishes ever heard, catalogued in one place — and as of nine days ago, locked in one place.'],
+  ['HALDEN VANCE', 'The archivist. Forty years in the job, retired nine days ago, enjoying this enormously from wherever he is now.'],
+  ['CONTROL', 'Your desk. That is us. We answer the phone, and we are the voice behind the nudges on every door.'],
+  ['THE OTHER OFFICE', 'Same doors, same clock, different room, no contact. You will find out how they did when it is over.'],
 ]
 

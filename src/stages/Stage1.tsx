@@ -112,8 +112,10 @@ export default function Stage1({ def, onSolved, readOnly }: StageProps) {
           <div className="hint-box" style={{ marginTop: 14 }}>
             <b>TIME STANDARD NOTICE</b>
             <br />
-            The DOCK and WEST gates are wired to Array Standard, which runs <b>eight minutes ahead</b> of station
-            time. Every other gate logs station time. The recorder writes down whatever the gate tells it.
+            The dishes out in the desert keep their own clock, called Array Standard, and it runs <b>eight minutes
+            ahead</b> of the clock inside this building. The <b>DOCK</b> and <b>WEST</b> gates are wired to that desert
+            clock. The other three gates use building time. The recorder writes down whatever the gate tells it and
+            asks no questions.
           </div>
         </div>
 

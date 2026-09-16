@@ -242,6 +242,17 @@ table.data tr.lit td { background: var(--accent-soft); color: #fff; }
 table.data tr.lit td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
 .num { text-align: right; font-variant-numeric: tabular-nums; }
 
+.whoswho { margin: 0; }
+.whoswho > div { padding: 9px 0; border-top: 1px solid rgba(255, 255, 255, 0.05); }
+.whoswho > div:first-child { border-top: 0; padding-top: 0; }
+.whoswho dt {
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  color: var(--accent);
+  margin-bottom: 3px;
+}
+.whoswho dd { margin: 0; color: #c2d2e2; }
+
 /* ------------------------------------------------------ objective + nudges */
 .objective {
   border: 1px solid var(--line-2);
