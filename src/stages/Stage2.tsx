@@ -26,6 +26,15 @@ export default function Stage2({ def, onSolved, readOnly }: StageProps) {
                 <tr
                   key={r.id}
                   className={`pick${lit.includes(r.id) ? ' lit' : ''}`}
+                  role="button"
+                  tabIndex={readOnly ? -1 : 0}
+                  aria-pressed={lit.includes(r.id)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      ;(e.currentTarget as HTMLElement).click()
+                    }
+                  }}
                   onClick={() => {
                     if (readOnly) return
                     play('tap')

@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { STAGES } from '../game/content'
+import { BEATS } from '../game/beats'
+import { rv } from '../game/crypto'
 import type { Solve } from '../game/state'
 import { STAGE_BODIES } from '../stages'
 
@@ -61,6 +63,11 @@ export default function Archive({ solves, onClose }: Props) {
         {Body && openDef && (
           <div style={{ marginTop: 22, borderTop: '1px solid var(--line)', paddingTop: 18 }}>
             <div className="kicker">DOOR {openDef.n} — {openDef.title}</div>
+            <div className="brief">
+              {(BEATS[openDef.n - 1] ?? []).map(rv).map((line, i) => (
+                <p key={i}>{line}</p>
+              ))}
+            </div>
             <Body def={openDef} onSolved={() => {}} readOnly />
           </div>
         )}

@@ -380,8 +380,8 @@ table.data tr.lit td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
 .lgrid th.vert { writing-mode: vertical-rl; transform: rotate(180deg); height: 96px; padding: 6px 2px; }
 .lgrid td { padding: 0; }
 .lgrid button {
-  width: 42px;
-  height: 38px;
+  width: 50px;
+  height: 46px;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--line);
   color: var(--dimmer);

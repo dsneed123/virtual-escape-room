@@ -45,7 +45,7 @@ export function TeamSelect({ onPick }: { onPick: (t: Team) => void }) {
   )
 }
 
-export function Briefing({ team, onBegin }: { team: Team; onBegin: () => void }) {
+export function Briefing({ team, onBegin, onChangeTeam }: { team: Team; onBegin: () => void; onChangeTeam: () => void }) {
   return (
     <div className="stage" style={{ maxWidth: 980 }}>
       <div className="stage-head">
@@ -79,6 +79,9 @@ export function Briefing({ team, onBegin }: { team: Team; onBegin: () => void })
         <p className="note" style={{ marginTop: 12 }}>
           Wait for your game master&rsquo;s signal. Both cells should start together.
         </p>
+        <button className="btn ghost" style={{ marginTop: 10 }} onClick={onChangeTeam}>
+          Wrong station? Go back
+        </button>
       </div>
     </div>
   )
@@ -160,6 +163,12 @@ export function ResetModal({ onCancel, onConfirm }: { onCancel: () => void; onCo
           undone. Use it only between games.
         </p>
         <p className="note">Type RESET to confirm.</p>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault()
+            if (word.trim().toUpperCase() === 'RESET') onConfirm()
+          }}
+        >
         <input
           className="key-input"
           value={word}
@@ -169,13 +178,14 @@ export function ResetModal({ onCancel, onConfirm }: { onCancel: () => void; onCo
           spellCheck={false}
         />
         <div className="sheet-actions">
-          <button className="btn ghost" onClick={onCancel}>
+          <button className="btn ghost" type="button" onClick={onCancel}>
             Cancel
           </button>
-          <button className="btn danger" disabled={word.trim().toUpperCase() !== 'RESET'} onClick={onConfirm}>
+          <button className="btn danger" type="submit" disabled={word.trim().toUpperCase() !== 'RESET'}>
             Wipe and restart
           </button>
         </div>
+        </form>
       </div>
     </div>
   )

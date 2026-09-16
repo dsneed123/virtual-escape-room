@@ -13,7 +13,7 @@ import { tensionOf, TOTAL_MS, useSession } from './game/state'
 const WARN_AT = [30, 15, 5, 1]
 
 export default function App() {
-  const { session, elapsed, remaining, start, beginRun, pause, resume, solve, reset, update } = useSession()
+  const { session, elapsed, remaining, start, beginRun, pause, resume, solve, adjust, reset, update } = useSession()
   const [archive, setArchive] = useState(false)
   const [machine, setMachine] = useState(false)
   const [resetting, setResetting] = useState(false)
@@ -30,6 +30,23 @@ export default function App() {
   }, [session.team, tension, running])
 
   useEffect(() => setMuted(session.muted), [session.muted])
+
+  // Escape closes any drawer; the host chord corrects the clock after a laptop sleep.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setArchive(false)
+        setMachine(false)
+        setResetting(false)
+      }
+      if (e.ctrlKey && e.shiftKey && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
+        e.preventDefault()
+        adjust(e.key === 'ArrowUp' ? 1 : -1)
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [adjust])
 
   useEffect(() => {
     if (session.status !== 'running') return
@@ -75,6 +92,7 @@ export default function App() {
             play('start')
             beginRun()
           }}
+          onChangeTeam={() => update({ team: null, status: 'select' })}
         />
       </div>
     )
@@ -132,6 +150,7 @@ export default function App() {
       <div className="app">
         {hud}
         <Expired team={session.team} stage={session.stage} onContinue={() => update({ status: 'overtime' })} />
+        {beat && <BeatModal stage={beat.stage} word={beat.word} onContinue={() => setBeat(null)} />}
         {modals}
       </div>
     )

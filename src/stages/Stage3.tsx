@@ -9,10 +9,10 @@ const COLS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
 function Compass() {
   return (
     <div className="compass" aria-label="compass rose as printed on plate nine">
-      <span style={{ bottom: 6, left: '50%', transform: 'translateX(-50%)', color: 'var(--accent)', fontWeight: 700 }}>N</span>
-      <span style={{ top: 6, left: '50%', transform: 'translateX(-50%)' }}>S</span>
-      <span style={{ left: 8, top: '50%', transform: 'translateY(-50%)' }}>E</span>
-      <span style={{ right: 8, top: '50%', transform: 'translateY(-50%)' }}>W</span>
+      <span style={{ bottom: 6, left: '50%', transform: 'translateX(-50%)', color: 'var(--accent)', fontWeight: 700 }} aria-label="north — printed at the foot of the plate">N</span>
+      <span style={{ top: 6, left: '50%', transform: 'translateX(-50%)' }} aria-label="south — printed at the head of the plate">S</span>
+      <span style={{ left: 8, top: '50%', transform: 'translateY(-50%)' }} aria-label="east — printed at the left of the plate">E</span>
+      <span style={{ right: 8, top: '50%', transform: 'translateY(-50%)' }} aria-label="west — printed at the right of the plate">W</span>
       <div className="needle" />
     </div>
   )

@@ -1,3 +1,4 @@
+import type React from 'react'
 import AnswerLock from '../components/AnswerLock'
 import { S4_CRATES, S4_ORDER } from '../game/content'
 import { useScratch } from '../game/scratch'
@@ -13,6 +14,15 @@ export default function Stage4({ def, onSolved, readOnly }: StageProps) {
   }
   const rowProps = (id: string) => ({
     className: `pick${lit.includes(id) ? ' lit' : ''}`,
+    role: 'button',
+    tabIndex: readOnly ? -1 : 0,
+    'aria-pressed': lit.includes(id),
+    onKeyDown: (e: React.KeyboardEvent<HTMLTableRowElement>) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault()
+        e.currentTarget.click()
+      }
+    },
     onClick: () => toggle(id),
   })
 

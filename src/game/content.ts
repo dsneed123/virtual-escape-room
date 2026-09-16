@@ -109,11 +109,11 @@ export const STAGES: StageDef[] = [
     brief: [
       'The last plate is a lattice of thirty-six letters and a punched brass mask, pinned at its centre.',
       'Vance liked masks. He liked them a great deal more when they turned.',
-      'Read what shows through. All of it.',
+      'Read what shows through \u2014 all of it, in the right order.',
     ],
-    prompt: 'LAST WORD OF THE MESSAGE',
-    placeholder: 'WORD',
-    hash: '2bqkjzm8j3o',
+    prompt: 'THE MESSAGE, IN FULL',
+    placeholder: 'SENTENCE',
+    hash: '2bvmjjkqmlr',
     frag: 'LyAzKisn',
   },
   {
@@ -126,8 +126,8 @@ export const STAGES: StageDef[] = [
     ],
     prompt: 'CLOSING AUTHORITY',
     placeholder: 'PHRASE',
-    hash: '23ckhfds3i1',
-    frag: 'Lik9OiE9KSsgICAgICAgIA==',
+    hash: 'w51e5alofs',
+    frag: 'OS03SSgoLzooNzxJIyYkPU0qJz0=',
   },
 ]
 
@@ -255,7 +255,7 @@ export const S6_SEGMENTS = [
 // displayed shuffled — the tray order must not hint the answer
 export const S6_TRAY = ['T-07', 'T-16', 'T-23', 'T-09', 'T-04', 'T-02', 'T-19', 'T-11']
 export const S6_NOTES = [
-  'Exactly two segments lie between the two segments whose frame letter is a vowel.',
+  'T-23 and T-02 are the only segments whose frame letter is a vowel, and exactly two segments lie between them.',
   'T-07 is spliced somewhere before T-11, and T-11 somewhere before T-16.',
   'T-09 falls somewhere after T-16.',
   'T-23 sits in the first half of the reel.',
@@ -276,7 +276,7 @@ export const S7_HOLES: [number, number][] = [
 ]
 
 // ---------------------------------------------------------------- META
-export const META_CIPHER = 'NLBLIKUPMRKMUVLN'
+export const META_CIPHER = 'EHREEEGPRAZSVFZUG'
 export const META_NOTE = [
   'You will want to open this door with the seven words you are carrying. You cannot. The words were never the key. They were the road.',
   'Every door I built announced its depth before you walked into it. You read the number. You did not hear it.',
@@ -288,7 +288,7 @@ export const META_NOTE = [
 
 export const INTRO = [
   'Halden Vance spent eleven years building the Meridian Array’s private archive: every transmission the Array ever swallowed, indexed by a man who did not trust anyone else to read it.',
-  'Nine days ago he walked out of Meridian Station at 11:21 and did not come back. Six hours later the archive began to seal itself behind eight doors of his own design.',
+  'Nine days ago he walked out of Meridian Station in the middle of a blackout and did not come back. Six hours later the archive began to seal itself behind eight doors of his own design.',
   'It begins erasing itself in forty-five minutes.',
   'Two recovery cells are active tonight: STATION SEATTLE and STATION SJC. Same locks. Same fragments. Same clock. You will not hear each other until it is over.',
   'Every door yields a fragment word. Vance never wrote anything down twice — keep everything you find.',

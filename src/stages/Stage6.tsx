@@ -50,13 +50,14 @@ export default function Stage6({ def, onSolved, readOnly }: StageProps) {
                 className={`tile${slots.includes(id) ? ' placed' : ''}`}
                 onClick={() => place(id)}
               >
-                <div className="lt">{letterOf(id)}</div>
+                <div className="lt">&#9646;&#9646;</div>
                 <div className="id">{id}</div>
               </button>
             ))}
           </div>
           <p className="note" style={{ marginBottom: 0, marginTop: 12 }}>
-            Click a segment to drop it into the next open position. Click a placed segment to lift it out again.
+            Click a segment to drop it into the next open position. Click a placed segment to lift it out again. The
+            frame letters are burned into the tape but will not read out until the splice is locked.
           </p>
         </div>
       </div>
@@ -69,8 +70,8 @@ export default function Stage6({ def, onSolved, readOnly }: StageProps) {
               <div className="pos">{String(i + 1).padStart(2, '0')}</div>
               {id ? (
                 <>
-                  <div className="lt" style={{ fontSize: '1.7rem', color: 'var(--accent)' }}>
-                    {letterOf(id)}
+                  <div className="lt" style={{ fontSize: '1.4rem', color: 'var(--accent)' }}>
+                    &#9646;&#9646;
                   </div>
                   <div className="id">{id}</div>
                 </>
@@ -87,12 +88,12 @@ export default function Stage6({ def, onSolved, readOnly }: StageProps) {
             <div
               style={{
                 flex: '1 1 260px',
-                fontSize: '1.9rem',
-                letterSpacing: '0.34em',
+                fontSize: '1.5rem',
+                letterSpacing: '0.24em',
                 color: full ? 'var(--accent)' : 'var(--dimmer)',
               }}
             >
-              {assembled || '········'}
+              {slots.filter(Boolean).length} / 8 SPLICED
             </div>
             <button
               className="btn primary"

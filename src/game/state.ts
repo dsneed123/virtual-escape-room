@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 export const TOTAL_MS = 45 * 60 * 1000
 const KEY = 'mrdn.session.v3'
@@ -22,6 +22,7 @@ export interface Session {
   pausedAt: number | null
   completionMs: number | null
   muted: boolean
+  resumeTo?: Status
 }
 
 const fresh: Session = {
@@ -66,8 +67,6 @@ export function elapsedOf(s: Session, now: number): number {
 export function useSession() {
   const [session, setSession] = useState<Session>(load)
   const [now, setNow] = useState(() => Date.now())
-  const ref = useRef(session)
-  ref.current = session
 
   const update = useCallback((patch: Partial<Session> | ((s: Session) => Partial<Session>)) => {
     setSession((prev) => {
@@ -85,7 +84,12 @@ export function useSession() {
   // another tab / window on the same machine should not fight over the session
   useEffect(() => {
     const onStorage = (e: StorageEvent) => {
-      if (e.key === KEY && e.newValue) setSession(JSON.parse(e.newValue) as Session)
+      if (e.key !== KEY) return
+      try {
+        setSession(e.newValue ? (JSON.parse(e.newValue) as Session) : fresh)
+      } catch {
+        /* a half-written value from another tab — keep what we have */
+      }
     }
     window.addEventListener('storage', onStorage)
     return () => window.removeEventListener('storage', onStorage)
@@ -109,7 +113,12 @@ export function useSession() {
   )
 
   const pause = useCallback(
-    () => update((s) => (s.status === 'running' ? { status: 'paused', pausedAt: Date.now() } : {})),
+    () =>
+      update((s) =>
+        s.status === 'running' || s.status === 'overtime'
+          ? { status: 'paused', pausedAt: Date.now(), resumeTo: s.status }
+          : {},
+      ),
     [update],
   )
 
@@ -118,7 +127,12 @@ export function useSession() {
       update((s) =>
         s.pausedAt
           ? {
-              status: TOTAL_MS - elapsedOf(s, Date.now()) <= 0 ? 'overtime' : s.status === 'paused' ? 'running' : s.status,
+              status:
+                s.status !== 'paused'
+                  ? s.status
+                  : TOTAL_MS - elapsedOf(s, Date.now()) <= 0
+                    ? 'overtime'
+                    : (s.resumeTo ?? 'running'),
               pausedTotal: s.pausedTotal + (Date.now() - s.pausedAt),
               pausedAt: null,
             }
@@ -144,7 +158,12 @@ export function useSession() {
     [update],
   )
 
-  const goto = useCallback((stage: number) => update({ stage }), [update])
+  /** Host correction for wall-clock loss (laptop sleep, crash). Minutes may be negative. */
+  const adjust = useCallback(
+    (minutes: number) =>
+      update((s) => ({ pausedTotal: Math.max(-TOTAL_MS, s.pausedTotal + minutes * 60000) })),
+    [update],
+  )
   const reset = useCallback(() => {
     try {
       localStorage.removeItem(KEY)
@@ -165,7 +184,7 @@ export function useSession() {
     pause,
     resume,
     solve,
-    goto,
+    adjust,
     reset,
   }
 }

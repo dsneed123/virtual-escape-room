@@ -18,8 +18,11 @@ export function useLock(hash: string, frag: string, onSolved: (word: string) => 
   const [, tick] = useState(0)
 
   useEffect(() => {
-    if (!coolUntil) return
-    const id = window.setInterval(() => tick((n) => n + 1), 250)
+    if (coolUntil <= Date.now()) return
+    const id = window.setInterval(() => {
+      tick((n) => n + 1)
+      if (Date.now() >= coolUntil) window.clearInterval(id)
+    }, 250)
     return () => window.clearInterval(id)
   }, [coolUntil])
 
@@ -41,8 +44,8 @@ export function useLock(hash: string, frag: string, onSolved: (word: string) => 
     setWrong(n)
     setBad(true)
     window.setTimeout(() => setBad(false), 450)
-    if (n >= 4) {
-      const wait = n >= 8 ? 25 : n >= 6 ? 15 : 8
+    if (n >= 3) {
+      const wait = n >= 7 ? 25 : n >= 5 ? 15 : 8
       setCoolUntil(Date.now() + wait * 1000)
       setMsg(`${REJECTIONS[n % REJECTIONS.length]} THE MECHANISM IS HOT.`)
     } else {
