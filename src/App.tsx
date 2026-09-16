@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Hud from './components/Hud'
 import Archive from './components/Archive'
+import Nudges from './components/Nudges'
 import Machine from './components/Machine'
 import { BeatModal, Briefing, Complete, Expired, HINT_RULE, PauseModal, ResetModal, TeamSelect } from './components/Screens'
 import { STAGES } from './game/content'
@@ -174,6 +175,8 @@ export default function App() {
             <p key={i}>{p}</p>
           ))}
         </div>
+
+        <Nudges stage={def.n} objective={def.objective} nudges={def.nudges} />
 
         {def.n === 8 ? (
           <StageMeta

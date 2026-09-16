@@ -1,4 +1,4 @@
-# MERIDIAN PROTOCOL — Seattle vs. SJC
+# THE MERIDIAN BEQUEST — Seattle vs. SJC
 
 A 45-minute head-to-head virtual escape room for two teams in two rooms, each gathered
 around one screen. Eight doors, no backend, no accounts, nothing shared between the two
@@ -42,9 +42,10 @@ Both teams open the URL, pick their station, and wait on the briefing screen. Gi
 start signal; each team presses START THE CLOCK. Timers are independent and survive a
 refresh. Pause, resume, and a guarded reset are in the top bar.
 
-Each team gets exactly two hints for the whole game, requested from the host on Slack —
-there is no hint button in the game. When a team escapes, the screen shows their
-completion time to send you.
+Every door states plainly what it wants and carries two free in-game nudges from CONTROL,
+which point at where to look without giving anything away. On top of that each team gets
+two real hints for the whole game, requested from the host on Slack. When a team escapes,
+the screen shows the completion time to send you.
 
 ## Host materials
 

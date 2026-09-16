@@ -29,14 +29,15 @@ export default function Stage4({ def, onSolved, readOnly }: StageProps) {
   return (
     <>
       <div className="panel" style={{ marginBottom: 18 }}>
-        <h3 className="panel-title">Requisition order 44-C — filed by H. VANCE against himself</h3>
+        <h3 className="panel-title">Requisition order 44-C — all five lines describe the same single crate</h3>
         <ol className="mono-list" style={{ columns: 2, fontSize: '1.02rem' }}>
           {S4_ORDER.map((o) => (
             <li key={o}>{o}</li>
           ))}
         </ol>
         <p className="note" style={{ marginBottom: 0 }}>
-          Clicking a crate highlights it in all three ledgers at once. Split the ledgers between you.
+          Clicking any crate highlights it in all three ledgers at once. Three ledgers, three people — split them
+          up and call things out.
         </p>
       </div>
 

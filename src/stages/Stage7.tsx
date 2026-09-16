@@ -55,17 +55,20 @@ export default function Stage7({ def, onSolved, readOnly }: StageProps) {
           <div className="panel">
             <h3 className="panel-title">Case note</h3>
             <p style={{ marginTop: 0 }}>
-              A brass mask sits over the lattice, pinned through its centre. Six windows. Thirty-six letters beneath
-              it, and the mask was found seated — not necessarily where Vance started it.
+              A brass mask sits over the lattice, pinned through its centre so it turns. Six windows, thirty-six
+              letters underneath, and it was found sitting wherever the last person left it — not necessarily where
+              Vance started it.
             </p>
             <p style={{ marginBottom: 0 }}>
-              What shows through is a sentence. It does not begin where the mask is sitting now.
+              What shows through, across all four seatings, is one sentence. It does not begin where the mask is
+              sitting right now.
             </p>
           </div>
           <div className="panel">
             <h3 className="panel-title">Reading order</h3>
             <p style={{ margin: 0 }}>
-              Windows are read as text is read: left to right, top to bottom, for each seating of the mask.
+              Read each seating the way you read anything else: left to right, top to bottom. Then turn the mask
+              with the arrows and read the next six.
             </p>
           </div>
         </div>

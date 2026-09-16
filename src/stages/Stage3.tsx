@@ -87,7 +87,8 @@ export default function Stage3({ def, onSolved, readOnly }: StageProps) {
               <Compass />
               <div style={{ flex: '1 1 180px' }}>
                 <p style={{ marginTop: 0 }}>
-                  <b>PLATE 9</b> — drawn by H. Vance. Orientation exactly as printed; do not reorient the plate.
+                  <b>PLATE 9</b> — drawn by H. Vance, oriented exactly as he printed it. Do not turn the plate round;
+                  read it as it lies.
                 </p>
                 <p className="note" style={{ marginBottom: 0 }}>
                   Every plate in this file is walked by its own rose.
@@ -109,7 +110,8 @@ export default function Stage3({ def, onSolved, readOnly }: StageProps) {
               ))}
             </ol>
             <p className="note" style={{ marginBottom: 0 }}>
-              A number is a count of cells. MARK records the letter you are standing on.
+              A letter is a direction, a number is how many cells to move, and MARK means write down the letter you
+            are currently standing on. Fifteen steps, eight MARKs.
             </p>
           </div>
         </div>

@@ -77,14 +77,15 @@ export default function Stage1({ def, onSolved, readOnly }: StageProps) {
             </tbody>
           </table>
           <p className="note" style={{ marginBottom: 0 }}>
-            One sealed record. CONTROL will not open it.
+            One sealed record. CONTROL has declined to open it, repeatedly, in writing.
           </p>
         </div>
 
         <div className="panel" style={{ flex: '0 1 420px' }}>
           <h3 className="panel-title">Gate recorder — 9 NOV</h3>
           <p className="note" style={{ marginTop: 0 }}>
-            Five departures. One per gate. The recorder kept the times but lost the names.
+            Five departures, one per gate. The recorder kept every time and lost every name, a behaviour the
+            manufacturer describes as &ldquo;known&rdquo;.
           </p>
           <div className="cols" style={{ gap: 10 }}>
             <div>
@@ -117,7 +118,7 @@ export default function Stage1({ def, onSolved, readOnly }: StageProps) {
         </div>
 
         <div className="panel" style={{ flex: '1 1 380px' }}>
-          <h3 className="panel-title">Forensic notes</h3>
+          <h3 className="panel-title">What the investigators established</h3>
           <ol className="mono-list">
             {S1_NOTES.map((n) => (
               <li key={n}>{n}</li>
@@ -127,7 +128,7 @@ export default function Stage1({ def, onSolved, readOnly }: StageProps) {
       </div>
 
       <div className="panel" style={{ marginTop: 18 }}>
-        <h3 className="panel-title">Working grid — click a cell to mark it ✓ or ✕</h3>
+        <h3 className="panel-title">Scratch grid — click a cell to cycle it ✓ / ✕ (optional, nothing is checked here)</h3>
         <div className="cols" style={{ gap: 40 }}>
           <div style={{ flex: '0 0 auto' }}>
             <Grid id="gate" cols={S1_GATES} readOnly={readOnly} />

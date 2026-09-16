@@ -11,7 +11,7 @@ export default function Stage2({ def, onSolved, readOnly }: StageProps) {
     <>
       <div className="cols">
         <div className="panel" style={{ flex: '2 1 560px' }}>
-          <h3 className="panel-title">Intercept log — recovered order</h3>
+          <h3 className="panel-title">Intercept log — printed in burst-ID order, not the order they were heard</h3>
           <table className="data">
             <thead>
               <tr>
@@ -56,19 +56,20 @@ export default function Stage2({ def, onSolved, readOnly }: StageProps) {
           <p>
             <b>UNIT:</b> ARRAY WESTWARD EAR / RECORDER 4
             <br />
-            <b>CARRIER:</b> held steady all night. The unit steps the carrier by the same amount for every burst it
-            takes, in the order it hears them.
+            <b>CARRIER:</b> rock steady all night. The unit steps the carrier by the same fixed amount for every burst
+            it takes, in the order it hears them.
             <br />
-            <b>FAULT:</b> the unit wrote the bursts to tape in the order it recovered them from its own buffer.
+            <b>FAULT:</b> it then wrote the bursts down in the order it dug them back out of its own buffer, which is
+            not the order it heard them in. Nobody has ever been able to make it stop doing this.
           </p>
           <div className="hint-box">
-            Vance, in the margin of the certificate:
+            Vance, scrawled in the margin of the certificate:
             <br />
-            <b>&ldquo;The carrier never lies. Where it runs long, it is counting something, and it is always counting
+            <b>&ldquo;The carrier never lies. Where it runs long it is counting something, and it is always counting
             inside a name.&rdquo;</b>
           </div>
           <p className="note" style={{ marginBottom: 0 }}>
-            Click any row to mark it. The team can work the table in parallel.
+            Click any row to highlight it. Twelve rows, plenty of hands — split the table up.
           </p>
         </div>
       </div>

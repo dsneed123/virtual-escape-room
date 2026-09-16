@@ -242,6 +242,39 @@ table.data tr.lit td { background: var(--accent-soft); color: #fff; }
 table.data tr.lit td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
 .num { text-align: right; font-variant-numeric: tabular-nums; }
 
+/* ------------------------------------------------------ objective + nudges */
+.objective {
+  border: 1px solid var(--line-2);
+  border-left: 4px solid var(--accent);
+  border-radius: 5px;
+  background: linear-gradient(90deg, var(--accent-soft), rgba(255, 255, 255, 0.015) 60%);
+  padding: 14px 20px;
+  margin: 0 0 20px;
+}
+.objective-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+.objective-text { margin: 0; font-size: 1.12rem; color: #e6f0f8; max-width: 100ch; }
+.nudge-list { margin: 14px 0 0; padding-left: 0; list-style: none; }
+.nudge-list li {
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  margin-top: 10px;
+  color: #c2d2e2;
+  max-width: 104ch;
+}
+.nudge-tag {
+  display: block;
+  font-size: 0.66rem;
+  letter-spacing: 0.24em;
+  color: var(--dimmer);
+  margin-bottom: 4px;
+}
+.nudge-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+
 /* ----------------------------------------------------------- answer lock */
 .lock {
   margin-top: 22px;

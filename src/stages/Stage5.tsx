@@ -21,8 +21,8 @@ export default function Stage5({ def, onSolved, readOnly }: StageProps) {
         <h3 className="panel-title">Bench notes</h3>
         <div className="cols">
           <p style={{ marginTop: 0 }}>
-            The machine takes a key of any length and steps through it letter by letter. A wrong key produces
-            confident nonsense — the machine has no opinion about whether you are right.
+            Type a key into either panel and the output updates as you type. A wrong key produces confident
+            nonsense: the machine has no opinion whatsoever about whether you are right, and never will.
           </p>
           <div className="hint-box" style={{ flex: '1 1 340px' }}>
             Clipped to segment I, in Vance&rsquo;s hand:
@@ -34,7 +34,7 @@ export default function Stage5({ def, onSolved, readOnly }: StageProps) {
           </div>
         </div>
         <p className="note" style={{ marginBottom: 0 }}>
-          Earlier plates remain available in the ARCHIVE at the top of the screen.
+          Every plate you have already opened is still available under ARCHIVE at the top of the screen.
         </p>
       </div>
 

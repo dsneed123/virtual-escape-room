@@ -29,7 +29,7 @@ export default function StageMeta({ def, onSolved, readOnly, solves }: Props) {
         </div>
 
         <div className="panel" style={{ flex: '1 1 380px' }}>
-          <h3 className="panel-title">Fragments recovered tonight</h3>
+          <h3 className="panel-title">Everything you are carrying — every door, its channel, its word</h3>
           <table className="data" style={{ fontSize: '1.1rem' }}>
             <thead>
               <tr>
@@ -64,12 +64,12 @@ export default function StageMeta({ def, onSolved, readOnly, solves }: Props) {
         <div className="panel" style={{ flex: '1 1 320px' }}>
           <h3 className="panel-title">The slot</h3>
           <p style={{ marginTop: 0 }}>
-            The eighth door has no channel of its own and no plate to read. There is a slot at chest height, the
-            machine on the bench beside it, and forty-five minutes of the Meridian archive still burning itself down
-            somewhere below you.
+            No channel of its own, no plate to read. A slot at chest height, the machine on the bench beside it,
+            and an archive quietly filing itself into oblivion somewhere below your feet.
           </p>
           <p style={{ marginBottom: 0 }}>
-            Whatever the machine gives you when it is keyed correctly is what the slot is waiting to hear.
+            Whatever the machine hands back when it is keyed correctly is exactly what the slot is waiting to
+            hear. Type that.
           </p>
         </div>
       </div>

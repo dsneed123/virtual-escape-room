@@ -9,19 +9,25 @@ export const HINT_RULE = (
   <div className="hint-box">
     <b>STUCK?</b>
     <br />
-    You have <b>2 hints</b> for the entire operation. There is no hint button. Message your game master on Slack in
-    this form:
+    Each door has <b>two free nudges</b> from CONTROL built into it — use those first, they cost you nothing but
+    seconds and they never hand over the answer.
+    <div style={{ marginTop: 8 }}>
+      Still stuck? You have <b>2 real hints</b> for the whole game, and they come from a human. Message your game
+      master on Slack like this:
+    </div>
     <div style={{ marginTop: 8, fontSize: '1.05rem' }}>
       <span className="kbd">SEATTLE — HINT 1 — PUZZLE 4</span>
     </div>
-    <div style={{ marginTop: 6, color: 'var(--dimmer)' }}>Use them wisely. Nothing here requires one.</div>
+    <div style={{ marginTop: 6, color: 'var(--dimmer)' }}>
+      Spend them well. Nothing in here strictly needs one, which Vance would very much want you to know.
+    </div>
   </div>
 )
 
 export function TeamSelect({ onPick }: { onPick: (t: Team) => void }) {
   return (
     <div className="title-screen">
-      <div className="tag">MERIDIAN PROTOCOL</div>
+      <div className="tag">THE MERIDIAN BEQUEST</div>
       <h1>SEATTLE VS. SJC</h1>
       <p className="note" style={{ letterSpacing: '0.26em', marginTop: 18 }}>
         CHOOSE YOUR TEAM
@@ -38,8 +44,8 @@ export function TeamSelect({ onPick }: { onPick: (t: Team) => void }) {
         </button>
       </div>
       <p className="note" style={{ maxWidth: '62ch' }}>
-        Pick the station you are sitting in. One computer, one screen, one team. Your selection is stored on this
-        machine only — the other cell cannot see anything you do.
+        Pick the office you are actually sitting in. One computer, one screen, one team, everybody arguing at the
+        same monitor. Your choice is stored on this machine only — the other office cannot see a thing you do.
       </p>
     </div>
   )
@@ -49,11 +55,11 @@ export function Briefing({ team, onBegin, onChangeTeam }: { team: Team; onBegin:
   return (
     <div className="stage" style={{ maxWidth: 980 }}>
       <div className="stage-head">
-        <span className="stage-index">CONTROL — OPERATIONS BRIEF</span>
+        <span className="stage-index">CONTROL — BRIEFING, SUCH AS IT IS</span>
         <h1 className="stage-title">STATION {team}</h1>
       </div>
       <div className="panel">
-        <h3 className="panel-title">Eyes only — recovery cell {team}</h3>
+        <h3 className="panel-title">Eyes only — the {team} office</h3>
         <div className="brief" style={{ fontSize: '1.08rem' }}>
           {INTRO.map((p, i) => (
             <p key={i}>{p}</p>
@@ -64,10 +70,13 @@ export function Briefing({ team, onBegin, onChangeTeam }: { team: Team; onBegin:
         <div className="panel">
           <h3 className="panel-title">Standing orders</h3>
           <ul className="mono-list">
-            <li>Eight doors. Forty-five minutes. The clock starts when you start it.</li>
-            <li>Every door yields one fragment word. The ARCHIVE keeps them, and keeps every plate you have seen.</li>
-            <li>The other cell is working the same locks right now. You will not hear them.</li>
-            <li>When you escape, send your completion time to your game master.</li>
+            <li>Eight doors, forty-five minutes. The clock starts when you press the button, so press it together.</li>
+            <li>Every door tells you plainly what it wants from you, and carries two free nudges if you stall.</li>
+            <li>Each door gives up one fragment word. ARCHIVE at the top keeps every word and every plate you have
+              opened — nothing is ever taken away from you.</li>
+            <li>The other office is on the same doors right now. You cannot hear them. This is deliberate and, frankly,
+              kinder.</li>
+            <li>Get out, then send your time to your game master and be unbearable about it.</li>
           </ul>
         </div>
         <div style={{ flex: '1 1 340px' }}>{HINT_RULE}</div>
@@ -77,7 +86,8 @@ export function Briefing({ team, onBegin, onChangeTeam }: { team: Team; onBegin:
           START THE CLOCK
         </button>
         <p className="note" style={{ marginTop: 12 }}>
-          Wait for your game master&rsquo;s signal. Both cells should start together.
+          Wait for your game master&rsquo;s signal. Both offices should start together, or one of you will be very
+          smug for entirely the wrong reason.
         </p>
         <button className="btn ghost" style={{ marginTop: 10 }} onClick={onChangeTeam}>
           Wrong station? Go back
@@ -112,7 +122,8 @@ export function Complete({ team, ms, over }: { team: Team; ms: number; over: boo
           {team} — ESCAPED — {clock(ms)}
         </div>
         <p className="note" style={{ marginBottom: 0 }}>
-          This machine does not know what the other cell did. Your game master will compare the times and call it.
+          This machine has no idea what the other office did, and never will. Your game master compares the two times
+          and calls it.
         </p>
       </div>
     </div>
@@ -129,7 +140,8 @@ export function Expired({ team, stage, onContinue }: { team: Team; stage: number
         {clock(0)}
       </div>
       <p style={{ letterSpacing: '0.16em' }}>
-        The archive finished erasing itself at {clock(TOTAL_MS)}. Whatever was on it is gone.
+        The archive finished filing itself away at {clock(TOTAL_MS)}. Vance did warn you. He was insufferable about
+        it, but he did warn you.
       </p>
       <p className="note">
         You reached door {Math.min(stage + 1, 8)} — {reached?.title ?? 'THE MERIDIAN LOCK'}.
@@ -197,7 +209,9 @@ export function PauseModal({ onResume }: { onResume: () => void }) {
       <div className="sheet" style={{ maxWidth: 560, textAlign: 'center' }}>
         <div className="kicker">CLOCK HELD</div>
         <h2>PAUSED</h2>
-        <p className="note">The clock is stopped and the plates are covered. Nobody is losing time.</p>
+        <p className="note">
+          Clock stopped, plates covered, nobody is losing a second. Go and get coffee.
+        </p>
         <div className="sheet-actions" style={{ justifyContent: 'center' }}>
           <button className="btn primary big" onClick={onResume}>
             RESUME
@@ -220,7 +234,10 @@ export function BeatModal({ stage, word, onContinue }: { stage: number; word: st
             <p key={i}>{p}</p>
           ))}
         </div>
-        <p className="note">Filed to the archive under channel {def.channel}.</p>
+        <p className="note">
+          Filed to the archive under channel {def.channel}. Vance numbered every door for a reason, and he was not
+          being decorative.
+        </p>
         <div className="sheet-actions">
           <button className="btn primary big" onClick={onContinue} autoFocus>
             NEXT DOOR
