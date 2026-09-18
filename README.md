@@ -45,8 +45,9 @@ The build uses a relative base path, so it works from any repository subpath
 
 ## Running the event
 
-Both teams open the URL, pick their arcade, add everyone in the room to the crew list, and
-wait on the briefing screen. Give the start signal; each team presses INSERT COIN. After
+Both teams open the URL, pick their arcade, and work through the four-step setup checklist
+on the briefing screen — mute the huddle, vote an operator, share to the TV, agree a route.
+START stays disabled until all four are ticked. Give the start signal; each team presses INSERT COIN. After
 every machine they beat, the game names the next person to take the mouse, so the whole
 room plays rather than one person clicking. Timers are independent and survive a refresh — as do
 tokens, half-finished boards and nudges. Pause, resume and a guarded reset are in the top

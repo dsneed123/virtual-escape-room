@@ -47,13 +47,27 @@ export function TeamSelect({ onPick }: { onPick: (t: Team) => void }) {
   )
 }
 
-const BRIEF = [
-  'It is eleven at night, the shutters are down, and nobody told the staff you were still in here.',
-  'Gus’s Galactic Arcade closed four hours ago. The lights are still on, the machines are still humming, and the only thing moving is BUZZ — the animatronic bee above the prize counter, who has decided this is the most fun he has had in about nine years.',
-  'BUZZ’s terms are simple. Every machine you beat pays out tickets — the long nasty ones pay more. Get fifteen tickets, take them to the shutter keypad, satisfy every rule it throws at you, and the shutters go up. You do not have to beat all eleven, and you almost certainly do not have time to.',
-  'Twelve machines in forty-five minutes is not a one-person job and BUZZ knows it. Crowd the screen, argue, and hand the mouse around — the rooms that split the work beat the rooms that watch one person click.',
-  'There is a catch, because there is always a catch. At forty-five minutes the night cleaner runs the floor buffer, the power browns out, and every machine resets itself. BUZZ finds this extremely funny.',
-  'The other office is locked in an identical arcade on the other side of the country, on the identical twelve machines. BUZZ is talking to them too. He is telling them you are doing badly.',
+const SETUP = [
+  {
+    key: 'mute',
+    title: 'MUTE YOURSELVES',
+    body: 'Kill your mic in the Slack huddle. The other arcade must not hear a word you say for the next forty-five minutes.',
+  },
+  {
+    key: 'operator',
+    title: 'VOTE FOR AN OPERATOR',
+    body: 'One person drives the keyboard and mouse. Everyone else is a brain, not a driver. Put their name in below — you can swap them whenever you like.',
+  },
+  {
+    key: 'screen',
+    title: 'GET IT ON THE BIG SCREEN',
+    body: 'Share the screen to the TV if the room has one, so all of you can see the machine instead of three of you leaning over a laptop.',
+  },
+  {
+    key: 'plan',
+    title: 'AGREE A PLAN',
+    body: 'You need 15 tickets, not every machine. Look at the floor, pick your route, and split the work — the room that argues at the screen beats the room that watches one person click.',
+  },
 ]
 
 export function Briefing({
@@ -70,79 +84,56 @@ export function Briefing({
   onChangeTeam: () => void
 }) {
   const [name, setName] = useState('')
+  const [done, setDone] = useState<string[]>([])
+  const ready = SETUP.every((s) => done.includes(s.key))
   const add = () => {
     const v = name.trim().slice(0, 18)
     if (!v || crew.length >= 12) return
     onCrew([...crew, v])
     setName('')
   }
+
   return (
-    <div className="stage" style={{ maxWidth: 1040 }}>
+    <div className="stage" style={{ maxWidth: 940 }}>
       <div className="stage-head">
         <span className="stage-index">BUZZ WOULD LIKE A WORD</span>
         <h1 className="stage-title">{team} ARCADE</h1>
       </div>
 
-      <div className="panel">
-        <h3 className="panel-title">How you ended up here</h3>
-        <div className="brief" style={{ fontSize: '1.08rem' }}>
-          {BRIEF.map((p, i) => (
-            <p key={i}>{p}</p>
-          ))}
-        </div>
+      <div className="panel hook">
+        <p>
+          The shutters came down four hours ago with you still inside, and the animatronic bee over the prize counter
+          has decided this is the best night of his life.
+        </p>
+        <p>
+          <b>BUZZ&rsquo;s terms:</b> beat the machines, collect tickets, and get <b>{TICKET_TARGET}</b> of them to the
+          shutter keypad before the floor buffer kills the power at forty-five minutes. The other office is locked in
+          an identical arcade doing exactly the same thing. First room out wins.
+        </p>
       </div>
 
-      <div className="cols" style={{ marginTop: 18 }}>
-        <div className="panel">
-          <h3 className="panel-title">The rules, such as they are</h3>
-          <ul className="mono-list">
-            <li>
-              <b>Eleven machines, any order.</b> Give up on one, go and play another, come back later. Nothing ever
-              locks you out.
-            </li>
-            <li>
-              <b>Split up.</b> Two or three people reading a board out loud beats one person clicking in silence. Every
-              machine says which parts can be shared out.
-            </li>
-            <li>
-              <b>Beat a machine, take its token.</b> Tokens collect in the bar at the top of the screen.
-            </li>
-            <li>
-              <b>Every machine explains itself</b> and carries two free nudges from BUZZ if you stall.
-            </li>
-            <li>
-              <b>Pass the mouse.</b> Whoever is driving hands over after every token — the name in the top bar is
-              whose turn it is.
-            </li>
-            <li>
-              <b>{TICKET_TARGET} tickets unlock the shutter keypad</b> — ten escalating rules, each one breaking the
-              last, and that is the way out. Harder machines pay more tickets, so you choose the route.
-            </li>
-            <li>
-              <b>Forty-five minutes.</b> The clock starts when you press the button, so press it together with the
-              other arcade.
-            </li>
-          </ul>
-        </div>
-        <div className="panel">
-          <h3 className="panel-title">What is on the floor tonight</h3>
-          <div className="machine-list">
-            {CABINETS.map((c) => (
-              <div key={c.id}>
-                <b>{c.name}</b>
-                <span>{c.game}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+      <h3 className="setup-head">BEFORE THE CLOCK STARTS — tick all four</h3>
+      <div className="setup">
+        {SETUP.map((step, i) => {
+          const on = done.includes(step.key)
+          return (
+            <button
+              key={step.key}
+              className={`setup-step${on ? ' done' : ''}`}
+              onClick={() => setDone(on ? done.filter((d) => d !== step.key) : [...done, step.key])}
+            >
+              <span className="setup-box">{on ? '✓' : i + 1}</span>
+              <span>
+                <b>{step.title}</b>
+                <span className="setup-body">{step.body}</span>
+              </span>
+            </button>
+          )
+        })}
       </div>
 
       <div className="panel" style={{ marginTop: 18 }}>
-        <h3 className="panel-title">Who is in the room? — everybody takes a turn on the mouse</h3>
-        <p className="note" style={{ marginTop: 0 }}>
-          Add everyone here. After every machine you beat, BUZZ hands the mouse to the next person on the list, so
-          nobody ends up watching for forty-five minutes. Optional, but the game is far better with it.
-        </p>
+        <h3 className="panel-title">Who is in the room? — first name added is your operator</h3>
         <form
           className="crew-add"
           onSubmit={(e) => {
@@ -165,22 +156,26 @@ export function Briefing({
         <div className="crew-list">
           {crew.map((c, i) => (
             <button key={`${c}-${i}`} className="crew-chip" onClick={() => onCrew(crew.filter((_, j) => j !== i))}>
-              {i === 0 && <span className="crew-first">1st on the mouse</span>}
+              {i === 0 && <span className="crew-first">OPERATOR</span>}
               {c} <span className="crew-x">✕</span>
             </button>
           ))}
-          {crew.length === 0 && <span className="note">Nobody added yet — you can still play, you just organise the swaps yourselves.</span>}
+          {crew.length === 0 && (
+            <span className="note">
+              Optional — but if you add everyone, BUZZ offers the controls to the next person after every machine.
+            </span>
+          )}
         </div>
       </div>
 
       <div style={{ marginTop: 18 }}>{HINT_RULE}</div>
 
       <div style={{ textAlign: 'center', marginTop: 30 }}>
-        <button className="btn primary big" onClick={onBegin}>
-          INSERT COIN &mdash; START
+        <button className="btn primary big" onClick={onBegin} disabled={!ready}>
+          {ready ? 'INSERT COIN — START' : `TICK ALL FOUR FIRST (${done.length}/4)`}
         </button>
         <p className="note" style={{ marginTop: 12 }}>
-          Wait for your game master&rsquo;s signal. Both arcades should start together.
+          Wait for your game master&rsquo;s signal. Both arcades start together.
         </p>
         <button className="btn ghost" style={{ marginTop: 10 }} onClick={onChangeTeam}>
           Wrong arcade? Go back
