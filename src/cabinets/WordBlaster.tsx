@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { WORD, WORD_GUESSES } from '../game/arcade'
+import { WORD, WORD_FREE_GUESSES } from '../game/arcade'
+import { useCooldown } from './useCooldown'
 import { useScratch } from '../game/scratch'
 import { play } from '../game/audio'
 import type { GameProps } from './types'
@@ -30,17 +31,18 @@ export default function WordBlaster({ onWin, won }: GameProps) {
   const [guesses, setGuesses] = useScratch<string[]>('word.guesses', [])
   const [draft, setDraft] = useState('')
   const solved = guesses.includes(WORD)
-  const out = guesses.length >= WORD_GUESSES
+  const { cooling, register, clear } = useCooldown('word', WORD_FREE_GUESSES)
 
   useEffect(() => {
     if (solved && !won) onWin()
   }, [solved, won, onWin])
 
   const submit = () => {
-    if (draft.length !== LEN || out || solved) return
-    play('tap')
+    if (draft.length !== LEN || solved || cooling) return
+    play(draft === WORD ? 'solve' : 'tap')
     setGuesses([...guesses, draft])
     setDraft('')
+    if (draft !== WORD) register()
   }
 
   useEffect(() => {
@@ -66,8 +68,8 @@ export default function WordBlaster({ onWin, won }: GameProps) {
   return (
     <div className="game-wrap">
       <div className="wb-board">
-        {Array.from({ length: WORD_GUESSES }, (_, r) => {
-          const g = guesses[r] ?? (r === guesses.length && !solved && !out ? draft : '')
+        {Array.from({ length: Math.max(6, guesses.length + 1) }, (_, r) => {
+          const g = guesses[r] ?? (r === guesses.length && !solved ? draft : '')
           const live = r === guesses.length
           const marks = guesses[r] ? mark(guesses[r]) : []
           return (
@@ -82,13 +84,13 @@ export default function WordBlaster({ onWin, won }: GameProps) {
         })}
       </div>
 
-      {!solved && !out && (
+      {!solved && (
         <div className="wb-keys">
           {ROWS.map((row, i) => (
             <div className="wb-keyrow" key={i}>
               {i === 2 && (
-                <button className="wb-key wide" onClick={submit} disabled={draft.length !== LEN}>
-                  ENTER
+                <button className="wb-key wide" onClick={submit} disabled={draft.length !== LEN || cooling > 0}>
+                  {cooling ? `${cooling}s` : 'ENTER'}
                 </button>
               )}
               {row.split('').map((k) => (
@@ -111,16 +113,18 @@ export default function WordBlaster({ onWin, won }: GameProps) {
       )}
 
       <div className="game-status">
-        <span className="big-count">{Math.max(0, WORD_GUESSES - guesses.length)}</span> guesses left ·{' '}
-        {LEN} letters
-        {out && !solved && (
-          <>
-            <span className="warnline">Out of guesses — the machine clears itself, no penalty.</span>
-            <button className="btn ghost" onClick={() => setGuesses([])}>
-              Clear and retry
-            </button>
-          </>
-        )}
+        <span className="big-count">{guesses.length}</span> guess{guesses.length === 1 ? '' : 'es'} · {LEN} letters ·
+        unlimited
+        {cooling > 0 && <span className="warnline">MACHINE COOLING — {cooling}s</span>}
+        <button
+          className="btn ghost"
+          onClick={() => {
+            setGuesses([])
+            clear()
+          }}
+        >
+          Wipe the board
+        </button>
       </div>
     </div>
   )

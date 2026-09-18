@@ -41,17 +41,17 @@ export const CABINETS: Cabinet[] = [
   {
     id: 'word',
     name: 'WORD BLASTER',
-    marquee: 'WORD BLASTER — EIGHT LETTERS',
-    game: 'Wordle, but eight letters long',
+    marquee: 'WORD BLASTER — SEVEN LETTERS',
+    game: 'Wordle, seven letters',
     token: 'W',
     score: 88800,
-    minutes: '6–9 min',
+    minutes: '5–8 min',
     tickets: 4,
-    blurb: 'One word. Eight letters. Six guesses. The machine has a very high opinion of itself and a very low opinion of you.',
-    howto: 'Type an eight-letter word and press ENTER. Green means right letter in the right place, yellow means the letter is in the word but somewhere else, grey means it is not in the word at all. Six guesses. Any eight letters are accepted, so a deliberate throwaway guess to test letters is completely legal.',
+    blurb: 'One everyday word, seven letters. Guess as often as you need. The machine has a very high opinion of itself and a very low opinion of you.',
+    howto: 'Type a seven-letter word and press ENTER. Green means right letter in the right place, yellow means the letter is in the word but somewhere else, grey means it is not in the word at all. Guess as often as you like — the machine only slows down if you start hammering it. It is an ordinary word you use all the time — nothing obscure, nothing to do with arcades. Any seven letters are accepted, so a throwaway guess to test letters is completely legal.',
     nudges: [
-      'Eight letters and only six guesses means you cannot afford a lazy start. Spend the first two guesses on words that share no letters at all, and have somebody write down the confirmed greys out loud so nobody wastes a guess on a dead letter.',
-      'It is a thing on this floor, eight letters, and at least one of you has had a hand on one tonight. It starts with the letter nobody ever guesses.',
+      'Seven letters and six guesses means you cannot afford a lazy start. Spend the first two guesses on words that share no letters at all, and have somebody read the greyed-out keys aloud so nobody wastes a guess on a dead letter.',
+      'It is the thing people talk about when they have nothing else to say, and one of its letters turns up twice.',
     ],
   },
   {
@@ -96,7 +96,7 @@ export const CABINETS: Cabinet[] = [
     minutes: '5–7 min',
     tickets: 3,
     blurb: 'A four-digit code, and a machine that already had six goes at it earlier and wrote down how close it got.',
-    howto: 'Work out the four-digit code. Every guess comes back with a plain answer: how many digits are correct AND in the right place, and how many are correct but in the wrong place. The six attempts already on the screen are enough to deduce it outright if you are careful — you do not have to guess at all.',
+    howto: 'Work out the four-digit code. Every guess comes back with a plain answer: how many digits are correct AND in the right place, and how many are correct but in the wrong place. The six attempts already on the screen are enough to deduce it outright if you are careful. Guess as often as you like, though the machine gets slower if you start throwing numbers at it.',
     nudges: [
       'You can solve this on paper from the six attempts already listed. Start with the line that says nothing is in the right place — that rules out a digit sitting in that exact position for every one of those four digits.',
       'Line the six attempts up in a column and work digit by digit. 1292 has exactly one digit right and in the right place, and 2580 has one digit that belongs to the code but is sitting in the wrong spot — cross-reference those two and the field collapses fast.',
@@ -211,8 +211,9 @@ export const FLOW_ENDPOINTS: number[][][] = [
   [[5, 1], [6, 6]],
 ]
 
-export const WORD = 'JOYSTICK'
-export const WORD_GUESSES = 6
+export const WORD = 'WEATHER'
+/** guesses before the machine starts making you wait — never a hard limit */
+export const WORD_FREE_GUESSES = 12
 
 export const MINES: [number, number][] = [
   [0, 4], [1, 1], [1, 7], [2, 3], [3, 0], [3, 6],
@@ -237,7 +238,8 @@ export const NONOGRAM = {
 }
 
 export const CODE = '5693'
-export const CODE_GUESSES = 10
+/** guesses before the machine starts making you wait — never a hard limit */
+export const CODE_FREE_GUESSES = 12
 /** the machine's own attempts earlier tonight — together these pin the code down exactly */
 export const CODE_CLUES: { guess: string; inPlace: number; moved: number }[] = [
   { guess: '2580', inPlace: 0, moved: 1 },

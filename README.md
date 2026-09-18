@@ -1,7 +1,7 @@
 # TIGER CAGE ARCADE — Seattle vs. SJC
 
 A 45-minute head-to-head arcade lock-in for two teams in two rooms, each crowded round one
-screen. Eleven playable machines — an eight-letter Wordle, Minesweeper, Picross, crack-the-code,
+screen. Eleven playable machines — a seven-letter Wordle, Minesweeper, Picross, crack-the-code,
 Rush Hour, Sokoban, Sudoku, Towers of Hanoi, Flow, pipe-rotation and Lights Out — then a
 Password Game on the shutter that lets you out.
 

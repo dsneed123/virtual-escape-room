@@ -1,4 +1,5 @@
-import { CODE, CODE_CLUES, CODE_GUESSES } from '../game/arcade'
+import { CODE, CODE_CLUES, CODE_FREE_GUESSES } from '../game/arcade'
+import { useCooldown } from './useCooldown'
 import { useScratch } from '../game/scratch'
 import { play } from '../game/audio'
 import type { GameProps } from './types'
@@ -42,15 +43,19 @@ export function verdict({ inPlace, moved }: { inPlace: number; moved: number }) 
 export default function CodeBreaker({ onWin, won }: GameProps) {
   const [rows, setRows] = useScratch<Row[]>('code.rows', [])
   const [draft, setDraft] = useScratch<string>('code.draft', '')
-  const out = rows.length >= CODE_GUESSES
+  const { cooling, register, clear } = useCooldown('code', CODE_FREE_GUESSES)
 
   const submit = () => {
-    if (draft.length !== 4 || won || out) return
+    if (draft.length !== 4 || won || cooling) return
     const { inPlace, moved } = judge(draft)
     setRows([...rows, { guess: draft, inPlace, moved }])
     setDraft('')
-    if (inPlace === 4) onWin()
-    else play(rows.length + 1 >= CODE_GUESSES ? 'error' : 'tap')
+    if (inPlace === 4) {
+      onWin()
+      return
+    }
+    play('tap')
+    register()
   }
 
   return (
@@ -72,7 +77,7 @@ export default function CodeBreaker({ onWin, won }: GameProps) {
         ))}
       </div>
 
-      {!won && !out && (
+      {!won && (
         <>
           <div className="code-entry">
             {[0, 1, 2, 3].map((i) => (
@@ -98,23 +103,25 @@ export default function CodeBreaker({ onWin, won }: GameProps) {
             <button className="btn ghost" onClick={() => setDraft(draft.slice(0, -1))} disabled={!draft}>
               ⌫
             </button>
-            <button className="btn primary" onClick={submit} disabled={draft.length !== 4}>
-              TRY IT
+            <button className="btn primary" onClick={submit} disabled={draft.length !== 4 || cooling > 0}>
+              {cooling ? `WAIT ${cooling}s` : 'TRY IT'}
             </button>
           </div>
         </>
       )}
 
       <div className="game-status">
-        <span className="big-count">{Math.max(0, CODE_GUESSES - rows.length)}</span> guesses left
-        {out && !won && (
-          <>
-            <span className="warnline">Out of guesses — the machine clears itself, no penalty.</span>
-            <button className="btn ghost" onClick={() => setRows([])}>
-              Reset the machine
-            </button>
-          </>
-        )}
+        <span className="big-count">{rows.length}</span> guess{rows.length === 1 ? '' : 'es'} · unlimited
+        {cooling > 0 && <span className="warnline">MACHINE COOLING — {cooling}s</span>}
+        <button
+          className="btn ghost"
+          onClick={() => {
+            setRows([])
+            clear()
+          }}
+        >
+          Clear your attempts
+        </button>
       </div>
     </div>
   )
