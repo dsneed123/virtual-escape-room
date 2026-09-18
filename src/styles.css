@@ -677,3 +677,5 @@ body[data-tension='final'] .timer { animation: tick 1s steps(2) infinite; }
 .setup-step.done .setup-box { background: var(--accent); border-color: var(--accent); color: #05201d; }
 .setup-step b { display: block; letter-spacing: 0.14em; margin-bottom: 4px; }
 .setup-body { display: block; color: var(--dim); font-size: 0.94rem; }
+
+.hook-line { font-size: 1.5rem; letter-spacing: 0.04em; color: var(--text); font-weight: 700; }

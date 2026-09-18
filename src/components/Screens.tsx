@@ -101,14 +101,12 @@ export function Briefing({
       </div>
 
       <div className="panel hook">
-        <p>
-          The shutters came down four hours ago with you still inside, and the animatronic bee over the prize counter
-          has decided this is the best night of his life.
+        <p className="hook-line">
+          You are locked in the arcade. The machines still work.
         </p>
         <p>
-          <b>BUZZ&rsquo;s terms:</b> beat the machines, collect tickets, and get <b>{TICKET_TARGET}</b> of them to the
-          shutter keypad before the floor buffer kills the power at forty-five minutes. The other office is locked in
-          an identical arcade doing exactly the same thing. First room out wins.
+          Beat them for tickets. Get <b>{TICKET_TARGET} tickets</b> to the shutter keypad and you are out — the power
+          dies at forty-five minutes. The other office is locked in an identical arcade. First room out wins.
         </p>
       </div>
 
@@ -244,18 +242,10 @@ export function Complete({ team, crew, ms, over }: { team: Team; crew: string[];
       {over && (
         <p style={{ color: 'var(--danger)', letterSpacing: '0.2em' }}>FINISHED AFTER THE FORTY-FIVE MINUTE MARK</p>
       )}
-      <div className="brief" style={{ margin: '26px auto', maxWidth: '72ch', textAlign: 'left' }}>
+      <div className="brief" style={{ margin: '22px auto', maxWidth: '62ch' }}>
         <p>
-          The tokens drop through the slot, something heavy clunks behind the wall, and the shutters grind up about
-          four feet before sticking. It will do.
-        </p>
-        <p>
-          BUZZ waves a small felt arm as you duck underneath. &ldquo;Come back any time,&rdquo; he says. &ldquo;I mean
-          that. I am here constantly.&rdquo;
-        </p>
-        <p>
-          Somewhere on the other side of the country an identical arcade is still lit up, and an identical bee is
-          being extremely annoying about it.
+          The shutters grind up about four feet and stick. It will do. BUZZ waves a small felt arm as you duck
+          underneath.
         </p>
       </div>
       <div className="slack">
@@ -281,8 +271,7 @@ export function Expired({ team, tokens, onContinue }: { team: Team; tokens: numb
         {clock(0)}
       </div>
       <p style={{ letterSpacing: '0.16em' }}>
-        The floor buffer starts up at {clock(TOTAL_MS)}, the lights dip, and every machine resets with a sad little
-        chime. BUZZ laughs for eleven straight seconds.
+        The power dies at {clock(TOTAL_MS)} and every machine resets. You are still in the arcade.
       </p>
       <p className="note">
         You got {tokens} of {CABINETS.length} tokens.
