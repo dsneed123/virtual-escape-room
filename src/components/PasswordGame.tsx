@@ -33,8 +33,8 @@ interface Ctx {
 }
 
 const RULES: Rule[] = [
-  { n: 1, text: () => 'At least 15 characters. BUZZ counts.', ok: (pw) => pw.length >= 15 },
-  { n: 2, text: () => 'Must contain a number. BUZZ is not negotiating on this.', ok: (pw) => /\d/.test(pw) },
+  { n: 1, text: () => 'At least 15 characters. RAJA counts.', ok: (pw) => pw.length >= 15 },
+  { n: 2, text: () => 'Must contain a number. RAJA is not negotiating on this.', ok: (pw) => /\d/.test(pw) },
   { n: 3, text: () => 'Must contain a capital letter.', ok: (pw) => /[A-Z]/.test(pw) },
   { n: 4, text: () => 'Must contain one of these: ! ? * #', ok: (pw) => /[!?*#]/.test(pw) },
   {
@@ -42,7 +42,11 @@ const RULES: Rule[] = [
     text: () => 'Must contain the name of a machine you beat tonight (letters only — spaces and numbers do not count).',
     ok: (pw, ctx) => ctx.order.some((c) => letters(pw).includes(letters(c.name))),
   },
-  { n: 6, text: () => 'Must contain BUZZ. He is standing right there and he can see the screen.', ok: (pw) => letters(pw).includes('BUZZ') },
+  {
+    n: 6,
+    text: () => 'Must contain the name of the tiger. He is standing right there and he can read.',
+    ok: (pw) => letters(pw).includes('RAJA'),
+  },
   {
     n: 7,
     text: (ctx) =>
@@ -57,7 +61,7 @@ const RULES: Rule[] = [
   {
     n: 9,
     text: (ctx) =>
-      `BUZZ is a traditionalist. The number of tickets he asked you for must appear as a Roman numeral, spelled properly (${ctx.target} of them).`,
+      `RAJA is a traditionalist. The number of tickets he asked you for must appear as a Roman numeral, spelled properly (${ctx.target} of them).`,
     ok: (pw, ctx) => letters(pw).includes(roman(ctx.target)),
   },
   {
@@ -107,7 +111,7 @@ export default function PasswordGame({ tokens, onEscape }: { tokens: Token[]; on
     <div className="pw-room">
       <div className="cols">
         <div className="panel pw-main">
-          <h3 className="panel-title">The shutter keypad — BUZZ is reading over your shoulder</h3>
+          <h3 className="panel-title">The shutter keypad — RAJA is reading over your shoulder</h3>
           <p className="note" style={{ marginTop: 0 }}>
             Type a password. Every time you satisfy a rule the next one appears, and the new one will almost certainly
             break something you had already got right. That is the game.

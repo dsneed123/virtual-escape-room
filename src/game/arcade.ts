@@ -313,12 +313,12 @@ export const SOKOBAN_LEVEL = [
 export const SUDOKU_PUZZLE = [0,1,0,0,0,0, 0,4,6,0,1,0, 4,0,0,3,6,2, 0,0,0,5,0,0, 0,3,5,0,0,6, 6,0,4,1,5,0]
 export const SUDOKU_SOLUTION = [5,1,2,6,3,4, 3,4,6,2,1,5, 4,5,1,3,6,2, 2,6,3,5,4,1, 1,3,5,4,2,6, 6,2,4,1,5,3]
 
-// ---------------------------------------------------------------- BUZZ
-export const BUZZ_WIN = [
-  'Token earned. I am contractually obliged to say well done.',
+// ---------------------------------------------------------------- RAJA
+export const RAJA_WIN = [
+  'Ticket dispensed. I am contractually obliged to say well done.',
   'Fine. That was fine. I have seen faster, but it was fine.',
-  'Oh, you got it. I had money on the other office.',
-  'Token dispensed. Please do not shake the machine, it hates that.',
+  'Oh, you got it. I had money on the other office. Whole paw of money.',
+  'Please do not shake the machine. I have claws and a great deal of free time.',
   'Look at you. Genuinely, look at you.',
   'That one beats most adults. You may feel smug for nine seconds.',
   'Another one down. The prize counter is starting to sweat.',

@@ -1,4 +1,4 @@
-# GUS'S GALACTIC ARCADE — Seattle vs. SJC
+# THE TIGER ARCADE — Seattle vs. SJC
 
 A 45-minute head-to-head arcade lock-in for two teams in two rooms, each crowded round one
 screen. Eleven playable machines — an eight-letter Wordle, Minesweeper, Picross, crack-the-code,
@@ -53,7 +53,7 @@ room plays rather than one person clicking. Timers are independent and survive a
 tokens, half-finished boards and nudges. Pause, resume and a guarded reset are in the top
 bar.
 
-Every machine explains itself and carries two free nudges from BUZZ. On top of that each
+Every machine explains itself and carries two free nudges from RAJA the tiger. On top of that each
 team gets two real hints for the night, requested from the host on Slack. When a team gets
 out, the screen shows the completion time to send you.
 

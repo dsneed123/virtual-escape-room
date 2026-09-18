@@ -8,7 +8,7 @@ export const HINT_RULE = (
   <div className="hint-box">
     <b>STUCK?</b>
     <br />
-    Every machine has <b>two free nudges</b> from BUZZ built into it — use them, they cost nothing and he enjoys it.
+    Every machine has <b>two free nudges</b> from RAJA built into it — use them, they cost nothing and he enjoys it.
     You can also walk away, play a different machine, and come back.
     <div style={{ marginTop: 8 }}>
       Properly stuck? You get <b>2 real hints</b> for the whole night, from an actual human. Message your game master
@@ -23,8 +23,8 @@ export const HINT_RULE = (
 export function TeamSelect({ onPick }: { onPick: (t: Team) => void }) {
   return (
     <div className="title-screen">
-      <div className="tag">GUS&rsquo;S GALACTIC ARCADE &mdash; CLOSED FOR THE NIGHT</div>
-      <h1>SEATTLE VS. SJC</h1>
+      <div className="tag">🐅 THE TIGER ARCADE &mdash; CLOSED FOR THE NIGHT</div>
+      <h1>🐯 SEATTLE VS. SJC</h1>
       <p className="note" style={{ letterSpacing: '0.26em', marginTop: 18 }}>
         WHICH ARCADE ARE YOU LOCKED IN?
       </p>
@@ -51,7 +51,7 @@ const SETUP = [
   {
     key: 'mute',
     title: 'MUTE YOURSELVES',
-    body: 'Kill your mic in the Slack huddle. The other arcade must not hear a word you say for the next forty-five minutes.',
+    body: 'Kill your mic in the Slack huddle. The other den must not hear a word you say for the next forty-five minutes.',
   },
   {
     key: 'operator',
@@ -96,18 +96,26 @@ export function Briefing({
   return (
     <div className="stage" style={{ maxWidth: 940 }}>
       <div className="stage-head">
-        <span className="stage-index">BUZZ WOULD LIKE A WORD</span>
+        <span className="stage-index">RAJA THE TIGER WOULD LIKE A WORD</span>
         <h1 className="stage-title">{team} ARCADE</h1>
       </div>
 
+      <div className="stripes" />
       <div className="panel hook">
         <p className="hook-line">
-          You are locked in the arcade. The machines still work.
+          🐅 You are locked in the Tiger Arcade. The machines still work.
         </p>
         <p>
           Beat them for tickets. Get <b>{TICKET_TARGET} tickets</b> to the shutter keypad and you are out — the power
           dies at forty-five minutes. The other office is locked in an identical arcade. First room out wins.
         </p>
+      </div>
+
+      <div className="raja">
+        <span className="raja-face">🐯</span>
+        <span className="raja-line">
+          &ldquo;I am RAJA. I run this floor, I count the tickets, and I have absolutely nowhere else to be.&rdquo;
+        </span>
       </div>
 
       <h3 className="setup-head">BEFORE THE CLOCK STARTS — tick all four</h3>
@@ -160,7 +168,7 @@ export function Briefing({
           ))}
           {crew.length === 0 && (
             <span className="note">
-              Optional — but if you add everyone, BUZZ offers the controls to the next person after every machine.
+              Optional — but if you add everyone, RAJA offers the controls to the next person after every machine.
             </span>
           )}
         </div>
@@ -244,8 +252,8 @@ export function Complete({ team, crew, ms, over }: { team: Team; crew: string[];
       )}
       <div className="brief" style={{ margin: '22px auto', maxWidth: '62ch' }}>
         <p>
-          The shutters grind up about four feet and stick. It will do. BUZZ waves a small felt arm as you duck
-          underneath.
+          The shutters grind up about four feet and stick. It will do. RAJA the tiger waves an enormous felt paw as
+          you duck underneath. 🐅
         </p>
       </div>
       <div className="slack">

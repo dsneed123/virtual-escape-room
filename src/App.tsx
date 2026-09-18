@@ -13,7 +13,7 @@ import {
   TeamSelect,
   TokenModal,
 } from './components/Screens'
-import { BUZZ_WIN, CABINETS, TICKET_TARGET } from './game/arcade'
+import { RAJA_WIN, CABINETS, TICKET_TARGET } from './game/arcade'
 import { play, setMuted } from './game/audio'
 import { clearScratch } from './game/scratch'
 import { tensionOf, TOTAL_MS, useSession } from './game/state'
@@ -258,7 +258,7 @@ export default function App() {
       {tokenWon && (
         <TokenModal
           cabinet={CABINETS.find((c) => c.id === tokenWon)!}
-          quip={BUZZ_WIN[CABINETS.findIndex((c) => c.id === tokenWon) % BUZZ_WIN.length]}
+          quip={RAJA_WIN[CABINETS.findIndex((c) => c.id === tokenWon) % RAJA_WIN.length]}
           tickets={CABINETS.filter((c) => session.tokens.some((t) => t.id === c.id)).reduce((n, c) => n + c.tickets, 0)}
           team={session.team}
           nextDriver={session.crew.length ? session.crew[(session.driver + 1) % session.crew.length] : null}
