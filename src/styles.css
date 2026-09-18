@@ -679,8 +679,7 @@ body[data-tension='final'] .timer { animation: tick 1s steps(2) infinite; }
   background: linear-gradient(180deg, var(--panel), var(--ink-2));
   transition: border-color 0.15s, background 0.15s;
 }
-.setup-step:hover { border-color: var(--accent); }
-.setup-step.done { border-color: var(--accent); background: linear-gradient(180deg, rgba(53, 232, 211, 0.12), var(--ink-2)); }
+.setup-step { cursor: default; }
 .setup-box {
   flex: 0 0 auto;
   width: 34px;
@@ -692,7 +691,7 @@ body[data-tension='final'] .timer { animation: tick 1s steps(2) infinite; }
   font-weight: 900;
   color: var(--dim);
 }
-.setup-step.done .setup-box { background: var(--accent); border-color: var(--accent); color: #05201d; }
+.setup-box { background: var(--accent); border-color: var(--accent); color: #1a0f05; }
 .setup-step b { display: block; letter-spacing: 0.14em; margin-bottom: 4px; }
 .setup-body { display: block; color: var(--dim); font-size: 0.94rem; }
 
@@ -709,7 +708,7 @@ body[data-tension='final'] .timer { animation: tick 1s steps(2) infinite; }
 }
 .hook { border-left: 5px solid var(--tiger); }
 .setup-head { color: var(--tiger); }
-.raja {
+.tiger {
   display: flex;
   gap: 12px;
   align-items: center;
@@ -719,8 +718,8 @@ body[data-tension='final'] .timer { animation: tick 1s steps(2) infinite; }
   padding: 10px 14px;
   margin-top: 14px;
 }
-.raja-face { font-size: 1.8rem; }
-.raja-line { color: #ffd9b0; font-size: 0.98rem; }
+.tiger-face { font-size: 1.8rem; }
+.tiger-line { color: #ffd9b0; font-size: 0.98rem; }
 
 /* ------------------------------------------------- unmistakably tiger */
 .tiger-rail {

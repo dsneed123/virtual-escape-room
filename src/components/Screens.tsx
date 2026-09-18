@@ -24,10 +24,10 @@ export function TeamSelect({ onPick }: { onPick: (t: Team) => void }) {
   return (
     <div className="title-screen">
       <div className="title-tiger">🐅</div>
-      <div className="tag">THE TIGER ARCADE &mdash; CLOSED FOR THE NIGHT</div>
+      <div className="tag">TIGER CAGE ARCADE &mdash; CLOSED FOR THE NIGHT</div>
       <h1>SEATTLE VS. SJC</h1>
       <p className="note" style={{ letterSpacing: '0.26em', marginTop: 18 }}>
-        WHICH ARCADE ARE YOU LOCKED IN?
+        WHICH CAGE ARE YOU LOCKED IN?
       </p>
       <div className="vs">
         <button className="team-card seattle" onClick={() => onPick('SEATTLE')}>
@@ -54,7 +54,7 @@ const SETUP = [
   {
     key: 'mute',
     title: 'MUTE YOURSELVES',
-    body: 'Kill your mic in the Slack huddle. The other den must not hear a word you say for the next forty-five minutes.',
+    body: 'Kill your mic in the Slack huddle. The other cage must not hear a word you say for the next forty-five minutes.',
   },
   {
     key: 'operator',
@@ -82,24 +82,22 @@ export function Briefing({
   onBegin: () => void
   onChangeTeam: () => void
 }) {
-  const [done, setDone] = useState<string[]>([])
-  const ready = SETUP.every((s) => done.includes(s.key))
 
   return (
     <div className="stage" style={{ maxWidth: 940 }}>
       <div className="stage-head">
         <span className="stage-index">THE TIGER WOULD LIKE A WORD</span>
-        <h1 className="stage-title">🐅 {team} ARCADE</h1>
+        <h1 className="stage-title">🐅 {team} CAGE</h1>
       </div>
 
       <div className="tiger-rail" style={{ borderRadius: 999, marginBottom: 18 }} />
       <div className="panel hook">
         <p className="hook-line">
-          🐅 You are locked in the Tiger Arcade. The machines still work.
+          🐅 You are locked in the Tiger Cage. The machines still work.
         </p>
         <p>
           Beat them for tickets. Get <b>{TICKET_TARGET} tickets</b> to the shutter keypad and you are out — the power
-          dies at forty-five minutes. The other office is locked in an identical arcade. First room out wins.
+          dies at forty-five minutes. The other office is locked in an identical cage. First room out wins.
         </p>
       </div>
 
@@ -110,37 +108,30 @@ export function Briefing({
         </span>
       </div>
 
-      <h3 className="setup-head">BEFORE THE CLOCK STARTS — tick all four</h3>
+      <h3 className="setup-head">BEFORE YOU START</h3>
       <div className="setup">
-        {SETUP.map((step, i) => {
-          const on = done.includes(step.key)
-          return (
-            <button
-              key={step.key}
-              className={`setup-step${on ? ' done' : ''}`}
-              onClick={() => setDone(on ? done.filter((d) => d !== step.key) : [...done, step.key])}
-            >
-              <span className="setup-box">{on ? '✓' : i + 1}</span>
-              <span>
-                <b>{step.title}</b>
-                <span className="setup-body">{step.body}</span>
-              </span>
-            </button>
-          )
-        })}
+        {SETUP.map((step, i) => (
+          <div key={step.key} className="setup-step">
+            <span className="setup-box">{i + 1}</span>
+            <span>
+              <b>{step.title}</b>
+              <span className="setup-body">{step.body}</span>
+            </span>
+          </div>
+        ))}
       </div>
 
       <div style={{ marginTop: 18 }}>{HINT_RULE}</div>
 
       <div style={{ textAlign: 'center', marginTop: 30 }}>
-        <button className="btn primary big" onClick={onBegin} disabled={!ready}>
-          {ready ? 'INSERT COIN — START' : `TICK ALL FOUR FIRST (${done.length}/4)`}
+        <button className="btn primary big" onClick={onBegin}>
+          INSERT COIN — START
         </button>
         <p className="note" style={{ marginTop: 12 }}>
-          Wait for your game master&rsquo;s signal. Both arcades start together.
+          Wait for your game master&rsquo;s signal. Both cages start together.
         </p>
         <button className="btn ghost" style={{ marginTop: 10 }} onClick={onChangeTeam}>
-          Wrong arcade? Go back
+          Wrong cage? Go back
         </button>
       </div>
     </div>
