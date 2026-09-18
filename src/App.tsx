@@ -17,7 +17,7 @@ import { BUZZ_WIN, CABINETS } from './game/arcade'
 import { play, setMuted } from './game/audio'
 import { clearScratch } from './game/scratch'
 import { tensionOf, TOTAL_MS, useSession } from './game/state'
-import Echo from './cabinets/Echo'
+import NeonFlow from './cabinets/NeonFlow'
 import WordBlaster from './cabinets/WordBlaster'
 import MineCart from './cabinets/MineCart'
 import PixelPainter from './cabinets/PixelPainter'
@@ -25,11 +25,16 @@ import CodeBreaker from './cabinets/CodeBreaker'
 import ParkingJam from './cabinets/ParkingJam'
 import CircuitCity from './cabinets/CircuitCity'
 import Blackout from './cabinets/Blackout'
+import Matchbox from './cabinets/Matchbox'
+import Stacker from './cabinets/Stacker'
+import CrateCrusher from './cabinets/CrateCrusher'
+import NumberCrunch from './cabinets/NumberCrunch'
+import { installDevTools } from './game/dev'
 import type { GameProps } from './cabinets/types'
 import type { ComponentType } from 'react'
 
 const GAMES: Record<string, ComponentType<GameProps>> = {
-  echo: Echo,
+  flow: NeonFlow,
   word: WordBlaster,
   mine: MineCart,
   pixel: PixelPainter,
@@ -37,6 +42,10 @@ const GAMES: Record<string, ComponentType<GameProps>> = {
   jam: ParkingJam,
   circuit: CircuitCity,
   blackout: Blackout,
+  match: Matchbox,
+  stack: Stacker,
+  crate: CrateCrusher,
+  sudoku: NumberCrunch,
 }
 
 const WARN_AT = [30, 15, 5, 1]
@@ -58,6 +67,10 @@ export default function App() {
   }, [session.team, tension, running])
 
   useEffect(() => setMuted(session.muted), [session.muted])
+
+  useEffect(() => {
+    installDevTools({ award, finish, goto, reset, adjust })
+  }, [award, finish, goto, reset, adjust])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {

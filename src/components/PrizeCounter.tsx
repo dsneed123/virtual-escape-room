@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CABINETS } from '../game/arcade'
 import { useScratch } from '../game/scratch'
 import { play } from '../game/audio'
@@ -11,13 +11,18 @@ const REJECT = [
 ]
 
 export default function PrizeCounter({ onEscape }: { onEscape: () => void }) {
-  const [slots, setSlots] = useScratch<(string | null)[]>('prize.slots', Array(8).fill(null))
+  const [slots, setSlots] = useScratch<(string | null)[]>('prize.slots', Array(CABINETS.length).fill(null))
   const [msg, setMsg] = useState('')
   const [bad, setBad] = useState(false)
 
+  // a slot list saved by an older build may be the wrong length
+  useEffect(() => {
+    if (slots.length !== CABINETS.length) setSlots(Array(CABINETS.length).fill(null))
+  }, [slots.length, setSlots])
+
   const order = [...CABINETS].sort((a, b) => a.score - b.score)
   const answer = order.map((c) => c.id)
-  const full = slots.every(Boolean)
+  const full = slots.length === CABINETS.length && slots.every(Boolean)
   const cabOf = (id: string) => CABINETS.find((c) => c.id === id)!
 
   const place = (id: string) => {
@@ -36,7 +41,7 @@ export default function PrizeCounter({ onEscape }: { onEscape: () => void }) {
 
   const cash = () => {
     if (!full) return
-    if (slots.every((id, i) => id === answer[i])) {
+    if (slots.length === answer.length && slots.every((id, i) => id === answer[i])) {
       play('solve')
       onEscape()
       return
@@ -53,7 +58,7 @@ export default function PrizeCounter({ onEscape }: { onEscape: () => void }) {
     <div className="prize-room">
       <div className="cols">
         <div className="panel">
-          <h3 className="panel-title">Your eight tokens</h3>
+          <h3 className="panel-title">Your {CABINETS.length} tokens</h3>
           <div className="token-tray">
             {CABINETS.map((c) => (
               <button
@@ -75,8 +80,8 @@ export default function PrizeCounter({ onEscape }: { onEscape: () => void }) {
         <div className="panel">
           <h3 className="panel-title">BUZZ, from behind the counter</h3>
           <p style={{ marginTop: 0, fontSize: '1.06rem' }}>
-            &ldquo;Eight tokens, eight letters, and you want the door. Fine. But I am not letting anybody out who just
-            jams them in any old order.&rdquo;
+            &ldquo;{CABINETS.length} tokens, {CABINETS.length} letters, and you want the door. Fine. But I am not
+            letting anybody out who just jams them in any old order.&rdquo;
           </p>
           <p style={{ fontSize: '1.06rem' }}>
             &ldquo;Every machine on this floor has been showing you its high score all night. Every single one. Line
@@ -110,7 +115,7 @@ export default function PrizeCounter({ onEscape }: { onEscape: () => void }) {
         <button className="btn primary big" disabled={!full} onClick={cash}>
           CASH IN
         </button>
-        <button className="btn ghost" onClick={() => setSlots(Array(8).fill(null))}>
+        <button className="btn ghost" onClick={() => setSlots(Array(CABINETS.length).fill(null))}>
           Clear
         </button>
       </div>

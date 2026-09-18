@@ -1,8 +1,9 @@
 # GUS'S GALACTIC ARCADE — Seattle vs. SJC
 
 A 45-minute head-to-head arcade lock-in for two teams in two rooms, each crowded round one
-screen. Eight playable machines — Simon, double Wordle, Minesweeper, Picross, Mastermind,
-Rush Hour, pipe-rotation and Lights Out — then a prize counter that lets you out.
+screen. Twelve playable machines — double Wordle, Minesweeper, Picross, Mastermind, Rush Hour,
+Sokoban, Sudoku, Towers of Hanoi, Flow, pipe-rotation, memory pairs and Lights Out — then a
+prize counter that lets you out.
 
 Machines can be played in any order, so a stuck team just walks to a different cabinet.
 No backend, no accounts, nothing shared between the two browsers: each arcade lives
@@ -49,9 +50,15 @@ Every machine explains itself and carries two free nudges from BUZZ. On top of t
 team gets two real hints for the night, requested from the host on Slack. When a team gets
 out, the screen shows the completion time to send you.
 
+## Testing it yourself
+
+Add `?dev` to the URL and open the browser console: every answer is printed, and `window.gus`
+gives you `winAll()`, `win(id)`, `open(id)`, `escape()`, `time(mins)` and `reset()`. Without
+`?dev` nothing is exposed, so hand the teams the plain link.
+
 ## Host materials
 
-`HOST_ANSWER_KEY.md` lives only on the host's machine — solutions for all eight machines
+`HOST_ANSWER_KEY.md` lives only on the host's machine — solutions for all twelve machines
 plus the prize-counter meta. It is listed in `.gitignore` along with `host/`, and is never
 committed or deployed. Keep it that way: the site is public, and so is anything pushed
 here.

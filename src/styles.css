@@ -447,3 +447,87 @@ body[data-tension='final'] .timer { animation: tick 1s steps(2) infinite; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+
+/* ------------------------------------------------------------ matchbox */
+.match-grid { display: grid; grid-template-columns: repeat(4, 92px); grid-template-rows: repeat(4, 92px); gap: 10px; }
+.card {
+  border-radius: 10px;
+  border: 2px solid var(--line-2);
+  background: linear-gradient(160deg, #2a1d4d, #170f2c);
+  font-size: 2.1rem;
+  color: var(--dimmer);
+  transition: transform 0.18s, background 0.18s, border-color 0.18s;
+}
+.card:hover { border-color: var(--accent); }
+.card.up { background: linear-gradient(160deg, #3a2a63, #241a41); color: #fff; transform: rotateY(0deg) scale(1.03); }
+.card.done { border-color: var(--warn); box-shadow: 0 0 16px rgba(255, 209, 102, 0.35); }
+
+/* ------------------------------------------------------------- stacker */
+.pegs { display: flex; gap: 18px; align-items: flex-end; }
+.peg {
+  position: relative;
+  width: 210px;
+  height: 250px;
+  border: 2px solid var(--line);
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.3));
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: 8px;
+}
+.peg:hover, .peg.held { border-color: var(--accent); }
+.peg.held { box-shadow: 0 0 22px var(--accent-soft); }
+.peg-rod { position: absolute; top: 18px; bottom: 34px; width: 10px; border-radius: 5px; background: #3b3160; }
+.peg-discs { position: relative; z-index: 2; width: 100%; display: flex; flex-direction: column-reverse; align-items: center; gap: 4px; }
+.disc { height: 26px; border-radius: 13px; display: grid; place-items: center; color: #05201d; font-weight: 900; border: 2px solid rgba(0, 0, 0, 0.35); }
+.disc.lifted { transform: translateY(-10px); box-shadow: 0 0 20px #fff; }
+.peg-base { position: absolute; bottom: 8px; font-size: 0.66rem; letter-spacing: 0.2em; color: var(--dimmer); }
+
+/* -------------------------------------------------------- crate crusher */
+.soko-grid { display: grid; gap: 3px; --soko-size: 62px; }
+.soko { width: var(--soko-size); height: var(--soko-size); border-radius: 6px; background: #1a1230; display: grid; place-items: center; font-size: 1.7rem; position: relative; }
+.soko.wall { background: linear-gradient(160deg, #453466, #2a2044); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05); }
+.soko.target { background: #1f1740; box-shadow: inset 0 0 0 2px rgba(53, 232, 211, 0.4); }
+.soko .spot { color: var(--accent); font-size: 1.2rem; }
+.soko .crate { color: #ffb03a; text-shadow: 0 0 10px rgba(255, 176, 58, 0.5); }
+.soko .crate.home { color: var(--accent); text-shadow: 0 0 14px var(--accent); }
+
+/* -------------------------------------------------------- number crunch */
+.sud-grid { display: grid; grid-template-columns: repeat(6, 58px); grid-template-rows: repeat(6, 58px); gap: 2px; background: var(--line); padding: 3px; border-radius: 8px; }
+.sud { background: #150f27; border: none; font-size: 1.5rem; font-weight: 700; color: var(--accent); border-radius: 3px; }
+.sud.given { color: var(--text); background: #221a3d; }
+.sud.sel { outline: 3px solid var(--accent); outline-offset: -3px; }
+.sud.clash { color: var(--danger); background: rgba(255, 92, 114, 0.14); }
+.sud.box-r { box-shadow: inset -3px 0 0 var(--line-2); }
+.sud.box-b { box-shadow: inset 0 -3px 0 var(--line-2); }
+.sud.box-r.box-b { box-shadow: inset -3px 0 0 var(--line-2), inset 0 -3px 0 var(--line-2); }
+.sud-pad { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.sud-pad .btn { min-width: 54px; font-size: 1.1rem; }
+
+@media (max-width: 1100px) {
+  .match-grid { grid-template-columns: repeat(4, 74px); grid-template-rows: repeat(4, 74px); }
+  .peg { width: 160px; height: 210px; }
+  .soko-grid { --soko-size: 48px; }
+  .sud-grid { grid-template-columns: repeat(6, 48px); grid-template-rows: repeat(6, 48px); }
+}
+@media (max-width: 720px) {
+  .match-grid { grid-template-columns: repeat(4, 62px); grid-template-rows: repeat(4, 62px); }
+  .pegs { gap: 8px; }
+  .peg { width: 104px; height: 180px; }
+  .soko-grid { --soko-size: 36px; }
+  .soko { font-size: 1.1rem; }
+  .sud-grid { grid-template-columns: repeat(6, 42px); grid-template-rows: repeat(6, 42px); }
+  .sud { font-size: 1.1rem; }
+}
+
+/* ----------------------------------------------------------- neon flow */
+.flow-grid { display: grid; gap: 3px; --flow-size: 62px; }
+.flow { width: var(--flow-size); height: var(--flow-size); border-radius: 6px; border: 1px solid var(--line); background: #150f27; color: transparent; font-size: 1.4rem; }
+.flow:hover { border-color: var(--accent); }
+.flow.dot { color: var(--flow-colour); font-size: 2rem; text-shadow: 0 0 14px var(--flow-colour); }
+.flow.filled { color: var(--flow-colour); background: color-mix(in srgb, var(--flow-colour) 22%, #150f27); border-color: var(--flow-colour); }
+.flow.live { box-shadow: inset 0 0 0 2px var(--flow-colour); }
+@media (max-width: 1100px) { .flow-grid { --flow-size: 50px; } }
+@media (max-width: 720px) { .flow-grid { --flow-size: 40px; } .flow.dot { font-size: 1.4rem; } }

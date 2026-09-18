@@ -16,17 +16,17 @@ export interface Cabinet {
 /** Play order is free. The prize counter wants the tokens ordered by HIGH SCORE. */
 export const CABINETS: Cabinet[] = [
   {
-    id: 'echo',
-    name: 'ECHO',
-    marquee: 'ECHO — REPEAT AFTER ME',
-    game: 'Simon, but it goes to eight',
+    id: 'flow',
+    name: 'NEON FLOW',
+    marquee: 'NEON FLOW — JOIN THE DOTS',
+    game: 'Flow / connect the pairs',
     token: 'E',
     score: 31600,
-    blurb: 'Four pads, one growing sequence, and a machine that has never once felt sorry for anybody.',
-    howto: 'Watch the pads flash, then press them back in the same order. Every round adds one more. Get to eight in a row and the token is yours. Miss one and you only replay that round, not the whole thing.',
+    blurb: 'Five pairs of coloured lamps, one board, and wires that refuse to cross each other.',
+    howto: 'Click a coloured dot, then click along neighbouring squares to drag a wire to its matching dot. Wires cannot cross, and every single square on the board has to end up covered. Click back along a wire to shorten it.',
     nudges: [
-      'Split the sequence up. Two people take the first four flashes, two take the rest, and one person does the clicking. Say the colours out loud as they flash.',
-      'You can press REPLAY before you start entering — it costs nothing but seconds, and it shows the sequence again from the top.',
+      'Corners first. A dot sitting in a corner has only one way out, so its first square is forced — the same goes for dots against an edge.',
+      'The board must be completely full, so if a wire takes an obvious short cut it is almost always wrong. When you are stuck, look for an empty square that only one colour could ever reach.',
     ],
   },
   {
@@ -34,7 +34,7 @@ export const CABINETS: Cabinet[] = [
     name: 'WORD BLASTER',
     marquee: 'WORD BLASTER — DOUBLE BARREL',
     game: 'Wordle, except two words at once',
-    token: 'R',
+    token: 'E',
     score: 88800,
     blurb: 'Two five-letter words. One set of guesses. Every guess you make is spent on both boards at the same time.',
     howto: 'Type a five-letter word and hit ENTER. Green means right letter, right spot. Yellow means right letter, wrong spot. You get eight guesses total for BOTH words — spend the early ones on lots of different letters.',
@@ -48,7 +48,7 @@ export const CABINETS: Cabinet[] = [
     name: 'MINE CART',
     marquee: 'MINE CART — WATCH YOUR STEP',
     game: 'Minesweeper, forgiving edition',
-    token: 'G',
+    token: 'F',
     score: 11200,
     blurb: 'Nine by nine, twelve sticks of dynamite, one cart. Hitting one does not end your run — it just costs you ten very long seconds.',
     howto: 'Click a tile to dig it. The number tells you how many of the eight tiles around it are dynamite. Flip to FLAG mode to mark the ones you are sure about. Clear every safe tile to win.',
@@ -62,7 +62,7 @@ export const CABINETS: Cabinet[] = [
     name: 'PIXEL PAINTER',
     marquee: 'PIXEL PAINTER — 10 x 10',
     game: 'Picross / nonogram',
-    token: 'O',
+    token: 'L',
     score: 44050,
     blurb: 'Fill the right squares and something old and pixellated crawls out of the grid.',
     howto: 'Numbers beside each row and column say how many squares in a row get filled, in that order, with at least one gap between groups. Click to fill, click again to mark a definite blank. The picture completes itself when every row and column matches.',
@@ -76,7 +76,7 @@ export const CABINETS: Cabinet[] = [
     name: 'CODE BREAKER 3000',
     marquee: 'CODE BREAKER 3000',
     game: 'Mastermind',
-    token: 'A',
+    token: 'R',
     score: 18750,
     blurb: 'Four slots, six colours, repeats allowed, and a machine that answers only in dots.',
     howto: 'Build a four-colour guess and submit it. A FILLED dot means one colour is right and in the right slot. A HOLLOW dot means a colour is right but in the wrong slot. The dots never tell you which slot they refer to. Ten guesses.',
@@ -90,7 +90,7 @@ export const CABINETS: Cabinet[] = [
     name: 'PARKING JAM',
     marquee: 'PARKING JAM — GET OUT',
     game: 'Rush Hour',
-    token: 'V',
+    token: 'Y',
     score: 52900,
     blurb: 'Your cart is stuck in the worst car park ever built. Twenty moves will do it. Most people take sixty.',
     howto: 'Click a vehicle to select it, then use the arrows to slide it. Cars only move along their own length — no turning, no lifting. Get the striped cart out of the gap on the right.',
@@ -104,7 +104,7 @@ export const CABINETS: Cabinet[] = [
     name: 'CIRCUIT CITY',
     marquee: 'CIRCUIT CITY — LIGHT IT UP',
     game: 'Pipe / wire rotation',
-    token: 'E',
+    token: 'O',
     score: 67400,
     blurb: 'Some idiot rotated every junction box in the building. The power is on. It simply has nowhere to go.',
     howto: 'Click any tile to rotate it a quarter turn. Power flows from the plug in the top-left corner along connected wires. Light every single bulb at the same time to win.',
@@ -118,7 +118,7 @@ export const CABINETS: Cabinet[] = [
     name: 'BLACKOUT',
     marquee: 'BLACKOUT — ALL LIGHTS ON',
     game: 'Lights Out',
-    token: 'M',
+    token: 'E',
     score: 24300,
     blurb: 'Twenty-five bulbs. One badly wired switch panel. Every switch drags its neighbours along with it.',
     howto: 'Clicking a bulb flips it AND the four bulbs directly above, below, left and right of it. Turn every bulb on at once. Order does not matter, and pressing the same bulb twice undoes it.',
@@ -127,10 +127,74 @@ export const CABINETS: Cabinet[] = [
       'Work top row down. Fix row 1 by pressing bulbs in row 2 underneath any dark bulb, then repeat down the board. Whatever is left in the bottom row tells you what the top row needed all along.',
     ],
   },
+  {
+    id: 'match',
+    name: 'MATCHBOX',
+    marquee: 'MATCHBOX — FIND THE PAIRS',
+    game: 'Memory / concentration',
+    token: 'P',
+    score: 36400,
+    blurb: 'Sixteen cards face down, eight pairs, and a machine that assumes you were not paying attention.',
+    howto: 'Flip two cards. If they match they stay up. If they do not, they flip back and you try again. Clear all eight pairs.',
+    nudges: [
+      'Give each person a quadrant to remember rather than everyone watching everything. Say positions out loud: "cherry, top right."',
+      'When you turn up a new symbol, immediately flip a card you have never seen rather than re-checking one you know. You learn two cards instead of one.',
+    ],
+  },
+  {
+    id: 'stack',
+    name: 'STACKER',
+    marquee: 'STACKER — MOVE THE PILE',
+    game: 'Towers of Hanoi',
+    token: 'A',
+    score: 48900,
+    blurb: 'Five discs, three pegs, and one very old rule about what may sit on what.',
+    howto: 'Move the whole stack from the left peg to the right peg. Click a peg to lift its top disc, click another peg to drop it. A bigger disc may never sit on a smaller one. It can be done in 31 moves.',
+    nudges: [
+      'Do not try to plan all 31 moves. To move five discs right, you first have to move the top four out of the way onto the middle peg — solve that smaller problem and repeat.',
+      'The smallest disc moves every other turn, always in the same direction round the pegs: left, middle, right, left. Fix that rhythm and the rest is forced.',
+    ],
+  },
+  {
+    id: 'crate',
+    name: 'CRATE CRUSHER',
+    marquee: 'CRATE CRUSHER — PUSH ONLY',
+    game: 'Sokoban',
+    token: 'M',
+    score: 61500,
+    blurb: 'Three crates, three marked squares, and a warehouse robot that can push but has never once learned to pull.',
+    howto: 'Move with the arrow keys or the on-screen arrows. Walking into a crate pushes it, if there is room behind it. Get all three crates onto the marked squares. UNDO and RESET are right there, so a crate stuck in a corner costs nothing.',
+    nudges: [
+      'You can only push, never pull, so a crate shoved into a corner is dead. Work out where each crate has to end up before you touch it, and approach from the far side.',
+      'Do the crate nearest its target last, not first — parking it early tends to block the route you need for the others. Undo is free; use it the moment a push looks wrong.',
+    ],
+  },
+  {
+    id: 'sudoku',
+    name: 'NUMBER CRUNCH',
+    marquee: 'NUMBER CRUNCH — 6 x 6',
+    game: 'Sudoku, small but mean',
+    token: 'D',
+    score: 74200,
+    blurb: 'Six by six, six numbers, and boxes that are two tall and three wide, which catches people out every single time.',
+    howto: 'Fill every square so each row, each column and each outlined 2x3 box contains 1 to 6 exactly once. Click a square, then click a number. Squares that clash with another square turn red as you go.',
+    nudges: [
+      'The boxes are 2 rows by 3 columns, not 3 by 3 — check the outlines before you deduce anything. Start with the row and the box that already have the most numbers in them.',
+      'Work one number at a time across the whole grid: find every place a 6 can go, then every place a 5 can go. With only six values that closes out fast.',
+    ],
+  },
 ]
 
 // ---------------------------------------------------------------- boards
-export const SIMON_SEQUENCE = [2, 0, 3, 1, 1, 2, 0, 3, 2, 1, 3, 0]
+export const FLOW_SIZE = 7
+/** five colour pairs; a full-cover solution is guaranteed by construction */
+export const FLOW_ENDPOINTS: number[][][] = [
+  [[0, 0], [1, 3]],
+  [[1, 2], [2, 5]],
+  [[2, 6], [4, 3]],
+  [[4, 4], [5, 2]],
+  [[5, 1], [6, 6]],
+]
 
 export const WORDS = ['TOKEN', 'PRIZE']
 export const WORD_GUESSES = 8
@@ -207,6 +271,26 @@ export const LIGHTS_START = [
   [0, 0, 1, 1, 1],
   [1, 0, 1, 0, 1],
 ]
+
+export const MEMORY_DECK = ['\u2b50','\ud83d\udc8e','\ud83c\udf52','\ud83c\udf52','\ud83d\udd79','\ud83d\udc7e','\ud83d\ude80','\ud83d\udc7e','\ud83c\udfb1','\ud83d\udd79','\ud83d\udd14','\u2b50','\ud83d\udc8e','\ud83d\ude80','\ud83c\udfb1','\ud83d\udd14']
+
+export const HANOI_DISCS = 5
+
+/** verified solvable in 35 pushes/steps; # wall, T target, B crate, P robot */
+export const SOKOBAN_LEVEL = [
+  '########',
+  '#T     #',
+  '# ##B# #',
+  '#  B   #',
+  '# #  # #',
+  '#   B  #',
+  '# T P T#',
+  '########',
+]
+
+/** 6x6, boxes are 2 rows x 3 cols, 16 givens, verified unique */
+export const SUDOKU_PUZZLE = [0,1,0,0,0,0, 0,4,6,0,1,0, 4,0,0,3,6,2, 0,0,0,5,0,0, 0,3,5,0,0,6, 6,0,4,1,5,0]
+export const SUDOKU_SOLUTION = [5,1,2,6,3,4, 3,4,6,2,1,5, 4,5,1,3,6,2, 2,6,3,5,4,1, 1,3,5,4,2,6, 6,2,4,1,5,3]
 
 // ---------------------------------------------------------------- BUZZ
 export const BUZZ_WIN = [
