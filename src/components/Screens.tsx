@@ -40,8 +40,8 @@ export function TeamSelect({ onPick }: { onPick: (t: Team) => void }) {
         </button>
       </div>
       <p className="note" style={{ maxWidth: '62ch' }}>
-        One computer, one screen, everybody crowded round it. Your arcade is stored on this machine only — the other
-        lot cannot see a thing you do.
+        One computer, one screen, the whole room around it. Your arcade is stored on this machine only — the other
+        office cannot see a thing you do, and you cannot see them. First room out wins.
       </p>
     </div>
   )
@@ -50,20 +50,32 @@ export function TeamSelect({ onPick }: { onPick: (t: Team) => void }) {
 const BRIEF = [
   'It is eleven at night, the shutters are down, and nobody told the staff you were still in here.',
   'Gus’s Galactic Arcade closed four hours ago. The lights are still on, the machines are still humming, and the only thing moving is BUZZ — the animatronic bee above the prize counter, who has decided this is the most fun he has had in about nine years.',
-  'BUZZ’s terms are simple. Beat all eight machines on the floor. Each one spits out a token. Bring all eight to the prize counter, in the right order, and the shutters go up.',
+  'BUZZ’s terms are simple. Beat all twelve machines on the floor. Each one spits out a token. Bring all twelve to the prize counter, in the right order, and the shutters go up.',
+  'Twelve machines in forty-five minutes is not a one-person job and BUZZ knows it. Crowd the screen, argue, and hand the mouse around — the rooms that split the work beat the rooms that watch one person click.',
   'There is a catch, because there is always a catch. At forty-five minutes the night cleaner runs the floor buffer, the power browns out, and every machine resets itself. BUZZ finds this extremely funny.',
-  'The other office is locked in an identical arcade on the other side of the country, playing the identical eight machines. BUZZ is talking to them too. He is telling them you are doing badly.',
+  'The other office is locked in an identical arcade on the other side of the country, on the identical twelve machines. BUZZ is talking to them too. He is telling them you are doing badly.',
 ]
 
 export function Briefing({
   team,
+  crew,
+  onCrew,
   onBegin,
   onChangeTeam,
 }: {
   team: Team
+  crew: string[]
+  onCrew: (c: string[]) => void
   onBegin: () => void
   onChangeTeam: () => void
 }) {
+  const [name, setName] = useState('')
+  const add = () => {
+    const v = name.trim().slice(0, 18)
+    if (!v || crew.length >= 12) return
+    onCrew([...crew, v])
+    setName('')
+  }
   return (
     <div className="stage" style={{ maxWidth: 1040 }}>
       <div className="stage-head">
@@ -85,8 +97,12 @@ export function Briefing({
           <h3 className="panel-title">The rules, such as they are</h3>
           <ul className="mono-list">
             <li>
-              <b>Eight machines, any order.</b> Give up on one, go and play another, come back later. Nothing ever
+              <b>Twelve machines, any order.</b> Give up on one, go and play another, come back later. Nothing ever
               locks you out.
+            </li>
+            <li>
+              <b>Split up.</b> Two or three people reading a board out loud beats one person clicking in silence. Every
+              machine says which parts can be shared out.
             </li>
             <li>
               <b>Beat a machine, take its token.</b> Tokens collect in the bar at the top of the screen.
@@ -95,7 +111,11 @@ export function Briefing({
               <b>Every machine explains itself</b> and carries two free nudges from BUZZ if you stall.
             </li>
             <li>
-              <b>All eight tokens open the prize counter</b>, which is where the actual door is.
+              <b>Pass the mouse.</b> Whoever is driving hands over after every token — the name in the top bar is
+              whose turn it is.
+            </li>
+            <li>
+              <b>All twelve tokens open the prize counter</b>, which is where the actual door is.
             </li>
             <li>
               <b>Forty-five minutes.</b> The clock starts when you press the button, so press it together with the
@@ -113,6 +133,42 @@ export function Briefing({
               </div>
             ))}
           </div>
+        </div>
+      </div>
+
+      <div className="panel" style={{ marginTop: 18 }}>
+        <h3 className="panel-title">Who is in the room? — everybody takes a turn on the mouse</h3>
+        <p className="note" style={{ marginTop: 0 }}>
+          Add everyone here. After every machine you beat, BUZZ hands the mouse to the next person on the list, so
+          nobody ends up watching for forty-five minutes. Optional, but the game is far better with it.
+        </p>
+        <form
+          className="crew-add"
+          onSubmit={(e) => {
+            e.preventDefault()
+            add()
+          }}
+        >
+          <input
+            className="key-input"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="NAME"
+            maxLength={18}
+            aria-label="crew member name"
+          />
+          <button className="btn" type="submit" disabled={!name.trim() || crew.length >= 12}>
+            Add
+          </button>
+        </form>
+        <div className="crew-list">
+          {crew.map((c, i) => (
+            <button key={`${c}-${i}`} className="crew-chip" onClick={() => onCrew(crew.filter((_, j) => j !== i))}>
+              {i === 0 && <span className="crew-first">1st on the mouse</span>}
+              {c} <span className="crew-x">✕</span>
+            </button>
+          ))}
+          {crew.length === 0 && <span className="note">Nobody added yet — you can still play, you just organise the swaps yourselves.</span>}
         </div>
       </div>
 
@@ -137,11 +193,15 @@ export function TokenModal({
   cabinet,
   quip,
   tokens,
+  team,
+  nextDriver,
   onContinue,
 }: {
   cabinet: Cabinet
   quip: string
   tokens: number
+  team: Team
+  nextDriver: string | null
   onContinue: () => void
 }) {
   return (
@@ -152,9 +212,14 @@ export function TokenModal({
         <div className="fragment-word">{cabinet.token}</div>
         <p style={{ fontSize: '1.08rem' }}>&ldquo;{quip}&rdquo;</p>
         <p className="note">
-          {tokens} of {CABINETS.length} tokens.{' '}
-          {tokens === CABINETS.length ? 'The prize counter is open.' : 'Back to the floor.'}
+          {team} has {tokens} of {CABINETS.length} tokens.{' '}
+          {tokens === CABINETS.length ? 'The prize counter is open.' : ''}
         </p>
+        {nextDriver && (
+          <div className="pass-mouse">
+            🖱 PASS THE MOUSE TO <b>{nextDriver}</b>
+          </div>
+        )}
         <div className="sheet-actions" style={{ justifyContent: 'center' }}>
           <button className="btn primary big" onClick={onContinue} autoFocus>
             BACK TO THE FLOOR
@@ -165,7 +230,7 @@ export function TokenModal({
   )
 }
 
-export function Complete({ team, ms, over }: { team: Team; ms: number; over: boolean }) {
+export function Complete({ team, crew, ms, over }: { team: Team; crew: string[]; ms: number; over: boolean }) {
   return (
     <div className="end">
       <div className="kicker" style={{ color: 'var(--accent)', letterSpacing: '0.34em' }}>
@@ -173,6 +238,7 @@ export function Complete({ team, ms, over }: { team: Team; ms: number; over: boo
       </div>
       <h1>YOU&rsquo;RE OUT</h1>
       <div className="teamline">TEAM: {team}</div>
+      {crew.length > 0 && <div className="crewline">{crew.join(' · ')}</div>}
       <div className="time">{clock(ms)}</div>
       {over && (
         <p style={{ color: 'var(--danger)', letterSpacing: '0.2em' }}>FINISHED AFTER THE FORTY-FIVE MINUTE MARK</p>
@@ -195,6 +261,7 @@ export function Complete({ team, ms, over }: { team: Team; ms: number; over: boo
         <b style={{ letterSpacing: '0.2em' }}>SEND YOUR TIME TO THE GAME MASTER ON SLACK</b>
         <div style={{ fontSize: '1.3rem', marginTop: 10, color: 'var(--accent)' }}>
           {team} — OUT — {clock(ms)}
+          {crew.length > 0 && ` — ${crew.length} on the crew`}
         </div>
         <p className="note" style={{ marginBottom: 0 }}>
           This machine has no idea how the other arcade did. Your game master compares the two and calls it.

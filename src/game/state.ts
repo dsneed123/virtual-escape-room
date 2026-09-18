@@ -13,6 +13,8 @@ export interface Token {
 
 export interface Session {
   team: Team | null
+  crew: string[]
+  driver: number
   status: Status
   view: string // 'hub' | cabinet id | 'prize'
   tokens: Token[]
@@ -26,6 +28,8 @@ export interface Session {
 
 const fresh: Session = {
   team: null,
+  crew: [],
+  driver: 0,
   status: 'select',
   view: 'hub',
   tokens: [],
@@ -102,6 +106,11 @@ export function useSession() {
 
   const start = useCallback((team: Team) => update({ team, status: 'briefing', startedAt: null }), [update])
 
+  const setCrew = useCallback((crew: string[]) => update({ crew: crew.slice(0, 12) }), [update])
+
+  /** Hand the mouse to the next person in the room after every token. */
+  const passMouse = useCallback(() => update((s) => ({ driver: s.crew.length ? (s.driver + 1) % s.crew.length : 0 })), [update])
+
   const beginRun = useCallback(
     () => update({ status: 'running', startedAt: Date.now(), pausedTotal: 0, pausedAt: null, view: 'hub' }),
     [update],
@@ -166,7 +175,10 @@ export function useSession() {
     setSession(fresh)
   }, [])
 
-  return { session, now, elapsed, remaining, update, start, beginRun, pause, resume, award, finish, goto, adjust, reset }
+  return {
+    session, now, elapsed, remaining, update, start, setCrew, passMouse,
+    beginRun, pause, resume, award, finish, goto, adjust, reset,
+  }
 }
 
 export function clock(ms: number): string {

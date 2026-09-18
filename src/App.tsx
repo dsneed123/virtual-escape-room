@@ -51,7 +51,7 @@ const GAMES: Record<string, ComponentType<GameProps>> = {
 const WARN_AT = [30, 15, 5, 1]
 
 export default function App() {
-  const { session, elapsed, remaining, start, beginRun, pause, resume, award, finish, goto, adjust, reset, update } =
+  const { session, elapsed, remaining, start, setCrew, passMouse, beginRun, pause, resume, award, finish, goto, adjust, reset, update } =
     useSession()
   const [resetting, setResetting] = useState(false)
   const [tokenWon, setTokenWon] = useState<string | null>(null)
@@ -124,6 +124,8 @@ export default function App() {
       <div className="app">
         <Briefing
           team={session.team}
+          crew={session.crew}
+          onCrew={setCrew}
           onBegin={() => {
             play('start')
             beginRun()
@@ -170,6 +172,7 @@ export default function App() {
         {hud}
         <Complete
           team={session.team}
+          crew={session.crew}
           ms={session.completionMs ?? elapsed}
           over={(session.completionMs ?? 0) > TOTAL_MS}
         />
@@ -258,7 +261,10 @@ export default function App() {
           cabinet={CABINETS.find((c) => c.id === tokenWon)!}
           quip={BUZZ_WIN[CABINETS.findIndex((c) => c.id === tokenWon) % BUZZ_WIN.length]}
           tokens={session.tokens.length}
+          team={session.team}
+          nextDriver={session.crew.length ? session.crew[(session.driver + 1) % session.crew.length] : null}
           onContinue={() => {
+            passMouse()
             setTokenWon(null)
             goto('hub')
           }}

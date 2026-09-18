@@ -27,7 +27,13 @@ export default function Hud({ session, remaining, elapsed, onPause, onHub, onRes
         {session.team}
       </button>
 
-      <div className="hud-tokens" aria-label={`${session.tokens.length} of 8 tokens`}>
+      {session.crew.length > 0 && (
+        <div className="hud-driver" title="whoever is on the mouse right now">
+          🖱 {session.crew[session.driver % session.crew.length]}
+        </div>
+      )}
+
+      <div className="hud-tokens" aria-label={`${session.tokens.length} of ${CABINETS.length} tokens`}>
         {CABINETS.map((c) => {
           const has = session.tokens.some((t) => t.id === c.id)
           return (

@@ -39,7 +39,7 @@ export const CABINETS: Cabinet[] = [
     blurb: 'Two five-letter words. One set of guesses. Every guess you make is spent on both boards at the same time.',
     howto: 'Type a five-letter word and hit ENTER. Green means right letter, right spot. Yellow means right letter, wrong spot. You get eight guesses total for BOTH words — spend the early ones on lots of different letters.',
     nudges: [
-      'Do not chase one board. Burn your first two guesses on words packed with common letters and read both boards before you commit to anything.',
+      'Put one person on each board and a third on the keyboard \u2014 the two readers call out what each guess proved before anyone types again. Burn the first two guesses on common letters.',
       'Both answers are things you are looking at right now: one is what these machines eat, and one is what you get at the counter when you win.',
     ],
   },
@@ -53,7 +53,7 @@ export const CABINETS: Cabinet[] = [
     blurb: 'Nine by nine, twelve sticks of dynamite, one cart. Hitting one does not end your run — it just costs you ten very long seconds.',
     howto: 'Click a tile to dig it. The number tells you how many of the eight tiles around it are dynamite. Flip to FLAG mode to mark the ones you are sure about. Clear every safe tile to win.',
     nudges: [
-      'Start in the middle and let the empty region open up. Then work the edges of what you opened: a 1 touching exactly one unknown tile means that tile is dynamite.',
+      'Start in the middle and let the empty region open up. Then split the border between you \u2014 one person per edge \u2014 and call out safe tiles: a 1 touching exactly one unknown tile means that tile is dynamite.',
       'If a number already touches the right amount of flags, every other tile around it is safe — click them all. That single rule solves most of this board.',
     ],
   },
@@ -95,7 +95,7 @@ export const CABINETS: Cabinet[] = [
     blurb: 'Your cart is stuck in the worst car park ever built. Twenty moves will do it. Most people take sixty.',
     howto: 'Click a vehicle to select it, then use the arrows to slide it. Cars only move along their own length — no turning, no lifting. Get the striped cart out of the gap on the right.',
     nudges: [
-      'Do not start by shoving the cart. Look at what is directly blocking it, then at what is blocking THAT, and clear from the back of the chain forwards.',
+      'Do not start by shoving the cart. Have one person trace the chain out loud \u2014 what blocks the cart, what blocks that \u2014 while someone else moves. Clear from the back of the chain forwards.',
       'The vertical three-length vehicle is the whole puzzle. Work out where it has to end up for the lane to be clear, then make room for it before you touch anything else.',
     ],
   },
