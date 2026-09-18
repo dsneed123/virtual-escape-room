@@ -1,7 +1,7 @@
 # GUS'S GALACTIC ARCADE — Seattle vs. SJC
 
 A 45-minute head-to-head arcade lock-in for two teams in two rooms, each crowded round one
-screen. Twelve playable machines — double Wordle, Minesweeper, Picross, Mastermind, Rush Hour,
+screen. Twelve playable machines — an eight-letter Wordle, Minesweeper, Picross, Mastermind, Rush Hour,
 Sokoban, Sudoku, Towers of Hanoi, Flow, pipe-rotation, memory pairs and Lights Out — then a
 prize counter that lets you out.
 

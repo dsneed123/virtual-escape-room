@@ -1,4 +1,4 @@
-import { CABINETS, MASTERMIND_CODE, MINES, NONOGRAM, SOKOBAN_LEVEL, SUDOKU_SOLUTION, WORDS } from './arcade'
+import { CABINETS, MASTERMIND_CODE, MINES, NONOGRAM, SOKOBAN_LEVEL, SUDOKU_SOLUTION, WORD } from './arcade'
 
 /**
  * Host testing console. Only installed when the URL carries ?dev — players on the plain
@@ -33,7 +33,7 @@ export function installDevTools(api: {
         'purple: 4,4 → 4,5 → 4,6 → 5,6 → 5,5 → 5,4 → 5,3 → 5,2',
         'blue  : 5,1 → 5,0 → 6,0 → 6,1 → 6,2 → 6,3 → 6,4 → 6,5 → 6,6',
       ].join('\n'))
-    console.log('%cWORD BLASTER%c words: %s', S, D, WORDS.join(' + '))
+    console.log('%cWORD BLASTER%c word (8 letters, 6 guesses): %s', S, D, WORD)
     console.log('%cCODE BREAKER%c code (palette 1-6 left to right): %s', S, D,
       MASTERMIND_CODE.map((n) => n + 1).join(' '))
     console.log('%cMINE CART%c mines (row,col 1-indexed):', S, D, MINES.map(([r, c]) => `${r + 1},${c + 1}`).join('  '))

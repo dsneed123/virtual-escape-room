@@ -32,15 +32,15 @@ export const CABINETS: Cabinet[] = [
   {
     id: 'word',
     name: 'WORD BLASTER',
-    marquee: 'WORD BLASTER — DOUBLE BARREL',
-    game: 'Wordle, except two words at once',
+    marquee: 'WORD BLASTER — EIGHT LETTERS',
+    game: 'Wordle, but eight letters long',
     token: 'E',
     score: 88800,
-    blurb: 'Two five-letter words. One set of guesses. Every guess you make is spent on both boards at the same time.',
-    howto: 'Type a five-letter word and hit ENTER. Green means right letter, right spot. Yellow means right letter, wrong spot. You get eight guesses total for BOTH words — spend the early ones on lots of different letters.',
+    blurb: 'One word. Eight letters. Six guesses. The machine has a very high opinion of itself and a very low opinion of you.',
+    howto: 'Type an eight-letter word and press ENTER. Green means right letter in the right place, yellow means the letter is in the word but somewhere else, grey means it is not in the word at all. Six guesses. Any eight letters are accepted, so a deliberate throwaway guess to test letters is completely legal.',
     nudges: [
-      'Put one person on each board and a third on the keyboard \u2014 the two readers call out what each guess proved before anyone types again. Burn the first two guesses on common letters.',
-      'Both answers are things you are looking at right now: one is what these machines eat, and one is what you get at the counter when you win.',
+      'Eight letters and only six guesses means you cannot afford a lazy start. Spend the first two guesses on words that share no letters at all, and have somebody write down the confirmed greys out loud so nobody wastes a guess on a dead letter.',
+      'It is a thing on this floor, eight letters, and at least one of you has had a hand on one tonight. It starts with the letter nobody ever guesses.',
     ],
   },
   {
@@ -196,8 +196,8 @@ export const FLOW_ENDPOINTS: number[][][] = [
   [[5, 1], [6, 6]],
 ]
 
-export const WORDS = ['TOKEN', 'PRIZE']
-export const WORD_GUESSES = 8
+export const WORD = 'JOYSTICK'
+export const WORD_GUESSES = 6
 
 export const MINES: [number, number][] = [
   [0, 4], [1, 1], [1, 7], [2, 3], [3, 0], [3, 6],

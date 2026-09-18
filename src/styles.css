@@ -580,3 +580,5 @@ body[data-tension='final'] .timer { animation: tick 1s steps(2) infinite; }
 }
 .pass-mouse b { color: #fff; }
 .crewline { color: var(--dim); letter-spacing: 0.12em; margin-top: 6px; }
+
+.wb-key.dead { opacity: 0.28; color: var(--dimmer); }
