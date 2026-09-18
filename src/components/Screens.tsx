@@ -23,20 +23,23 @@ export const HINT_RULE = (
 export function TeamSelect({ onPick }: { onPick: (t: Team) => void }) {
   return (
     <div className="title-screen">
-      <div className="tag">🐅 THE TIGER ARCADE &mdash; CLOSED FOR THE NIGHT</div>
-      <h1>🐯 SEATTLE VS. SJC</h1>
+      <div className="title-tiger">🐅</div>
+      <div className="tag">THE TIGER ARCADE &mdash; CLOSED FOR THE NIGHT</div>
+      <h1>SEATTLE VS. SJC</h1>
       <p className="note" style={{ letterSpacing: '0.26em', marginTop: 18 }}>
         WHICH ARCADE ARE YOU LOCKED IN?
       </p>
       <div className="vs">
         <button className="team-card seattle" onClick={() => onPick('SEATTLE')}>
+          <span className="paw">🐯</span>
           SEATTLE
-          <small>INSERT COIN</small>
+          <small>ORANGE TIGERS</small>
         </button>
         <span className="sep">VS</span>
         <button className="team-card sjc" onClick={() => onPick('SJC')}>
+          <span className="paw">🐯</span>
           SJC
-          <small>INSERT COIN</small>
+          <small>WHITE TIGERS</small>
         </button>
       </div>
       <p className="note" style={{ maxWidth: '62ch' }}>
@@ -56,7 +59,7 @@ const SETUP = [
   {
     key: 'operator',
     title: 'VOTE FOR AN OPERATOR',
-    body: 'One person drives the keyboard and mouse. Everyone else is a brain, not a driver. Put their name in below — you can swap them whenever you like.',
+    body: 'One person drives the keyboard and mouse — everyone else is a brain, not a driver. Swap whoever is driving whenever you feel like it.',
   },
   {
     key: 'screen',
@@ -72,35 +75,24 @@ const SETUP = [
 
 export function Briefing({
   team,
-  crew,
-  onCrew,
   onBegin,
   onChangeTeam,
 }: {
   team: Team
-  crew: string[]
-  onCrew: (c: string[]) => void
   onBegin: () => void
   onChangeTeam: () => void
 }) {
-  const [name, setName] = useState('')
   const [done, setDone] = useState<string[]>([])
   const ready = SETUP.every((s) => done.includes(s.key))
-  const add = () => {
-    const v = name.trim().slice(0, 18)
-    if (!v || crew.length >= 12) return
-    onCrew([...crew, v])
-    setName('')
-  }
 
   return (
     <div className="stage" style={{ maxWidth: 940 }}>
       <div className="stage-head">
         <span className="stage-index">THE TIGER WOULD LIKE A WORD</span>
-        <h1 className="stage-title">{team} ARCADE</h1>
+        <h1 className="stage-title">🐅 {team} ARCADE</h1>
       </div>
 
-      <div className="stripes" />
+      <div className="tiger-rail" style={{ borderRadius: 999, marginBottom: 18 }} />
       <div className="panel hook">
         <p className="hook-line">
           🐅 You are locked in the Tiger Arcade. The machines still work.
@@ -138,42 +130,6 @@ export function Briefing({
         })}
       </div>
 
-      <div className="panel" style={{ marginTop: 18 }}>
-        <h3 className="panel-title">Who is in the room? — first name added is your operator</h3>
-        <form
-          className="crew-add"
-          onSubmit={(e) => {
-            e.preventDefault()
-            add()
-          }}
-        >
-          <input
-            className="key-input"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="NAME"
-            maxLength={18}
-            aria-label="crew member name"
-          />
-          <button className="btn" type="submit" disabled={!name.trim() || crew.length >= 12}>
-            Add
-          </button>
-        </form>
-        <div className="crew-list">
-          {crew.map((c, i) => (
-            <button key={`${c}-${i}`} className="crew-chip" onClick={() => onCrew(crew.filter((_, j) => j !== i))}>
-              {i === 0 && <span className="crew-first">OPERATOR</span>}
-              {c} <span className="crew-x">✕</span>
-            </button>
-          ))}
-          {crew.length === 0 && (
-            <span className="note">
-              Optional — but if you add everyone, TIGER offers the controls to the next person after every machine.
-            </span>
-          )}
-        </div>
-      </div>
-
       <div style={{ marginTop: 18 }}>{HINT_RULE}</div>
 
       <div style={{ textAlign: 'center', marginTop: 30 }}>
@@ -196,14 +152,12 @@ export function TokenModal({
   quip,
   tickets,
   team,
-  nextDriver,
   onContinue,
 }: {
   cabinet: Cabinet
   quip: string
   tickets: number
   team: Team
-  nextDriver: string | null
   onContinue: () => void
 }) {
   return (
@@ -222,11 +176,7 @@ export function TokenModal({
             ? 'That is enough — the shutter keypad is unlocked.'
             : `${TICKET_TARGET - tickets} to go.`}
         </p>
-        {nextDriver && (
-          <div className="pass-mouse">
-            🖱 PASS THE MOUSE TO <b>{nextDriver}</b>
-          </div>
-        )}
+        <div className="pass-mouse">🖱 GOOD MOMENT TO HAND THE MOUSE TO SOMEBODY ELSE</div>
         <div className="sheet-actions" style={{ justifyContent: 'center' }}>
           <button className="btn primary big" onClick={onContinue} autoFocus>
             BACK TO THE FLOOR
@@ -237,15 +187,14 @@ export function TokenModal({
   )
 }
 
-export function Complete({ team, crew, ms, over }: { team: Team; crew: string[]; ms: number; over: boolean }) {
+export function Complete({ team, ms, over }: { team: Team; ms: number; over: boolean }) {
   return (
     <div className="end">
       <div className="kicker" style={{ color: 'var(--accent)', letterSpacing: '0.34em' }}>
-        THE SHUTTERS GO UP
+        🐾 THE SHUTTERS GO UP 🐾
       </div>
       <h1>YOU&rsquo;RE OUT</h1>
       <div className="teamline">TEAM: {team}</div>
-      {crew.length > 0 && <div className="crewline">{crew.join(' · ')}</div>}
       <div className="time">{clock(ms)}</div>
       {over && (
         <p style={{ color: 'var(--danger)', letterSpacing: '0.2em' }}>FINISHED AFTER THE FORTY-FIVE MINUTE MARK</p>
@@ -260,7 +209,6 @@ export function Complete({ team, crew, ms, over }: { team: Team; crew: string[];
         <b style={{ letterSpacing: '0.2em' }}>SEND YOUR TIME TO THE GAME MASTER ON SLACK</b>
         <div style={{ fontSize: '1.3rem', marginTop: 10, color: 'var(--accent)' }}>
           {team} — OUT — {clock(ms)}
-          {crew.length > 0 && ` — ${crew.length} on the crew`}
         </div>
         <p className="note" style={{ marginBottom: 0 }}>
           This machine has no idea how the other arcade did. Your game master compares the two and calls it.

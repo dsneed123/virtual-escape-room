@@ -8,21 +8,24 @@
   --text: #eee6ff;
   --dim: #a596c9;
   --dimmer: #7a6b9e;
-  --accent: #35e8d3;
-  --accent-soft: rgba(53, 232, 211, 0.15);
+  --accent: #ff8c1a;
+  --accent-soft: rgba(255, 140, 26, 0.16);
   --warn: #ffd166;
   --tiger: #ff8c1a;
   --tiger-dark: #1a0f05;
   --danger: #ff5c72;
-  --glow: 0 0 22px rgba(53, 232, 211, 0.35);
+  --glow: 0 0 22px rgba(255, 140, 26, 0.4);
+  --stripe: rgba(0, 0, 0, 0.55);
   --mono: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
   color-scheme: dark;
 }
 
+/* SJC are the white tigers */
 body[data-team='SJC'] {
-  --accent: #ffb03a;
-  --accent-soft: rgba(255, 176, 58, 0.15);
-  --glow: 0 0 22px rgba(255, 176, 58, 0.35);
+  --accent: #8fdcff;
+  --accent-soft: rgba(143, 220, 255, 0.16);
+  --glow: 0 0 22px rgba(143, 220, 255, 0.4);
+  --tiger: #8fdcff;
 }
 
 * { box-sizing: border-box; }
@@ -46,10 +49,10 @@ body::before {
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(900px 600px at 15% 0%, rgba(255, 140, 26, 0.18), transparent 60%),
-    radial-gradient(900px 600px at 85% 100%, rgba(53, 232, 211, 0.12), transparent 60%),
-    repeating-linear-gradient(118deg, rgba(255, 140, 26, 0.035) 0 12px, transparent 12px 88px),
-    repeating-linear-gradient(62deg, rgba(0, 0, 0, 0.16) 0 18px, transparent 18px 130px),
+    radial-gradient(900px 600px at 15% 0%, rgba(255, 140, 26, 0.2), transparent 60%),
+    radial-gradient(900px 600px at 85% 100%, rgba(255, 140, 26, 0.12), transparent 60%),
+    repeating-linear-gradient(112deg, rgba(255, 140, 26, 0.07) 0 16px, transparent 16px 74px),
+    repeating-linear-gradient(68deg, rgba(0, 0, 0, 0.3) 0 26px, transparent 26px 104px),
     repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.022) 0 1px, transparent 1px 3px);
 }
 body::after {
@@ -718,3 +721,54 @@ body[data-tension='final'] .timer { animation: tick 1s steps(2) infinite; }
 }
 .raja-face { font-size: 1.8rem; }
 .raja-line { color: #ffd9b0; font-size: 0.98rem; }
+
+/* ------------------------------------------------- unmistakably tiger */
+.tiger-rail {
+  height: 14px;
+  background: repeating-linear-gradient(105deg, var(--tiger) 0 18px, var(--tiger-dark) 18px 32px);
+  box-shadow: 0 0 20px rgba(255, 140, 26, 0.4);
+}
+.panel { position: relative; overflow: hidden; }
+.panel::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 5px;
+  background: repeating-linear-gradient(105deg, var(--tiger) 0 12px, transparent 12px 26px);
+  opacity: 0.55;
+}
+.cab { position: relative; }
+.cab::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 7px;
+  background: repeating-linear-gradient(105deg, var(--tiger) 0 13px, var(--tiger-dark) 13px 24px);
+  z-index: 3;
+}
+.cab.beaten::before { filter: saturate(0.4) brightness(0.7); }
+.title-tiger { font-size: clamp(3.4rem, 11vw, 7rem); line-height: 1; filter: drop-shadow(0 0 30px rgba(255, 140, 26, 0.6)); }
+.team-card { border-color: var(--pick); color: var(--pick); box-shadow: 0 0 26px var(--pick-soft); }
+.team-card small { color: var(--pick); opacity: 0.75; }
+.team-card.seattle {
+  --pick: #ff8c1a;
+  --pick-soft: rgba(255, 140, 26, 0.3);
+  background: linear-gradient(180deg, rgba(255, 140, 26, 0.16), #150e28),
+    repeating-linear-gradient(105deg, rgba(0, 0, 0, 0.35) 0 12px, transparent 12px 30px);
+}
+.team-card.sjc {
+  --pick: #8fdcff;
+  --pick-soft: rgba(143, 220, 255, 0.28);
+  background: linear-gradient(180deg, rgba(143, 220, 255, 0.16), #10192b),
+    repeating-linear-gradient(105deg, rgba(0, 0, 0, 0.35) 0 12px, transparent 12px 30px);
+}
+.team-card .paw { filter: drop-shadow(0 0 12px var(--pick-soft)); }
+.team-card.sjc .paw { filter: grayscale(0.85) brightness(1.5) drop-shadow(0 0 12px var(--pick-soft)); }
+.team-card .paw { display: block; font-size: 2.2rem; margin-bottom: 4px; }
+.hub-head h2 .paw { margin: 0 10px; }
+.mono-list li::marker { content: '🐾  '; }
+.end h1::before { content: '🐅 '; }
+.coin { border-color: rgba(255, 140, 26, 0.35); }
+.growl { color: var(--tiger); letter-spacing: 0.24em; font-size: 0.74rem; }

@@ -15,7 +15,7 @@ export default function Hub({ tokens, onOpen }: Props) {
   return (
     <div className="hub">
       <div className="hub-head">
-        <h2>THE ARCADE FLOOR</h2>
+        <h2><span className="paw">🐾</span>THE TIGER&rsquo;S DEN<span className="paw">🐾</span></h2>
         <p className="note">
           Eleven machines, any order. You do <b>not</b> have to beat them all — the shutter opens at{' '}
           <b>{TICKET_TARGET} tickets</b>, and the longer, nastier machines pay out more. Pick your route. Stuck on one?

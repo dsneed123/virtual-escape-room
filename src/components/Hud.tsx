@@ -27,12 +27,6 @@ export default function Hud({ session, remaining, elapsed, onPause, onHub, onRes
         {session.team}
       </button>
 
-      {session.crew.length > 0 && (
-        <div className="hud-driver" title="whoever is on the mouse right now">
-          🖱 {session.crew[session.driver % session.crew.length]}
-        </div>
-      )}
-
       <div className="hud-tix" title="tickets — the shutter opens at 15">
         🎟 {CABINETS.filter((c) => session.tokens.some((t) => t.id === c.id)).reduce((n, c) => n + c.tickets, 0)} /{' '}
         {TICKET_TARGET}
