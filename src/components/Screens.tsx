@@ -8,7 +8,7 @@ export const HINT_RULE = (
   <div className="hint-box">
     <b>STUCK?</b>
     <br />
-    Every machine has <b>two free nudges</b> from RAJA built into it — use them, they cost nothing and he enjoys it.
+    Every machine has <b>two free nudges</b> from the tiger built into it — use them, they cost nothing and he enjoys it.
     You can also walk away, play a different machine, and come back.
     <div style={{ marginTop: 8 }}>
       Properly stuck? You get <b>2 real hints</b> for the whole night, from an actual human. Message your game master
@@ -96,7 +96,7 @@ export function Briefing({
   return (
     <div className="stage" style={{ maxWidth: 940 }}>
       <div className="stage-head">
-        <span className="stage-index">RAJA THE TIGER WOULD LIKE A WORD</span>
+        <span className="stage-index">THE TIGER WOULD LIKE A WORD</span>
         <h1 className="stage-title">{team} ARCADE</h1>
       </div>
 
@@ -111,10 +111,10 @@ export function Briefing({
         </p>
       </div>
 
-      <div className="raja">
-        <span className="raja-face">🐯</span>
-        <span className="raja-line">
-          &ldquo;I am RAJA. I run this floor, I count the tickets, and I have absolutely nowhere else to be.&rdquo;
+      <div className="tiger">
+        <span className="tiger-face">🐯</span>
+        <span className="tiger-line">
+          &ldquo;I am the tiger. I run this floor, I count the tickets, and I have absolutely nowhere else to be.&rdquo;
         </span>
       </div>
 
@@ -168,7 +168,7 @@ export function Briefing({
           ))}
           {crew.length === 0 && (
             <span className="note">
-              Optional — but if you add everyone, RAJA offers the controls to the next person after every machine.
+              Optional — but if you add everyone, TIGER offers the controls to the next person after every machine.
             </span>
           )}
         </div>
@@ -252,7 +252,7 @@ export function Complete({ team, crew, ms, over }: { team: Team; crew: string[];
       )}
       <div className="brief" style={{ margin: '22px auto', maxWidth: '62ch' }}>
         <p>
-          The shutters grind up about four feet and stick. It will do. RAJA the tiger waves an enormous felt paw as
+          The shutters grind up about four feet and stick. It will do. The tiger waves an enormous felt paw as
           you duck underneath. 🐅
         </p>
       </div>

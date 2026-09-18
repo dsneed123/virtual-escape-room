@@ -33,8 +33,8 @@ interface Ctx {
 }
 
 const RULES: Rule[] = [
-  { n: 1, text: () => 'At least 15 characters. RAJA counts.', ok: (pw) => pw.length >= 15 },
-  { n: 2, text: () => 'Must contain a number. RAJA is not negotiating on this.', ok: (pw) => /\d/.test(pw) },
+  { n: 1, text: () => 'At least 15 characters. The tiger counts.', ok: (pw) => pw.length >= 15 },
+  { n: 2, text: () => 'Must contain a number. The tiger is not negotiating on this.', ok: (pw) => /\d/.test(pw) },
   { n: 3, text: () => 'Must contain a capital letter.', ok: (pw) => /[A-Z]/.test(pw) },
   { n: 4, text: () => 'Must contain one of these: ! ? * #', ok: (pw) => /[!?*#]/.test(pw) },
   {
@@ -44,8 +44,8 @@ const RULES: Rule[] = [
   },
   {
     n: 6,
-    text: () => 'Must contain the name of the tiger. He is standing right there and he can read.',
-    ok: (pw) => letters(pw).includes('RAJA'),
+    text: () => 'Must contain the TIGER. He is standing right there, he can read, and he is very insistent.',
+    ok: (pw) => letters(pw).includes('TIGER'),
   },
   {
     n: 7,
@@ -61,7 +61,7 @@ const RULES: Rule[] = [
   {
     n: 9,
     text: (ctx) =>
-      `RAJA is a traditionalist. The number of tickets he asked you for must appear as a Roman numeral, spelled properly (${ctx.target} of them).`,
+      `TIGER is a traditionalist. The number of tickets he asked you for must appear as a Roman numeral, spelled properly (${ctx.target} of them).`,
     ok: (pw, ctx) => letters(pw).includes(roman(ctx.target)),
   },
   {
@@ -111,7 +111,7 @@ export default function PasswordGame({ tokens, onEscape }: { tokens: Token[]; on
     <div className="pw-room">
       <div className="cols">
         <div className="panel pw-main">
-          <h3 className="panel-title">The shutter keypad — RAJA is reading over your shoulder</h3>
+          <h3 className="panel-title">The shutter keypad — the tiger is reading over your shoulder</h3>
           <p className="note" style={{ marginTop: 0 }}>
             Type a password. Every time you satisfy a rule the next one appears, and the new one will almost certainly
             break something you had already got right. That is the game.

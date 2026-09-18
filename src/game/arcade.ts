@@ -313,8 +313,8 @@ export const SOKOBAN_LEVEL = [
 export const SUDOKU_PUZZLE = [0,1,0,0,0,0, 0,4,6,0,1,0, 4,0,0,3,6,2, 0,0,0,5,0,0, 0,3,5,0,0,6, 6,0,4,1,5,0]
 export const SUDOKU_SOLUTION = [5,1,2,6,3,4, 3,4,6,2,1,5, 4,5,1,3,6,2, 2,6,3,5,4,1, 1,3,5,4,2,6, 6,2,4,1,5,3]
 
-// ---------------------------------------------------------------- RAJA
-export const RAJA_WIN = [
+// ---------------------------------------------------------------- TIGER
+export const TIGER_WIN = [
   'Ticket dispensed. I am contractually obliged to say well done.',
   'Fine. That was fine. I have seen faster, but it was fine.',
   'Oh, you got it. I had money on the other office. Whole paw of money.',

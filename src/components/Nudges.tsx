@@ -20,7 +20,7 @@ export default function Nudges({ stage, objective, nudges }: { stage: string; ob
         <ol className="nudge-list">
           {nudges.slice(0, shown).map((n, i) => (
             <li key={i}>
-              <span className="nudge-tag">RAJA, NUDGE {i + 1}</span>
+              <span className="nudge-tag">TIGER, NUDGE {i + 1}</span>
               {n}
             </li>
           ))}
@@ -38,7 +38,7 @@ export default function Nudges({ stage, objective, nudges }: { stage: string; ob
             }}
           >
             {shown === 0
-              ? 'Stuck? Ask RAJA for a nudge (free)'
+              ? 'Stuck? Ask the tiger for a nudge (free)'
               : `Ask again — nudge ${shown + 1} of ${nudges.length}`}
           </button>
         )}
