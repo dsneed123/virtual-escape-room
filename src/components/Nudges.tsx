@@ -5,7 +5,7 @@ import { play } from '../game/audio'
  * Free, in-fiction nudges. They point at where to look and never hand over an
  * answer — the two real hints still come from the game master on Slack.
  */
-export default function Nudges({ stage, objective, nudges }: { stage: number; objective: string; nudges: string[] }) {
+export default function Nudges({ stage, objective, nudges }: { stage: string; objective: string; nudges: string[] }) {
   const [shown, setShown] = useScratch<number>(`nudge.${stage}`, 0)
   const [folded, setFolded] = useScratch<boolean>(`nudgefold.${stage}`, false)
 
@@ -20,7 +20,7 @@ export default function Nudges({ stage, objective, nudges }: { stage: number; ob
         <ol className="nudge-list">
           {nudges.slice(0, shown).map((n, i) => (
             <li key={i}>
-              <span className="nudge-tag">CONTROL, NUDGE {i + 1}</span>
+              <span className="nudge-tag">BUZZ, NUDGE {i + 1}</span>
               {n}
             </li>
           ))}
@@ -38,7 +38,7 @@ export default function Nudges({ stage, objective, nudges }: { stage: number; ob
             }}
           >
             {shown === 0
-              ? 'Stuck? Ask CONTROL for a nudge (free)'
+              ? 'Stuck? Ask BUZZ for a nudge (free)'
               : `Ask again — nudge ${shown + 1} of ${nudges.length}`}
           </button>
         )}

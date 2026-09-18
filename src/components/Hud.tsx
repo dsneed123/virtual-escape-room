@@ -1,30 +1,18 @@
-import { clock } from '../game/state'
+import { CABINETS } from '../game/arcade'
+import { clock, TOTAL_MS } from '../game/state'
 import type { Session } from '../game/state'
-import { TOTAL_MS } from '../game/state'
 
 interface Props {
   session: Session
   remaining: number
   elapsed: number
   onPause: () => void
-  onArchive: () => void
-  onMachine: () => void
+  onHub: () => void
   onReset: () => void
   onMute: () => void
-  machineUnlocked: boolean
 }
 
-export default function Hud({
-  session,
-  remaining,
-  elapsed,
-  onPause,
-  onArchive,
-  onMachine,
-  onReset,
-  onMute,
-  machineUnlocked,
-}: Props) {
+export default function Hud({ session, remaining, elapsed, onPause, onHub, onReset, onMute }: Props) {
   const over = session.status === 'overtime' || session.status === 'expired'
   const display =
     session.status === 'escaped'
@@ -32,22 +20,22 @@ export default function Hud({
       : over
         ? `+${clock(elapsed - TOTAL_MS)}`
         : clock(remaining)
-  const solved = new Set(session.solves.map((s) => s.stage))
 
   return (
     <header className="hud">
-      <div className="hud-team">{session.team}</div>
+      <button className="hud-team" onClick={onHub} title="back to the arcade floor">
+        {session.team}
+      </button>
 
-      <div className="hud-pips" aria-label="progress">
-        {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
-          <div
-            key={n}
-            className={`pip${n === 8 ? ' meta' : ''}${solved.has(n) ? ' done' : ''}${
-              !solved.has(n) && session.stage + 1 === n ? ' here' : ''
-            }`}
-            title={`Door ${n}`}
-          />
-        ))}
+      <div className="hud-tokens" aria-label={`${session.tokens.length} of 8 tokens`}>
+        {CABINETS.map((c) => {
+          const has = session.tokens.some((t) => t.id === c.id)
+          return (
+            <span key={c.id} className={`coin${has ? ' got' : ''}`} title={c.name}>
+              {has ? c.token : '·'}
+            </span>
+          )
+        })}
       </div>
 
       <div className={`timer${over ? ' over' : ''}`} aria-label="time remaining">
@@ -55,18 +43,17 @@ export default function Hud({
       </div>
 
       <div className="hud-tools">
-        <button className="btn ghost" onClick={onArchive}>
-          Archive
+        <button className="btn ghost" onClick={onHub}>
+          Floor
         </button>
-        {machineUnlocked && (
-          <button className="btn ghost" onClick={onMachine}>
-            Machine
-          </button>
-        )}
-        <button className="btn ghost" onClick={onPause} disabled={session.status !== 'running' && session.status !== 'overtime'}>
+        <button
+          className="btn ghost"
+          onClick={onPause}
+          disabled={session.status !== 'running' && session.status !== 'overtime'}
+        >
           Pause
         </button>
-        <button className={`btn ghost${session.muted ? '' : ' on'}`} onClick={onMute} title="sound on/off">
+        <button className={`btn ghost${session.muted ? '' : ' on'}`} onClick={onMute}>
           {session.muted ? 'Sound off' : 'Sound on'}
         </button>
         <button className="btn ghost danger" onClick={onReset}>

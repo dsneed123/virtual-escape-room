@@ -1,26 +1,53 @@
 import { useEffect, useRef, useState } from 'react'
 import Hud from './components/Hud'
-import Archive from './components/Archive'
+import Hub from './components/Hub'
 import Nudges from './components/Nudges'
-import Machine from './components/Machine'
-import { BeatModal, Briefing, Complete, Expired, HINT_RULE, PauseModal, ResetModal, TeamSelect } from './components/Screens'
-import { STAGES } from './game/content'
+import PrizeCounter from './components/PrizeCounter'
+import {
+  Briefing,
+  Complete,
+  Expired,
+  HINT_RULE,
+  PauseModal,
+  ResetModal,
+  TeamSelect,
+  TokenModal,
+} from './components/Screens'
+import { BUZZ_WIN, CABINETS } from './game/arcade'
 import { play, setMuted } from './game/audio'
 import { clearScratch } from './game/scratch'
-import { STAGE_BODIES } from './stages'
-import StageMeta from './stages/StageMeta'
 import { tensionOf, TOTAL_MS, useSession } from './game/state'
+import Echo from './cabinets/Echo'
+import WordBlaster from './cabinets/WordBlaster'
+import MineCart from './cabinets/MineCart'
+import PixelPainter from './cabinets/PixelPainter'
+import CodeBreaker from './cabinets/CodeBreaker'
+import ParkingJam from './cabinets/ParkingJam'
+import CircuitCity from './cabinets/CircuitCity'
+import Blackout from './cabinets/Blackout'
+import type { GameProps } from './cabinets/types'
+import type { ComponentType } from 'react'
+
+const GAMES: Record<string, ComponentType<GameProps>> = {
+  echo: Echo,
+  word: WordBlaster,
+  mine: MineCart,
+  pixel: PixelPainter,
+  code: CodeBreaker,
+  jam: ParkingJam,
+  circuit: CircuitCity,
+  blackout: Blackout,
+}
 
 const WARN_AT = [30, 15, 5, 1]
 
 export default function App() {
-  const { session, elapsed, remaining, start, beginRun, pause, resume, solve, adjust, reset, update } = useSession()
-  const [archive, setArchive] = useState(false)
-  const [machine, setMachine] = useState(false)
+  const { session, elapsed, remaining, start, beginRun, pause, resume, award, finish, goto, adjust, reset, update } =
+    useSession()
   const [resetting, setResetting] = useState(false)
-  const [beat, setBeat] = useState<{ stage: number; word: string } | null>(null)
+  const [tokenWon, setTokenWon] = useState<string | null>(null)
   const warned = useRef<number[]>([])
-  const ended = useRef<string>('')
+  const ended = useRef('')
 
   const tension = tensionOf(remaining)
   const running = session.status === 'running' || session.status === 'overtime' || session.status === 'paused'
@@ -32,14 +59,9 @@ export default function App() {
 
   useEffect(() => setMuted(session.muted), [session.muted])
 
-  // Escape closes any drawer; the host chord corrects the clock after a laptop sleep.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setArchive(false)
-        setMachine(false)
-        setResetting(false)
-      }
+      if (e.key === 'Escape') setResetting(false)
       if (e.ctrlKey && e.shiftKey && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
         e.preventDefault()
         adjust(e.key === 'ArrowUp' ? 1 : -1)
@@ -99,28 +121,20 @@ export default function App() {
     )
   }
 
-  const def = STAGES[Math.min(session.stage, 7)]
-  const Body = STAGE_BODIES[def.n]
-  const machineUnlocked = session.stage >= 4
-
   const hud = (
     <Hud
       session={session}
       remaining={remaining}
       elapsed={elapsed}
       onPause={pause}
-      onArchive={() => setArchive(true)}
-      onMachine={() => setMachine(true)}
+      onHub={() => goto('hub')}
       onReset={() => setResetting(true)}
       onMute={() => update({ muted: !session.muted })}
-      machineUnlocked={machineUnlocked}
     />
   )
 
   const modals = (
     <>
-      {archive && <Archive solves={session.solves} onClose={() => setArchive(false)} />}
-      {machine && <Machine metaReached={session.stage >= 7} onClose={() => setMachine(false)} />}
       {resetting && (
         <ResetModal
           onCancel={() => setResetting(false)}
@@ -133,6 +147,7 @@ export default function App() {
           }}
         />
       )}
+      {session.status === 'paused' && !tokenWon && <PauseModal onResume={resume} />}
     </>
   )
 
@@ -140,7 +155,11 @@ export default function App() {
     return (
       <div className="app">
         {hud}
-        <Complete team={session.team} ms={session.completionMs ?? elapsed} over={(session.completionMs ?? 0) > TOTAL_MS} />
+        <Complete
+          team={session.team}
+          ms={session.completionMs ?? elapsed}
+          over={(session.completionMs ?? 0) > TOTAL_MS}
+        />
         {modals}
       </div>
     )
@@ -150,55 +169,88 @@ export default function App() {
     return (
       <div className="app">
         {hud}
-        <Expired team={session.team} stage={session.stage} onContinue={() => update({ status: 'overtime' })} />
-        {beat && <BeatModal stage={beat.stage} word={beat.word} onContinue={() => setBeat(null)} />}
+        <Expired team={session.team} tokens={session.tokens.length} onContinue={() => update({ status: 'overtime' })} />
         {modals}
       </div>
     )
   }
 
+  const cab = CABINETS.find((c) => c.id === session.view)
+  const Game = cab ? GAMES[cab.id] : null
+  const wonThis = cab ? session.tokens.some((t) => t.id === cab.id) : false
+
   return (
     <div className="app">
       {hud}
+
       <main className="stage">
-        <div className="stage-head">
-          <span className="stage-index">DOOR {def.n} OF 8</span>
-          <div>
-            <h1 className="stage-title">{def.title}</h1>
-            <div className="stage-sub">{def.subtitle}</div>
-          </div>
-          <div className="channel">{def.channel == null ? 'NO CHANNEL' : `CHANNEL ${def.channel}`}</div>
-        </div>
+        {session.view === 'hub' && <Hub tokens={session.tokens} onOpen={goto} />}
 
-        <div className="brief">
-          {def.brief.map((p, i) => (
-            <p key={i}>{p}</p>
-          ))}
-        </div>
-
-        <Nudges stage={def.n} objective={def.objective} nudges={def.nudges} />
-
-        {def.n === 8 ? (
-          <StageMeta
-            def={def}
-            solves={session.solves}
-            onSolved={(word) => solve(8, word)}
-          />
-        ) : (
-          <Body
-            def={def}
-            onSolved={(word) => {
-              solve(def.n, word)
-              setBeat({ stage: def.n, word })
-            }}
-          />
+        {session.view === 'prize' && (
+          <>
+            <div className="stage-head">
+              <button className="btn ghost" onClick={() => goto('hub')}>
+                ◀ Back to the floor
+              </button>
+              <div>
+                <h1 className="stage-title">PRIZE COUNTER</h1>
+                <div className="stage-sub">CASH IN YOUR TOKENS AND GET OUT</div>
+              </div>
+            </div>
+            <PrizeCounter onEscape={finish} />
+          </>
         )}
 
-        <div style={{ marginTop: 26, maxWidth: 640 }}>{HINT_RULE}</div>
+        {cab && Game && (
+          <>
+            <div className="stage-head">
+              <button className="btn ghost" onClick={() => goto('hub')}>
+                ◀ Back to the floor
+              </button>
+              <div>
+                <h1 className="stage-title">{cab.name}</h1>
+                <div className="stage-sub">{cab.game.toUpperCase()}</div>
+              </div>
+              <div className="channel">{wonThis ? `🪙 TOKEN ${cab.token}` : `HI ${cab.score.toLocaleString()}`}</div>
+            </div>
+
+            <p className="brief">{cab.blurb}</p>
+
+            <Nudges stage={cab.id} objective={cab.howto} nudges={cab.nudges} />
+
+            <div className={`cabinet-frame${wonThis ? ' beaten' : ''}`}>
+              <Game
+                won={wonThis}
+                onWin={() => {
+                  if (wonThis) return
+                  play('solve')
+                  award(cab.id)
+                  setTokenWon(cab.id)
+                }}
+              />
+              {wonThis && (
+                <div className="beaten-banner">
+                  🪙 BEATEN — token {cab.token} is yours. Play it again if you like; it changes nothing.
+                </div>
+              )}
+            </div>
+
+            <div style={{ marginTop: 22, maxWidth: 680 }}>{HINT_RULE}</div>
+          </>
+        )}
       </main>
 
-      {beat && <BeatModal stage={beat.stage} word={beat.word} onContinue={() => setBeat(null)} />}
-      {session.status === 'paused' && !beat && <PauseModal onResume={resume} />}
+      {tokenWon && (
+        <TokenModal
+          cabinet={CABINETS.find((c) => c.id === tokenWon)!}
+          quip={BUZZ_WIN[CABINETS.findIndex((c) => c.id === tokenWon) % BUZZ_WIN.length]}
+          tokens={session.tokens.length}
+          onContinue={() => {
+            setTokenWon(null)
+            goto('hub')
+          }}
+        />
+      )}
       {modals}
     </div>
   )

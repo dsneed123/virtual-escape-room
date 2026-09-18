@@ -1,11 +1,13 @@
-# THE MERIDIAN BEQUEST — Seattle vs. SJC
+# GUS'S GALACTIC ARCADE — Seattle vs. SJC
 
-A 45-minute head-to-head virtual escape room for two teams in two rooms, each gathered
-around one screen. Eight doors, no backend, no accounts, nothing shared between the two
-browsers — each team's session lives entirely in its own localStorage.
+A 45-minute head-to-head arcade lock-in for two teams in two rooms, each crowded round one
+screen. Eight playable machines — Simon, double Wordle, Minesweeper, Picross, Mastermind,
+Rush Hour, pipe-rotation and Lights Out — then a prize counter that lets you out.
 
-The host runs the competition: gives the start signal, answers hint requests on Slack,
-collects the two completion times, and calls the winner.
+Machines can be played in any order, so a stuck team just walks to a different cabinet.
+No backend, no accounts, nothing shared between the two browsers: each arcade lives
+entirely in its own localStorage, and every board is fixed so both teams play identical
+machines.
 
 ## Install
 
@@ -38,17 +40,18 @@ The build uses a relative base path, so it works from any repository subpath
 
 ## Running the event
 
-Both teams open the URL, pick their station, and wait on the briefing screen. Give the
-start signal; each team presses START THE CLOCK. Timers are independent and survive a
-refresh. Pause, resume, and a guarded reset are in the top bar.
+Both teams open the URL, pick their arcade, and wait on the briefing screen. Give the start
+signal; each team presses INSERT COIN. Timers are independent and survive a refresh — as do
+tokens, half-finished boards and nudges. Pause, resume and a guarded reset are in the top
+bar.
 
-Every door states plainly what it wants and carries two free in-game nudges from CONTROL,
-which point at where to look without giving anything away. On top of that each team gets
-two real hints for the whole game, requested from the host on Slack. When a team escapes,
-the screen shows the completion time to send you.
+Every machine explains itself and carries two free nudges from BUZZ. On top of that each
+team gets two real hints for the night, requested from the host on Slack. When a team gets
+out, the screen shows the completion time to send you.
 
 ## Host materials
 
-`HOST_ANSWER_KEY.md` lives only on the host's machine. It is listed in `.gitignore`
-along with `host/`, and is never committed or deployed. Keep it that way — the site is
-public, and so is anything pushed to this repository.
+`HOST_ANSWER_KEY.md` lives only on the host's machine — solutions for all eight machines
+plus the prize-counter meta. It is listed in `.gitignore` along with `host/`, and is never
+committed or deployed. Keep it that way: the site is public, and so is anything pushed
+here.

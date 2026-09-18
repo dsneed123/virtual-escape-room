@@ -1,22 +1,21 @@
 import { useCallback, useEffect, useState } from 'react'
 
 export const TOTAL_MS = 45 * 60 * 1000
-const KEY = 'mrdn.session.v3'
+const KEY = 'arcade.session.v1'
 
 export type Team = 'SEATTLE' | 'SJC'
 export type Status = 'select' | 'briefing' | 'running' | 'paused' | 'expired' | 'overtime' | 'escaped'
 
-export interface Solve {
-  stage: number
-  fragment: string
-  at: number // elapsed ms when solved
+export interface Token {
+  id: string
+  at: number
 }
 
 export interface Session {
   team: Team | null
   status: Status
-  stage: number // 0..6 = puzzles 1..7, 7 = meta
-  solves: Solve[]
+  view: string // 'hub' | cabinet id | 'prize'
+  tokens: Token[]
   startedAt: number | null
   pausedTotal: number
   pausedAt: number | null
@@ -28,8 +27,8 @@ export interface Session {
 const fresh: Session = {
   team: null,
   status: 'select',
-  stage: 0,
-  solves: [],
+  view: 'hub',
+  tokens: [],
   startedAt: null,
   pausedTotal: 0,
   pausedAt: null,
@@ -53,7 +52,7 @@ function save(s: Session) {
   try {
     localStorage.setItem(KEY, JSON.stringify(s))
   } catch {
-    /* private mode — the game still runs, it just will not survive a refresh */
+    /* private mode — play continues, it just will not survive a refresh */
   }
 }
 
@@ -81,7 +80,6 @@ export function useSession() {
     return () => window.clearInterval(id)
   }, [])
 
-  // another tab / window on the same machine should not fight over the session
   useEffect(() => {
     const onStorage = (e: StorageEvent) => {
       if (e.key !== KEY) return
@@ -102,13 +100,10 @@ export function useSession() {
     if (session.status === 'running' && remaining <= 0) update({ status: 'expired' })
   }, [remaining, session.status, update])
 
-  const start = useCallback(
-    (team: Team) => update({ team, status: 'briefing', startedAt: null }),
-    [update],
-  )
+  const start = useCallback((team: Team) => update({ team, status: 'briefing', startedAt: null }), [update])
 
   const beginRun = useCallback(
-    () => update({ status: 'running', startedAt: Date.now(), pausedTotal: 0, pausedAt: null }),
+    () => update({ status: 'running', startedAt: Date.now(), pausedTotal: 0, pausedAt: null, view: 'hub' }),
     [update],
   )
 
@@ -141,29 +136,27 @@ export function useSession() {
     [update],
   )
 
-  const solve = useCallback(
-    (stage: number, fragment: string) =>
-      update((s) => {
-        if (s.solves.some((x) => x.stage === stage)) return {}
-        const at = elapsedOf(s, Date.now())
-        const solves = [...s.solves, { stage, fragment, at }]
-        const done = stage === 8
-        return {
-          solves,
-          stage: done ? 7 : Math.max(s.stage, stage),
-          status: done ? 'escaped' : s.status,
-          completionMs: done ? at : s.completionMs,
-        }
-      }),
+  const award = useCallback(
+    (id: string) =>
+      update((s) =>
+        s.tokens.some((t) => t.id === id) ? {} : { tokens: [...s.tokens, { id, at: elapsedOf(s, Date.now()) }] },
+      ),
     [update],
   )
 
-  /** Host correction for wall-clock loss (laptop sleep, crash). Minutes may be negative. */
-  const adjust = useCallback(
-    (minutes: number) =>
-      update((s) => ({ pausedTotal: Math.max(-TOTAL_MS, s.pausedTotal + minutes * 60000) })),
+  const finish = useCallback(
+    () => update((s) => ({ status: 'escaped', completionMs: elapsedOf(s, Date.now()) })),
     [update],
   )
+
+  const goto = useCallback((view: string) => update({ view }), [update])
+
+  /** Host correction for wall-clock loss (laptop sleep, crash). Minutes may be negative. */
+  const adjust = useCallback(
+    (minutes: number) => update((s) => ({ pausedTotal: Math.max(-TOTAL_MS, s.pausedTotal + minutes * 60000) })),
+    [update],
+  )
+
   const reset = useCallback(() => {
     try {
       localStorage.removeItem(KEY)
@@ -173,27 +166,12 @@ export function useSession() {
     setSession(fresh)
   }, [])
 
-  return {
-    session,
-    now,
-    elapsed,
-    remaining,
-    update,
-    start,
-    beginRun,
-    pause,
-    resume,
-    solve,
-    adjust,
-    reset,
-  }
+  return { session, now, elapsed, remaining, update, start, beginRun, pause, resume, award, finish, goto, adjust, reset }
 }
 
 export function clock(ms: number): string {
   const total = Math.max(0, Math.floor(ms / 1000))
-  const m = Math.floor(total / 60)
-  const s = total % 60
-  return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
+  return `${String(Math.floor(total / 60)).padStart(2, '0')}:${String(total % 60).padStart(2, '0')}`
 }
 
 export type Tension = 'calm' | 'raised' | 'high' | 'critical' | 'final'

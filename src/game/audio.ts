@@ -59,6 +59,13 @@ function noise(c: AudioContext, dur: number, gain = 0.09) {
   src.start()
 }
 
+/** A single note, used by the memory-pad cabinet. */
+export function toneOut(freq: number, dur = 0.25) {
+  const c = ac()
+  if (!c) return
+  tone(c, { freq, dur, type: 'triangle', gain: 0.14 })
+}
+
 export function play(cue: Cue) {
   const c = ac()
   if (!c) return

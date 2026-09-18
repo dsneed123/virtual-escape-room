@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import { INTRO, STAGES, WHOS_WHO } from '../game/content'
-import { BEATS, OUTRO_ENC } from '../game/beats'
-import { rv } from '../game/crypto'
+import { CABINETS } from '../game/arcade'
+import type { Cabinet } from '../game/arcade'
 import { clock, TOTAL_MS } from '../game/state'
 import type { Team } from '../game/state'
 
@@ -9,17 +8,14 @@ export const HINT_RULE = (
   <div className="hint-box">
     <b>STUCK?</b>
     <br />
-    Each door has <b>two free nudges</b> from CONTROL built into it — use those first, they cost you nothing but
-    seconds and they never hand over the answer.
+    Every machine has <b>two free nudges</b> from BUZZ built into it — use them, they cost nothing and he enjoys it.
+    You can also walk away, play a different machine, and come back.
     <div style={{ marginTop: 8 }}>
-      Still stuck? You have <b>2 real hints</b> for the whole game, and they come from a human. Message your game
-      master on Slack like this:
+      Properly stuck? You get <b>2 real hints</b> for the whole night, from an actual human. Message your game master
+      on Slack like this:
     </div>
     <div style={{ marginTop: 8, fontSize: '1.05rem' }}>
-      <span className="kbd">SEATTLE — HINT 1 — PUZZLE 4</span>
-    </div>
-    <div style={{ marginTop: 6, color: 'var(--dimmer)' }}>
-      Spend them well. Nothing in here strictly needs one, which Vance would very much want you to know.
+      <span className="kbd">SEATTLE — HINT 1 — PIXEL PAINTER</span>
     </div>
   </div>
 )
@@ -27,82 +23,143 @@ export const HINT_RULE = (
 export function TeamSelect({ onPick }: { onPick: (t: Team) => void }) {
   return (
     <div className="title-screen">
-      <div className="tag">THE MERIDIAN BEQUEST</div>
+      <div className="tag">GUS&rsquo;S GALACTIC ARCADE &mdash; CLOSED FOR THE NIGHT</div>
       <h1>SEATTLE VS. SJC</h1>
       <p className="note" style={{ letterSpacing: '0.26em', marginTop: 18 }}>
-        CHOOSE YOUR TEAM
+        WHICH ARCADE ARE YOU LOCKED IN?
       </p>
       <div className="vs">
         <button className="team-card seattle" onClick={() => onPick('SEATTLE')}>
           SEATTLE
-          <small>STATION ONE</small>
+          <small>INSERT COIN</small>
         </button>
         <span className="sep">VS</span>
         <button className="team-card sjc" onClick={() => onPick('SJC')}>
           SJC
-          <small>STATION TWO</small>
+          <small>INSERT COIN</small>
         </button>
       </div>
       <p className="note" style={{ maxWidth: '62ch' }}>
-        Pick the office you are actually sitting in. One computer, one screen, one team, everybody arguing at the
-        same monitor. Your choice is stored on this machine only — the other office cannot see a thing you do.
+        One computer, one screen, everybody crowded round it. Your arcade is stored on this machine only — the other
+        lot cannot see a thing you do.
       </p>
     </div>
   )
 }
 
-export function Briefing({ team, onBegin, onChangeTeam }: { team: Team; onBegin: () => void; onChangeTeam: () => void }) {
+const BRIEF = [
+  'It is eleven at night, the shutters are down, and nobody told the staff you were still in here.',
+  'Gus’s Galactic Arcade closed four hours ago. The lights are still on, the machines are still humming, and the only thing moving is BUZZ — the animatronic bee above the prize counter, who has decided this is the most fun he has had in about nine years.',
+  'BUZZ’s terms are simple. Beat all eight machines on the floor. Each one spits out a token. Bring all eight to the prize counter, in the right order, and the shutters go up.',
+  'There is a catch, because there is always a catch. At forty-five minutes the night cleaner runs the floor buffer, the power browns out, and every machine resets itself. BUZZ finds this extremely funny.',
+  'The other office is locked in an identical arcade on the other side of the country, playing the identical eight machines. BUZZ is talking to them too. He is telling them you are doing badly.',
+]
+
+export function Briefing({
+  team,
+  onBegin,
+  onChangeTeam,
+}: {
+  team: Team
+  onBegin: () => void
+  onChangeTeam: () => void
+}) {
   return (
-    <div className="stage" style={{ maxWidth: 980 }}>
+    <div className="stage" style={{ maxWidth: 1040 }}>
       <div className="stage-head">
-        <span className="stage-index">CONTROL — BRIEFING, SUCH AS IT IS</span>
-        <h1 className="stage-title">STATION {team}</h1>
+        <span className="stage-index">BUZZ WOULD LIKE A WORD</span>
+        <h1 className="stage-title">{team} ARCADE</h1>
       </div>
+
       <div className="panel">
-        <h3 className="panel-title">Eyes only — the {team} office</h3>
+        <h3 className="panel-title">How you ended up here</h3>
         <div className="brief" style={{ fontSize: '1.08rem' }}>
-          {INTRO.map((p, i) => (
+          {BRIEF.map((p, i) => (
             <p key={i}>{p}</p>
           ))}
         </div>
       </div>
+
       <div className="cols" style={{ marginTop: 18 }}>
         <div className="panel">
-          <h3 className="panel-title">Who and what you are dealing with</h3>
-          <dl className="whoswho">
-            {WHOS_WHO.map(([term, gloss]) => (
-              <div key={term}>
-                <dt>{term}</dt>
-                <dd>{gloss}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-        <div className="panel">
-          <h3 className="panel-title">Standing orders</h3>
+          <h3 className="panel-title">The rules, such as they are</h3>
           <ul className="mono-list">
-            <li>Eight doors, forty-five minutes. The clock starts when you press the button, so press it together.</li>
-            <li>Every door tells you plainly what it wants from you, and carries two free nudges if you stall.</li>
-            <li>Each door gives up one fragment word. ARCHIVE at the top keeps every word and every plate you have
-              opened — nothing is ever taken away from you.</li>
-            <li>The other office is on the same doors right now. You cannot hear them. This is deliberate and, frankly,
-              kinder.</li>
-            <li>Get out, then send your time to your game master and be unbearable about it.</li>
+            <li>
+              <b>Eight machines, any order.</b> Give up on one, go and play another, come back later. Nothing ever
+              locks you out.
+            </li>
+            <li>
+              <b>Beat a machine, take its token.</b> Tokens collect in the bar at the top of the screen.
+            </li>
+            <li>
+              <b>Every machine explains itself</b> and carries two free nudges from BUZZ if you stall.
+            </li>
+            <li>
+              <b>All eight tokens open the prize counter</b>, which is where the actual door is.
+            </li>
+            <li>
+              <b>Forty-five minutes.</b> The clock starts when you press the button, so press it together with the
+              other arcade.
+            </li>
           </ul>
         </div>
-        <div style={{ flex: '1 1 340px' }}>{HINT_RULE}</div>
+        <div className="panel">
+          <h3 className="panel-title">What is on the floor tonight</h3>
+          <div className="machine-list">
+            {CABINETS.map((c) => (
+              <div key={c.id}>
+                <b>{c.name}</b>
+                <span>{c.game}</span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
-      <div style={{ textAlign: 'center', marginTop: 34 }}>
+
+      <div style={{ marginTop: 18 }}>{HINT_RULE}</div>
+
+      <div style={{ textAlign: 'center', marginTop: 30 }}>
         <button className="btn primary big" onClick={onBegin}>
-          START THE CLOCK
+          INSERT COIN &mdash; START
         </button>
         <p className="note" style={{ marginTop: 12 }}>
-          Wait for your game master&rsquo;s signal. Both offices should start together, or one of you will be very
-          smug for entirely the wrong reason.
+          Wait for your game master&rsquo;s signal. Both arcades should start together.
         </p>
         <button className="btn ghost" style={{ marginTop: 10 }} onClick={onChangeTeam}>
-          Wrong station? Go back
+          Wrong arcade? Go back
         </button>
+      </div>
+    </div>
+  )
+}
+
+export function TokenModal({
+  cabinet,
+  quip,
+  tokens,
+  onContinue,
+}: {
+  cabinet: Cabinet
+  quip: string
+  tokens: number
+  onContinue: () => void
+}) {
+  return (
+    <div className="overlay">
+      <div className="sheet" style={{ maxWidth: 640, textAlign: 'center' }}>
+        <div className="kicker">{cabinet.name} — BEATEN</div>
+        <div className="token-pop">🪙</div>
+        <div className="fragment-word">{cabinet.token}</div>
+        <p style={{ fontSize: '1.08rem' }}>&ldquo;{quip}&rdquo;</p>
+        <p className="note">
+          {tokens} of {CABINETS.length} tokens.{' '}
+          {tokens === CABINETS.length ? 'The prize counter is open.' : 'Back to the floor.'}
+        </p>
+        <div className="sheet-actions" style={{ justifyContent: 'center' }}>
+          <button className="btn primary big" onClick={onContinue} autoFocus>
+            BACK TO THE FLOOR
+          </button>
+        </div>
       </div>
     </div>
   )
@@ -112,60 +169,65 @@ export function Complete({ team, ms, over }: { team: Team; ms: number; over: boo
   return (
     <div className="end">
       <div className="kicker" style={{ color: 'var(--accent)', letterSpacing: '0.34em' }}>
-        MERIDIAN CLOSED
+        THE SHUTTERS GO UP
       </div>
-      <h1>ESCAPE COMPLETE</h1>
+      <h1>YOU&rsquo;RE OUT</h1>
       <div className="teamline">TEAM: {team}</div>
       <div className="time">{clock(ms)}</div>
       {over && (
-        <p style={{ color: 'var(--danger)', letterSpacing: '0.2em' }}>
-          COMPLETED AFTER THE FORTY-FIVE MINUTE MARK
-        </p>
+        <p style={{ color: 'var(--danger)', letterSpacing: '0.2em' }}>FINISHED AFTER THE FORTY-FIVE MINUTE MARK</p>
       )}
-      <div className="brief" style={{ margin: '26px auto', maxWidth: '78ch', textAlign: 'left' }}>
-        {OUTRO_ENC.map(rv).map((p, i) => (
-          <p key={i}>{p}</p>
-        ))}
+      <div className="brief" style={{ margin: '26px auto', maxWidth: '72ch', textAlign: 'left' }}>
+        <p>
+          The tokens drop through the slot, something heavy clunks behind the wall, and the shutters grind up about
+          four feet before sticking. It will do.
+        </p>
+        <p>
+          BUZZ waves a small felt arm as you duck underneath. &ldquo;Come back any time,&rdquo; he says. &ldquo;I mean
+          that. I am here constantly.&rdquo;
+        </p>
+        <p>
+          Somewhere on the other side of the country an identical arcade is still lit up, and an identical bee is
+          being extremely annoying about it.
+        </p>
       </div>
       <div className="slack">
-        <b style={{ letterSpacing: '0.2em' }}>SEND YOUR COMPLETION TIME TO THE GAME MASTER ON SLACK</b>
+        <b style={{ letterSpacing: '0.2em' }}>SEND YOUR TIME TO THE GAME MASTER ON SLACK</b>
         <div style={{ fontSize: '1.3rem', marginTop: 10, color: 'var(--accent)' }}>
-          {team} — ESCAPED — {clock(ms)}
+          {team} — OUT — {clock(ms)}
         </div>
         <p className="note" style={{ marginBottom: 0 }}>
-          This machine has no idea what the other office did, and never will. Your game master compares the two times
-          and calls it.
+          This machine has no idea how the other arcade did. Your game master compares the two and calls it.
         </p>
       </div>
     </div>
   )
 }
 
-export function Expired({ team, stage, onContinue }: { team: Team; stage: number; onContinue: () => void }) {
-  const reached = STAGES.find((s) => s.n === stage + 1)
+export function Expired({ team, tokens, onContinue }: { team: Team; tokens: number; onContinue: () => void }) {
   return (
     <div className="end expired">
-      <h1>TIME&rsquo;S UP</h1>
+      <h1>BROWNOUT</h1>
       <div className="teamline">TEAM: {team}</div>
       <div className="time" style={{ color: 'var(--danger)' }}>
         {clock(0)}
       </div>
       <p style={{ letterSpacing: '0.16em' }}>
-        The archive finished filing itself away at {clock(TOTAL_MS)}. Vance did warn you. He was insufferable about
-        it, but he did warn you.
+        The floor buffer starts up at {clock(TOTAL_MS)}, the lights dip, and every machine resets with a sad little
+        chime. BUZZ laughs for eleven straight seconds.
       </p>
       <p className="note">
-        You reached door {Math.min(stage + 1, 8)} — {reached?.title ?? 'THE MERIDIAN LOCK'}.
+        You got {tokens} of {CABINETS.length} tokens.
       </p>
       <div className="slack">
         <b style={{ letterSpacing: '0.2em' }}>REPORT TO YOUR GAME MASTER ON SLACK</b>
         <div style={{ fontSize: '1.2rem', marginTop: 10, color: 'var(--warn)' }}>
-          {team} — TIME EXPIRED — REACHED DOOR {Math.min(stage + 1, 8)}
+          {team} — TIME UP — {tokens}/{CABINETS.length} TOKENS
         </div>
       </div>
       <div style={{ marginTop: 30 }}>
         <button className="btn" onClick={onContinue}>
-          KEEP WORKING (UNRANKED)
+          KEEP PLAYING ANYWAY (UNRANKED)
         </button>
       </div>
     </div>
@@ -180,10 +242,10 @@ export function ResetModal({ onCancel, onConfirm }: { onCancel: () => void; onCo
         <div className="kicker" style={{ color: 'var(--danger)' }}>
           DESTRUCTIVE
         </div>
-        <h2>RESET THE OPERATION</h2>
+        <h2>WIPE THE ARCADE</h2>
         <p>
-          This wipes the team selection, every fragment recovered, every working note, and the clock. It cannot be
-          undone. Use it only between games.
+          This clears the team, every token, every half-finished machine and the clock. It cannot be undone. Use it
+          between games, not during one.
         </p>
         <p className="note">Type RESET to confirm.</p>
         <form
@@ -192,22 +254,22 @@ export function ResetModal({ onCancel, onConfirm }: { onCancel: () => void; onCo
             if (word.trim().toUpperCase() === 'RESET') onConfirm()
           }}
         >
-        <input
-          className="key-input"
-          value={word}
-          onChange={(e) => setWord(e.target.value)}
-          placeholder="RESET"
-          autoFocus
-          spellCheck={false}
-        />
-        <div className="sheet-actions">
-          <button className="btn ghost" type="button" onClick={onCancel}>
-            Cancel
-          </button>
-          <button className="btn danger" type="submit" disabled={word.trim().toUpperCase() !== 'RESET'}>
-            Wipe and restart
-          </button>
-        </div>
+          <input
+            className="key-input"
+            value={word}
+            onChange={(e) => setWord(e.target.value)}
+            placeholder="RESET"
+            autoFocus
+            spellCheck={false}
+          />
+          <div className="sheet-actions">
+            <button className="btn ghost" type="button" onClick={onCancel}>
+              Cancel
+            </button>
+            <button className="btn danger" type="submit" disabled={word.trim().toUpperCase() !== 'RESET'}>
+              Wipe it
+            </button>
+          </div>
         </form>
       </div>
     </div>
@@ -220,38 +282,10 @@ export function PauseModal({ onResume }: { onResume: () => void }) {
       <div className="sheet" style={{ maxWidth: 560, textAlign: 'center' }}>
         <div className="kicker">CLOCK HELD</div>
         <h2>PAUSED</h2>
-        <p className="note">
-          Clock stopped, plates covered, nobody is losing a second. Go and get coffee.
-        </p>
+        <p className="note">Machines covered, clock stopped, nobody is losing a second. Go and get a drink.</p>
         <div className="sheet-actions" style={{ justifyContent: 'center' }}>
           <button className="btn primary big" onClick={onResume}>
             RESUME
-          </button>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-export function BeatModal({ stage, word, onContinue }: { stage: number; word: string; onContinue: () => void }) {
-  const def = STAGES.find((s) => s.n === stage)!
-  return (
-    <div className="overlay">
-      <div className="sheet" style={{ maxWidth: 760 }}>
-        <div className="kicker">DOOR {stage} OPEN — FRAGMENT RECOVERED</div>
-        <div className="fragment-word">{word}</div>
-        <div className="brief">
-          {(BEATS[stage - 1] ?? []).map(rv).map((p, i) => (
-            <p key={i}>{p}</p>
-          ))}
-        </div>
-        <p className="note">
-          Filed to the archive under channel {def.channel}. Vance numbered every door for a reason, and he was not
-          being decorative.
-        </p>
-        <div className="sheet-actions">
-          <button className="btn primary big" onClick={onContinue} autoFocus>
-            NEXT DOOR
           </button>
         </div>
       </div>
