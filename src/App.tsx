@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import Hud from './components/Hud'
 import Hub from './components/Hub'
 import Nudges from './components/Nudges'
-import PrizeCounter from './components/PrizeCounter'
+import PasswordGame from './components/PasswordGame'
 import {
   Briefing,
   Complete,
@@ -13,7 +13,7 @@ import {
   TeamSelect,
   TokenModal,
 } from './components/Screens'
-import { BUZZ_WIN, CABINETS } from './game/arcade'
+import { BUZZ_WIN, CABINETS, TICKET_TARGET } from './game/arcade'
 import { play, setMuted } from './game/audio'
 import { clearScratch } from './game/scratch'
 import { tensionOf, TOTAL_MS, useSession } from './game/state'
@@ -25,7 +25,6 @@ import CodeBreaker from './cabinets/CodeBreaker'
 import ParkingJam from './cabinets/ParkingJam'
 import CircuitCity from './cabinets/CircuitCity'
 import Blackout from './cabinets/Blackout'
-import Matchbox from './cabinets/Matchbox'
 import Stacker from './cabinets/Stacker'
 import CrateCrusher from './cabinets/CrateCrusher'
 import NumberCrunch from './cabinets/NumberCrunch'
@@ -42,7 +41,6 @@ const GAMES: Record<string, ComponentType<GameProps>> = {
   jam: ParkingJam,
   circuit: CircuitCity,
   blackout: Blackout,
-  match: Matchbox,
   stack: Stacker,
   crate: CrateCrusher,
   sudoku: NumberCrunch,
@@ -191,6 +189,7 @@ export default function App() {
     )
   }
 
+  const ticketsHeld = CABINETS.filter((c) => session.tokens.some((t) => t.id === c.id)).reduce((n, c) => n + c.tickets, 0)
   const cab = CABINETS.find((c) => c.id === session.view)
   const Game = cab ? GAMES[cab.id] : null
   const wonThis = cab ? session.tokens.some((t) => t.id === cab.id) : false
@@ -202,18 +201,18 @@ export default function App() {
       <main className="stage">
         {session.view === 'hub' && <Hub tokens={session.tokens} onOpen={goto} />}
 
-        {session.view === 'prize' && (
+        {session.view === 'prize' && ticketsHeld >= TICKET_TARGET && (
           <>
             <div className="stage-head">
               <button className="btn ghost" onClick={() => goto('hub')}>
                 ◀ Back to the floor
               </button>
               <div>
-                <h1 className="stage-title">PRIZE COUNTER</h1>
-                <div className="stage-sub">CASH IN YOUR TOKENS AND GET OUT</div>
+                <h1 className="stage-title">THE SHUTTER KEYPAD</h1>
+                <div className="stage-sub">TEN RULES BETWEEN YOU AND THE STREET</div>
               </div>
             </div>
-            <PrizeCounter onEscape={finish} />
+            <PasswordGame tokens={session.tokens} onEscape={finish} />
           </>
         )}
 
@@ -260,7 +259,7 @@ export default function App() {
         <TokenModal
           cabinet={CABINETS.find((c) => c.id === tokenWon)!}
           quip={BUZZ_WIN[CABINETS.findIndex((c) => c.id === tokenWon) % BUZZ_WIN.length]}
-          tokens={session.tokens.length}
+          tickets={CABINETS.filter((c) => session.tokens.some((t) => t.id === c.id)).reduce((n, c) => n + c.tickets, 0)}
           team={session.team}
           nextDriver={session.crew.length ? session.crew[(session.driver + 1) % session.crew.length] : null}
           onContinue={() => {

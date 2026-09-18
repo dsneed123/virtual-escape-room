@@ -8,12 +8,19 @@ export interface Cabinet {
   game: string
   token: string
   score: number
+  /** rough play time for a group, shown on the cabinet */
+  minutes: string
+  /** harder and longer machines pay out more */
+  tickets: number
   blurb: string
   howto: string
   nudges: string[]
 }
 
-/** Play order is free. The prize counter wants the tokens ordered by HIGH SCORE. */
+/** You do not have to beat everything — the shutter opens at TICKET_TARGET tickets. */
+export const TICKET_TARGET = 15
+
+/** Play order is free. The shutter wants your tokens ordered by HIGH SCORE. */
 export const CABINETS: Cabinet[] = [
   {
     id: 'flow',
@@ -22,6 +29,8 @@ export const CABINETS: Cabinet[] = [
     game: 'Flow / connect the pairs',
     token: 'E',
     score: 31600,
+    minutes: '4–6 min',
+    tickets: 2,
     blurb: 'Five pairs of coloured lamps, one board, and wires that refuse to cross each other.',
     howto: 'Click a coloured dot, then click along neighbouring squares to drag a wire to its matching dot. Wires cannot cross, and every single square on the board has to end up covered. Click back along a wire to shorten it.',
     nudges: [
@@ -34,8 +43,10 @@ export const CABINETS: Cabinet[] = [
     name: 'WORD BLASTER',
     marquee: 'WORD BLASTER — EIGHT LETTERS',
     game: 'Wordle, but eight letters long',
-    token: 'E',
+    token: 'W',
     score: 88800,
+    minutes: '6–9 min',
+    tickets: 4,
     blurb: 'One word. Eight letters. Six guesses. The machine has a very high opinion of itself and a very low opinion of you.',
     howto: 'Type an eight-letter word and press ENTER. Green means right letter in the right place, yellow means the letter is in the word but somewhere else, grey means it is not in the word at all. Six guesses. Any eight letters are accepted, so a deliberate throwaway guess to test letters is completely legal.',
     nudges: [
@@ -50,6 +61,8 @@ export const CABINETS: Cabinet[] = [
     game: 'Minesweeper, forgiving edition',
     token: 'F',
     score: 11200,
+    minutes: '5–7 min',
+    tickets: 3,
     blurb: 'Nine by nine, twelve sticks of dynamite, one cart. Hitting one does not end your run — it just costs you ten very long seconds.',
     howto: 'Click a tile to dig it. The number tells you how many of the eight tiles around it are dynamite. Flip to FLAG mode to mark the ones you are sure about. Clear every safe tile to win.',
     nudges: [
@@ -62,8 +75,10 @@ export const CABINETS: Cabinet[] = [
     name: 'PIXEL PAINTER',
     marquee: 'PIXEL PAINTER — 10 x 10',
     game: 'Picross / nonogram',
-    token: 'L',
+    token: 'P',
     score: 44050,
+    minutes: '7–9 min',
+    tickets: 4,
     blurb: 'Fill the right squares and something old and pixellated crawls out of the grid.',
     howto: 'Numbers beside each row and column say how many squares in a row get filled, in that order, with at least one gap between groups. Click to fill, click again to mark a definite blank. The picture completes itself when every row and column matches.',
     nudges: [
@@ -75,14 +90,16 @@ export const CABINETS: Cabinet[] = [
     id: 'code',
     name: 'CODE BREAKER 3000',
     marquee: 'CODE BREAKER 3000',
-    game: 'Mastermind',
+    game: 'Crack the four-digit code',
     token: 'R',
     score: 18750,
-    blurb: 'Four slots, six colours, repeats allowed, and a machine that answers only in dots.',
-    howto: 'Build a four-colour guess and submit it. A FILLED dot means one colour is right and in the right slot. A HOLLOW dot means a colour is right but in the wrong slot. The dots never tell you which slot they refer to. Ten guesses.',
+    minutes: '5–7 min',
+    tickets: 3,
+    blurb: 'A four-digit code, and a machine that already had six goes at it earlier and wrote down how close it got.',
+    howto: 'Work out the four-digit code. Every guess comes back with a plain answer: how many digits are correct AND in the right place, and how many are correct but in the wrong place. The six attempts already on the screen are enough to deduce it outright if you are careful — you do not have to guess at all.',
     nudges: [
-      'Spend your first two guesses on flat blocks of one colour — four reds, then four blues. The number of dots tells you exactly how many of that colour are in the code, which narrows things fast.',
-      'Once you know the colour counts, stop guessing new colours and start moving the ones you know between slots. A guess that changes only two positions tells you far more than a guess that changes everything.',
+      'You can solve this on paper from the six attempts already listed. Start with the line that says nothing is in the right place — that rules out a digit sitting in that exact position for every one of those four digits.',
+      'Line the six attempts up in a column and work digit by digit. 1292 has exactly one digit right and in the right place, and 2580 has one digit that belongs to the code but is sitting in the wrong spot — cross-reference those two and the field collapses fast.',
     ],
   },
   {
@@ -90,8 +107,10 @@ export const CABINETS: Cabinet[] = [
     name: 'PARKING JAM',
     marquee: 'PARKING JAM — GET OUT',
     game: 'Rush Hour',
-    token: 'Y',
+    token: 'A',
     score: 52900,
+    minutes: '6–9 min',
+    tickets: 4,
     blurb: 'Your cart is stuck in the worst car park ever built. Twenty moves will do it. Most people take sixty.',
     howto: 'Click a vehicle to select it, then use the arrows to slide it. Cars only move along their own length — no turning, no lifting. Get the striped cart out of the gap on the right.',
     nudges: [
@@ -104,8 +123,10 @@ export const CABINETS: Cabinet[] = [
     name: 'CIRCUIT CITY',
     marquee: 'CIRCUIT CITY — LIGHT IT UP',
     game: 'Pipe / wire rotation',
-    token: 'O',
+    token: 'N',
     score: 67400,
+    minutes: '4–6 min',
+    tickets: 2,
     blurb: 'Some idiot rotated every junction box in the building. The power is on. It simply has nowhere to go.',
     howto: 'Click any tile to rotate it a quarter turn. Power flows from the plug in the top-left corner along connected wires. Light every single bulb at the same time to win.',
     nudges: [
@@ -120,6 +141,8 @@ export const CABINETS: Cabinet[] = [
     game: 'Lights Out',
     token: 'E',
     score: 24300,
+    minutes: '3–5 min',
+    tickets: 2,
     blurb: 'Twenty-five bulbs. One badly wired switch panel. Every switch drags its neighbours along with it.',
     howto: 'Clicking a bulb flips it AND the four bulbs directly above, below, left and right of it. Turn every bulb on at once. Order does not matter, and pressing the same bulb twice undoes it.',
     nudges: [
@@ -128,26 +151,14 @@ export const CABINETS: Cabinet[] = [
     ],
   },
   {
-    id: 'match',
-    name: 'MATCHBOX',
-    marquee: 'MATCHBOX — FIND THE PAIRS',
-    game: 'Memory / concentration',
-    token: 'P',
-    score: 36400,
-    blurb: 'Sixteen cards face down, eight pairs, and a machine that assumes you were not paying attention.',
-    howto: 'Flip two cards. If they match they stay up. If they do not, they flip back and you try again. Clear all eight pairs.',
-    nudges: [
-      'Give each person a quadrant to remember rather than everyone watching everything. Say positions out loud: "cherry, top right."',
-      'When you turn up a new symbol, immediately flip a card you have never seen rather than re-checking one you know. You learn two cards instead of one.',
-    ],
-  },
-  {
     id: 'stack',
     name: 'STACKER',
     marquee: 'STACKER — MOVE THE PILE',
     game: 'Towers of Hanoi',
-    token: 'A',
+    token: 'L',
     score: 48900,
+    minutes: '4–5 min',
+    tickets: 2,
     blurb: 'Five discs, three pegs, and one very old rule about what may sit on what.',
     howto: 'Move the whole stack from the left peg to the right peg. Click a peg to lift its top disc, click another peg to drop it. A bigger disc may never sit on a smaller one. It can be done in 31 moves.',
     nudges: [
@@ -160,8 +171,10 @@ export const CABINETS: Cabinet[] = [
     name: 'CRATE CRUSHER',
     marquee: 'CRATE CRUSHER — PUSH ONLY',
     game: 'Sokoban',
-    token: 'M',
+    token: 'Y',
     score: 61500,
+    minutes: '6–9 min',
+    tickets: 4,
     blurb: 'Three crates, three marked squares, and a warehouse robot that can push but has never once learned to pull.',
     howto: 'Move with the arrow keys or the on-screen arrows. Walking into a crate pushes it, if there is room behind it. Get all three crates onto the marked squares. UNDO and RESET are right there, so a crate stuck in a corner costs nothing.',
     nudges: [
@@ -174,8 +187,10 @@ export const CABINETS: Cabinet[] = [
     name: 'NUMBER CRUNCH',
     marquee: 'NUMBER CRUNCH — 6 x 6',
     game: 'Sudoku, small but mean',
-    token: 'D',
+    token: 'O',
     score: 74200,
+    minutes: '6–8 min',
+    tickets: 3,
     blurb: 'Six by six, six numbers, and boxes that are two tall and three wide, which catches people out every single time.',
     howto: 'Fill every square so each row, each column and each outlined 2x3 box contains 1 to 6 exactly once. Click a square, then click a number. Squares that clash with another square turn red as you go.',
     nudges: [
@@ -221,9 +236,17 @@ export const NONOGRAM = {
   cols: [[3], [2, 1], [1, 5, 2], [3, 2, 2], [5, 1], [5], [2, 2, 1], [8], [1, 2, 1], [1, 3]],
 }
 
-export const MASTERMIND_CODE = [3, 0, 5, 3]
-export const MASTERMIND_COLOURS = ['#ff4d6d', '#4fd8c4', '#ffd166', '#8b7cf6', '#4cc9f0', '#f6a94b']
-export const MASTERMIND_GUESSES = 10
+export const CODE = '5693'
+export const CODE_GUESSES = 10
+/** the machine's own attempts earlier tonight — together these pin the code down exactly */
+export const CODE_CLUES: { guess: string; inPlace: number; moved: number }[] = [
+  { guess: '2580', inPlace: 0, moved: 1 },
+  { guess: '8968', inPlace: 0, moved: 2 },
+  { guess: '3209', inPlace: 0, moved: 2 },
+  { guess: '8139', inPlace: 0, moved: 2 },
+  { guess: '1292', inPlace: 1, moved: 0 },
+  { guess: '4349', inPlace: 0, moved: 2 },
+]
 
 export interface Car {
   id: string
@@ -271,8 +294,6 @@ export const LIGHTS_START = [
   [0, 0, 1, 1, 1],
   [1, 0, 1, 0, 1],
 ]
-
-export const MEMORY_DECK = ['\u2b50','\ud83d\udc8e','\ud83c\udf52','\ud83c\udf52','\ud83d\udd79','\ud83d\udc7e','\ud83d\ude80','\ud83d\udc7e','\ud83c\udfb1','\ud83d\udd79','\ud83d\udd14','\u2b50','\ud83d\udc8e','\ud83d\ude80','\ud83c\udfb1','\ud83d\udd14']
 
 export const HANOI_DISCS = 5
 

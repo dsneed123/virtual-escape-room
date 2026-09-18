@@ -1,4 +1,4 @@
-import { CABINETS } from '../game/arcade'
+import { CABINETS, TICKET_TARGET } from '../game/arcade'
 import { clock, TOTAL_MS } from '../game/state'
 import type { Session } from '../game/state'
 
@@ -32,6 +32,11 @@ export default function Hud({ session, remaining, elapsed, onPause, onHub, onRes
           🖱 {session.crew[session.driver % session.crew.length]}
         </div>
       )}
+
+      <div className="hud-tix" title="tickets — the shutter opens at 15">
+        🎟 {CABINETS.filter((c) => session.tokens.some((t) => t.id === c.id)).reduce((n, c) => n + c.tickets, 0)} /{' '}
+        {TICKET_TARGET}
+      </div>
 
       <div className="hud-tokens" aria-label={`${session.tokens.length} of ${CABINETS.length} tokens`}>
         {CABINETS.map((c) => {

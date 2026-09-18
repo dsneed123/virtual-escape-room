@@ -582,3 +582,65 @@ body[data-tension='final'] .timer { animation: tick 1s steps(2) infinite; }
 .crewline { color: var(--dim); letter-spacing: 0.12em; margin-top: 6px; }
 
 .wb-key.dead { opacity: 0.28; color: var(--dimmer); }
+
+/* ------------------------------------------------------- code breaker */
+.code-sheet { width: min(620px, 100%); display: flex; flex-direction: column; gap: 6px; }
+.code-head { font-size: 0.66rem; letter-spacing: 0.24em; color: var(--dimmer); margin-top: 8px; }
+.code-row { display: flex; align-items: center; gap: 16px; background: rgba(255, 255, 255, 0.03); border-radius: 8px; padding: 10px 14px; }
+.code-row.given { background: rgba(255, 255, 255, 0.015); }
+.code-row.solved { background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent); }
+.code-digits { font-size: 1.7rem; font-weight: 800; letter-spacing: 0.34em; color: var(--text); min-width: 6ch; }
+.code-verdict { color: var(--dim); letter-spacing: 0.04em; }
+.code-row.solved .code-verdict { color: var(--accent); font-weight: 700; letter-spacing: 0.14em; }
+.code-entry { display: flex; gap: 10px; }
+.code-slot { width: 62px; height: 72px; border: 2px dashed var(--line-2); border-radius: 8px; display: grid; place-items: center; font-size: 2.1rem; font-weight: 800; color: var(--dimmer); }
+.code-slot.full { border-style: solid; border-color: var(--accent); color: var(--accent); }
+.code-pad { display: grid; grid-template-columns: repeat(6, auto); gap: 8px; justify-content: center; }
+.code-pad .btn { min-width: 58px; font-size: 1.15rem; }
+@media (max-width: 720px) { .code-pad { grid-template-columns: repeat(4, auto); } .code-slot { width: 48px; height: 58px; font-size: 1.6rem; } }
+
+/* ------------------------------------------------------- password game */
+.pw-room { display: flex; flex-direction: column; gap: 18px; }
+.pw-main { flex: 2 1 560px; }
+.pw-input {
+  width: 100%;
+  background: #0d0918;
+  border: 2px solid var(--line-2);
+  border-radius: 8px;
+  padding: 16px 18px;
+  font-family: var(--mono);
+  font-size: 1.5rem;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  resize: vertical;
+  word-break: break-all;
+}
+.pw-input:focus { outline: none; border-color: var(--accent); box-shadow: var(--glow); }
+.pw-input.bad { animation: shake 0.4s ease; border-color: var(--danger); }
+.pw-meta { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-top: 10px; color: var(--dim); font-size: 0.9rem; }
+.pw-rules { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+.pw-rule {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border: 1px solid rgba(255, 92, 114, 0.45);
+  background: rgba(255, 92, 114, 0.08);
+  border-radius: 8px;
+  padding: 12px 14px;
+  animation: fadeUp 0.35s ease both;
+}
+.pw-rule.ok { border-color: rgba(53, 232, 211, 0.45); background: rgba(53, 232, 211, 0.08); }
+.pw-num { font-size: 0.66rem; letter-spacing: 0.18em; color: var(--dimmer); white-space: nowrap; padding-top: 4px; }
+.pw-text { flex: 1; color: var(--text); }
+.pw-mark { font-size: 1.3rem; color: var(--danger); }
+.pw-rule.ok .pw-mark { color: var(--accent); }
+.pw-ticket { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.pw-ticket td { padding: 5px 8px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+.pw-tok { font-weight: 900; color: var(--warn); font-size: 1.2rem; }
+.pw-score { text-align: right; color: var(--dim); font-variant-numeric: tabular-nums; }
+.pw-when { text-align: right; color: var(--dimmer); font-variant-numeric: tabular-nums; }
+
+.cab-time { display: flex; justify-content: space-between; gap: 10px; padding: 8px 18px; font-size: 0.78rem; color: var(--dim); border-top: 1px solid rgba(255, 255, 255, 0.05); }
+.cab-tix { color: var(--warn); font-weight: 700; }
+.hud-tix { border: 1px solid var(--warn); border-radius: 999px; padding: 6px 14px; color: var(--warn); font-weight: 800; letter-spacing: 0.08em; white-space: nowrap; background: rgba(255, 209, 102, 0.1); }
+.token-tix { font-size: 1.4rem; color: var(--warn); font-weight: 800; letter-spacing: 0.1em; margin-bottom: 6px; }

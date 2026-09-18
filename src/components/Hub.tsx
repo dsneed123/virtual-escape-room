@@ -1,4 +1,4 @@
-import { CABINETS } from '../game/arcade'
+import { CABINETS, TICKET_TARGET } from '../game/arcade'
 import type { Token } from '../game/state'
 import { play } from '../game/audio'
 
@@ -9,15 +9,17 @@ interface Props {
 
 export default function Hub({ tokens, onOpen }: Props) {
   const has = (id: string) => tokens.some((t) => t.id === id)
-  const all = tokens.length >= CABINETS.length
+  const tix = CABINETS.filter((c) => has(c.id)).reduce((n, c) => n + c.tickets, 0)
+  const all = tix >= TICKET_TARGET
 
   return (
     <div className="hub">
       <div className="hub-head">
         <h2>THE ARCADE FLOOR</h2>
         <p className="note">
-          Eight machines, played in any order you like. Beat one, take its token. Stuck? Walk away and come back —
-          nothing here locks you out.
+          Eleven machines, any order. You do <b>not</b> have to beat them all — the shutter opens at{' '}
+          <b>{TICKET_TARGET} tickets</b>, and the longer, nastier machines pay out more. Pick your route. Stuck on one?
+          Walk away, nothing locks you out.
         </p>
       </div>
 
@@ -34,6 +36,10 @@ export default function Hub({ tokens, onOpen }: Props) {
             <div className="cab-screen">
               <div className="cab-name">{cab.name}</div>
               <div className="cab-game">{cab.game}</div>
+            </div>
+            <div className="cab-time">
+              <span>⏱ {cab.minutes}</span>
+              <span className="cab-tix">🎟 {cab.tickets} ticket{cab.tickets === 1 ? '' : 's'}</span>
             </div>
             <div className="cab-foot">
               <span className="cab-score">HI {cab.score.toLocaleString()}</span>
@@ -52,12 +58,14 @@ export default function Hub({ tokens, onOpen }: Props) {
           disabled={!all}
         >
           <div className="cab-screen">
-            <div className="cab-name">PRIZE COUNTER</div>
-            <div className="cab-game">{all ? 'Cash in and get out' : `Bring me all eight tokens`}</div>
+            <div className="cab-name">THE SHUTTER</div>
+            <div className="cab-game">
+              {all ? 'Ten rules and you are out' : `${TICKET_TARGET - tix} more ticket${TICKET_TARGET - tix === 1 ? '' : 's'} and it opens`}
+            </div>
           </div>
           <div className="cab-foot">
             <span className="cab-score">
-              {tokens.length} / {CABINETS.length} TOKENS
+              🎟 {tix} / {TICKET_TARGET} TICKETS
             </span>
             {all ? <span className="cab-play">OPEN ▶</span> : <span className="cab-token">🔒</span>}
           </div>

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CABINETS } from '../game/arcade'
+import { CABINETS, TICKET_TARGET } from '../game/arcade'
 import type { Cabinet } from '../game/arcade'
 import { clock, TOTAL_MS } from '../game/state'
 import type { Team } from '../game/state'
@@ -50,7 +50,7 @@ export function TeamSelect({ onPick }: { onPick: (t: Team) => void }) {
 const BRIEF = [
   'It is eleven at night, the shutters are down, and nobody told the staff you were still in here.',
   'Gus’s Galactic Arcade closed four hours ago. The lights are still on, the machines are still humming, and the only thing moving is BUZZ — the animatronic bee above the prize counter, who has decided this is the most fun he has had in about nine years.',
-  'BUZZ’s terms are simple. Beat all twelve machines on the floor. Each one spits out a token. Bring all twelve to the prize counter, in the right order, and the shutters go up.',
+  'BUZZ’s terms are simple. Every machine you beat pays out tickets — the long nasty ones pay more. Get fifteen tickets, take them to the shutter keypad, satisfy every rule it throws at you, and the shutters go up. You do not have to beat all eleven, and you almost certainly do not have time to.',
   'Twelve machines in forty-five minutes is not a one-person job and BUZZ knows it. Crowd the screen, argue, and hand the mouse around — the rooms that split the work beat the rooms that watch one person click.',
   'There is a catch, because there is always a catch. At forty-five minutes the night cleaner runs the floor buffer, the power browns out, and every machine resets itself. BUZZ finds this extremely funny.',
   'The other office is locked in an identical arcade on the other side of the country, on the identical twelve machines. BUZZ is talking to them too. He is telling them you are doing badly.',
@@ -97,7 +97,7 @@ export function Briefing({
           <h3 className="panel-title">The rules, such as they are</h3>
           <ul className="mono-list">
             <li>
-              <b>Twelve machines, any order.</b> Give up on one, go and play another, come back later. Nothing ever
+              <b>Eleven machines, any order.</b> Give up on one, go and play another, come back later. Nothing ever
               locks you out.
             </li>
             <li>
@@ -115,7 +115,8 @@ export function Briefing({
               whose turn it is.
             </li>
             <li>
-              <b>All twelve tokens open the prize counter</b>, which is where the actual door is.
+              <b>{TICKET_TARGET} tickets unlock the shutter keypad</b> — ten escalating rules, each one breaking the
+              last, and that is the way out. Harder machines pay more tickets, so you choose the route.
             </li>
             <li>
               <b>Forty-five minutes.</b> The clock starts when you press the button, so press it together with the
@@ -192,14 +193,14 @@ export function Briefing({
 export function TokenModal({
   cabinet,
   quip,
-  tokens,
+  tickets,
   team,
   nextDriver,
   onContinue,
 }: {
   cabinet: Cabinet
   quip: string
-  tokens: number
+  tickets: number
   team: Team
   nextDriver: string | null
   onContinue: () => void
@@ -211,9 +212,14 @@ export function TokenModal({
         <div className="token-pop">🪙</div>
         <div className="fragment-word">{cabinet.token}</div>
         <p style={{ fontSize: '1.08rem' }}>&ldquo;{quip}&rdquo;</p>
+        <div className="token-tix">
+          +{cabinet.tickets} ticket{cabinet.tickets === 1 ? '' : 's'}
+        </div>
         <p className="note">
-          {team} has {tokens} of {CABINETS.length} tokens.{' '}
-          {tokens === CABINETS.length ? 'The prize counter is open.' : ''}
+          {team} has 🎟 {tickets} of {TICKET_TARGET}.{' '}
+          {tickets >= TICKET_TARGET
+            ? 'That is enough — the shutter keypad is unlocked.'
+            : `${TICKET_TARGET - tickets} to go.`}
         </p>
         {nextDriver && (
           <div className="pass-mouse">

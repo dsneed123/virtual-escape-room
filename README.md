@@ -1,9 +1,13 @@
 # GUS'S GALACTIC ARCADE — Seattle vs. SJC
 
 A 45-minute head-to-head arcade lock-in for two teams in two rooms, each crowded round one
-screen. Twelve playable machines — an eight-letter Wordle, Minesweeper, Picross, Mastermind, Rush Hour,
-Sokoban, Sudoku, Towers of Hanoi, Flow, pipe-rotation, memory pairs and Lights Out — then a
-prize counter that lets you out.
+screen. Eleven playable machines — an eight-letter Wordle, Minesweeper, Picross, crack-the-code,
+Rush Hour, Sokoban, Sudoku, Towers of Hanoi, Flow, pipe-rotation and Lights Out — then a
+Password Game on the shutter that lets you out.
+
+Each machine shows a time estimate and a ticket value; harder ones pay more. The shutter
+opens at 15 tickets out of 33 available, so teams pick a route instead of grinding
+everything, and the whole night fits inside 45 minutes.
 
 Machines can be played in any order, so a stuck team just walks to a different cabinet.
 No backend, no accounts, nothing shared between the two browsers: each arcade lives
